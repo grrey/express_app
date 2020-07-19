@@ -1,11 +1,13 @@
- const  stockCtrl = require('../server/ctrl/stock');
+const stockCtrl = require('../server/ctrl/stock');
 require('../server/node_global');
 
 
- ( async()=>{
+process.env.disLog = true;
+
+(async () => {
 
 	// fetch stock  base data ;
-	//stockCtrl.stockPinyin();
+	// stockCtrl.fetchStockLlist();
 
 	// pinyin ;
 	// stockCtrl.stockPinyin();
@@ -13,12 +15,12 @@ require('../server/node_global');
 	// fetch f10 ;
 	// stockCtrl.updeF10();
 
-
-	
-
- })()
+	//
+	stockCtrl.updateBusiness()
 
 
+})()
 
 
-  
+
+

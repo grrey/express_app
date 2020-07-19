@@ -4,12 +4,19 @@
 const netFetch = require("../netFetch");
 const esStock = require('../esModel/stock');
 const pinyin = require('../utils/pinyin');
+const stockListData = require('../../data/allStock')
 
 
 class StockCtrl {
 
-	async fetchStockLlist() {
-		let list = await netFetch.fetchStock();
+	async fetchStockLlist() { 
+		// let list = await netFetch.fetchStock();
+		
+		let list = stockListData.data.map((d)=>{
+			d._source.marketCode = d._source.market + d._source.code ;
+			return  d._source  ;
+		})
+
 		console.log('stock length = ', list.length);
 		let result = await esStock.createOrUpdate(list);
 		console.log(' es result ', result)
@@ -19,12 +26,12 @@ class StockCtrl {
 	async stockPinyin() {
 		let result = [];
 		await esStock.stockIterator({
-			t:5,
+			t:1,
 			dealStock: ({ _id, _source }) => {
 				result.push({
 					_id,
 					_source: {
-						pinyin: pinyin.get(_source.name)
+						pinyin: pinyin.get(_source.name).substr(0 , _source.name.length)
 					}
 				})
 			}
@@ -45,6 +52,18 @@ class StockCtrl {
 		})
 	}
 
+	async updateBusiness(){
+ 
+ 
+		await esStock.stockIterator({
+			t:200 ,
+			dealStock: async ({_id , _source })=>{
+				let  doc =  await  netFetch.fetchBusiness( {_source}) 
+				console.log( _id , doc ); 
+				await esStock.createOrUpdate({_id , _source: doc })
+			}
+		})
+	}
 
 }
 

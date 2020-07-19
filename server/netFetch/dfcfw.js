@@ -8,6 +8,7 @@ let iconv = require("iconv-lite");
 let ua = require('../utils/ua');
 let cheerio = require('cheerio');
 let pinyin = require('../utils/pinyin');
+let common = require('../utils/common');
 
 
 let stockType = /^[036]\d{5}$/
@@ -32,8 +33,7 @@ class Dfcfw {
 		var html = await this.getDfcfwHtml(url);
 		let $ = cheerio.load(html);
 		var uls = $(".quotebody ul");
-		var data = [];
-
+		var data = []; 
 		uls.each(function (i, $ul) {
 			var lis = cheerio($ul).find("li");
 			let text, stockName, stockCode;
@@ -56,10 +56,12 @@ class Dfcfw {
 		});
 		return data;
 	}
-
+	// 所属板块, 经营范围
 	async fetchF10({_source}) {
 		var code = _source.code;
 		var market = _source.market;
+
+		// var url = `http://f9.eastmoney.com/F9/GetCoreContent?stockcode=600002.sh`;
 		// var url = `http://f9.eastmoney.com/F9/GetCoreContent?stockcode=${code}.${market}`;
 		var url = `http://140.207.218.10/F9/GetCoreContent?stockcode=${code}.${market}`;
 		var resp = await rp({
@@ -72,12 +74,7 @@ class Dfcfw {
 				"Host": "f9.eastmoney.com",
 				"Accept-Encoding": "gzip, deflate",
 				"Accept-Language": "zh-cn",
-				"Connection": "keep-alive",
-				// "Cache-Control": "no-cache",
-				// "Pragma": "no-cache",
-				// "Referer": `http://f10.eastmoney.com/${code}${market}.html`,
-
-				//"User-Agent":  getUserAgent(),
+				"Connection": "keep-alive", 
 				"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6)",
 			}
 		});
@@ -98,7 +95,58 @@ class Dfcfw {
 		}
 		return F10;
 	};
+
+	// 经营 比例;
+	async  fetchBusiness( {_source }){
+		// http://f10.eastmoney.com/BusinessAnalysis/BusinessAnalysisAjax?code=SZ000002
+		// let url = `http://122.70.142.37/BusinessAnalysis/BusinessAnalysisAjax?code=${_source.market}${_source.code}`;
+		let url = `http://f10.eastmoney.com/BusinessAnalysis/BusinessAnalysisAjax?code=${_source.market}${_source.code}`;
+		let d  = await  rp({
+			url ,
+			json:true ,
+			// encoding:null ,
+			headers: {
+				"Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+				"Upgrade-Insecure-Requests": 1,
+				"Host": "f10.eastmoney.com",
+				// "Accept-Encoding": "gzip, deflate", // 导致乱码;
+				"Accept-Language": "zh-cn",
+				"Connection": "keep-alive", 
+				"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36",
+			}
+		})
+		   
+		let { zygcfx = []} = d ;
+		 
+		let business =   zygcfx.map(( { rq , hy=[] , cp =[] })=>{
+			return {
+				date: rq ,
+				hy: hy.map((h)=>{
+					return {
+						zygc: h.zygc ,
+						zysr: common.parse2Num( h.zysr),
+						srbl: common.parse2Num( h.srbl),
+					}
+				}),
+				cp: cp.map((c)=>{
+					return {
+						zygc: c.zygc ,
+						zysr: common.parse2Num( c.zysr),
+						srbl: common.parse2Num( c.srbl),
+					}
+				}),
+			}
+		});
+
+		return {
+			business ,
+			zyhy:  ( business[0] && business[0].hy ) || [],
+			zycp:  ( business[0] && business[0].cp ) || [],
+		}
+	}
 }
 
 
 module.exports = new Dfcfw();
+
+

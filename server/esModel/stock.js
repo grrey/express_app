@@ -9,7 +9,16 @@ let ProgressBar = require('progress');
     "code": "002455",
     "name": "百川股份",
     "JYFW": "危险化学品经营(按许可证所列方式和项目经营);--经营的东西, 干什么的.",
-	"SSBK": [ "化工行业", "江苏板块", "锂电池"]
+	"SSBK": [ "化工行业", "江苏板块", "锂电池"],
+
+	business:[
+		{ date:"" ,  
+			hy: [ { zygc:"行业类别" zysr:"主营收入" , srbl:"收入比例"}  ] ,  
+			cp:[ {zygc:"产品类别" ,  zysr:"主营收入" , srbl:"收入比例"} ]
+		}
+	],
+	zyhy: [] // 最近时间 主营行业, 
+	zycp: [] // 最近时间 主营产品;
 	 
  }
  
@@ -41,7 +50,7 @@ class Stock extends base {
 
     // 生成id;
     _genId(entity) {
-        return entity.marketCode
+        return entity.market + entity.code ;
     }
 
     // 从es中获取所有 stock ;
@@ -81,9 +90,10 @@ class Stock extends base {
 				await sleep( t );
 			} 
 			await runWithReTry(dealStock, [stock]); 
-			bar.tick({
-				index: i +i 
-			})
+
+			await bar.tick({
+				index: i + 1
+			}) 
         }
     }
 

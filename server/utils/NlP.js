@@ -8,11 +8,12 @@ Secret Key : rE5fiUl2RUX2qrnbFzeknuZIFPqMW59C
  
 
 var AipNlpClient = require("baidu-aip-sdk").nlp;
+var token = require('../../token.json')
 
 // 设置APPID/AK/SK
-var APP_ID = "16158372";
-var API_KEY = "RBDNTSP2SzSfDN2i8GTHMGju";
-var SECRET_KEY = "rE5fiUl2RUX2qrnbFzeknuZIFPqMW59C";
+var APP_ID =token.APP_ID ; //  
+var API_KEY = token.API_KEY ; //  
+var SECRET_KEY = token.SECRET_KEY ; //  
 
 // 新建一个对象，建议只保存一个对象调用服务接口
 var client = new AipNlpClient(APP_ID, API_KEY, SECRET_KEY);

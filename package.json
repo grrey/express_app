@@ -16,6 +16,7 @@
 		"progress": "^2.0.3",
 		"request": "^2.88.2",
 		"request-promise": "^4.2.5",
+		"tusharepro": "^1.0.2",
 		"uuid": "^8.2.0",
 		"vue": "^2.6.11",
 		"vue-router": "^3.3.4",

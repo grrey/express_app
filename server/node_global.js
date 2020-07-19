@@ -47,4 +47,8 @@ global.runWithReTry = async function (funcArr=noop, argsArr=noop, times = 2, t =
 
 //---------------------------------------------------------------------------------------------------------
 
-
+global.log = function(){
+	if( !process.env.disLog ){
+		console.log.apply( console , arguments )
+	}
+}
