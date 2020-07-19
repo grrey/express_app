@@ -53,10 +53,8 @@ class StockCtrl {
 	}
 
 	async updateBusiness(){
- 
- 
 		await esStock.stockIterator({
-			t:200 ,
+			t:50 ,
 			dealStock: async ({_id , _source })=>{
 				let  doc =  await  netFetch.fetchBusiness( {_source}) 
 				console.log( _id , doc ); 
