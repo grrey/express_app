@@ -1,8 +1,6 @@
 let rp = require('request-promise');
 let iconv = require("iconv-lite");
-let ua = require('../utils/ua');
-let cheerio = require('cheerio');
-let pinyin = require('../utils/pinyin');
+let ua = require('../utils/ua'); 
 let moment = require('moment');
 
  

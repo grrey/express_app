@@ -3,6 +3,7 @@
 
 const netFetch = require("../netFetch");
 const esStock = require('../esModel/stock');
+const esDimension = require('../esModel/dimension');
 const pinyin = require('../utils/pinyin');
 const stockListData = require('../../data/allStock')
 
@@ -25,13 +26,13 @@ class StockCtrl {
 	// pinyin字段;
 	async stockPinyin() {
 		let result = [];
-		await esStock.stockIterator({
+		await esStock.Iterator({
 			t:1,
-			dealStock: ({ _id, _source }) => {
+			dealEsEntity: ({ _id, _source }) => {
 				result.push({
 					_id,
 					_source: {
-						pinyin: pinyin.get(_source.name).substr(0 , _source.name.length)
+						pinyin: pinyin.getSM(_source.name).substr(0 , _source.name.length)
 					}
 				})
 			}
@@ -42,26 +43,28 @@ class StockCtrl {
 	// fetch 10 ;
 	async updeF10() {
 		let result = [];
-		await esStock.stockIterator({
+		await esStock.Iterator({
 			t: 1000 ,
 			barText:"f10",
-			dealStock: async ( { _id , _source } ) => {
+			dealEsEntity: async ( { _id , _source } ) => {
 				let f1 =  await  netFetch.fetchF10( {_source});
 				await  esStock.createOrUpdate( {_id , _source : f1 });
 			}
 		})
 	}
 
+	// 跟新经营数据 比例; 
 	async updateBusiness(){
-		await esStock.stockIterator({
+		await esStock.Iterator({
 			t:50 ,
-			dealStock: async ({_id , _source })=>{
+			dealEsEntity: async ({_id , _source })=>{
 				let  doc =  await  netFetch.fetchBusiness( {_source}) 
 				console.log( _id , doc ); 
 				await esStock.createOrUpdate({_id , _source: doc })
 			}
 		})
 	}
+ 
 
 }
 
@@ -69,3 +72,4 @@ const stockCtrl = new StockCtrl();
 module.exports = stockCtrl;
 exports.StockCtrl = StockCtrl;
 
+ 

@@ -6,9 +6,9 @@ const esHis = require('../esModel/his');
 class HisCtrl {
 	
 	async  upDataAllStockHis(){ 
-		await esStock.stockIterator({
+		await esStock.Iterator({
 			t:200 ,
-			dealStock: async ( esObj ) => {
+			dealEsEntity: async ( esObj ) => {
 				var  list = await netFetch.fetchHis( esObj );
 				if( list && list.length ){
 					await  esHis.createOrUpdate( list );

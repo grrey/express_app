@@ -3,6 +3,7 @@
   var pinyin  = HanZi_PinYin.get("洪都航空");
      console.log(  pinyin )
  */
+var pinyin = require("pinyin");
 
 var HanZi_PinYin = {
     // 汉字拼音首字母列表 本列表包含了20902个汉字,用于配合 ToChineseSpell
@@ -65,7 +66,14 @@ var HanZi_PinYin = {
     }
 }; 
 
+function getPinYin( hz="" ){
+	var arr = pinyin( hz ,  { style: pinyin.STYLE_TONE2 });
+	return  arr.join('')
+}
 
-module.exports = HanZi_PinYin ;
+module.exports = {
+	getSM:  HanZi_PinYin.get ,
+	getPinYin: getPinYin
+} ;
 
-
+ 

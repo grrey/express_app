@@ -6,8 +6,7 @@
 let rp = require('request-promise');
 let iconv = require("iconv-lite");
 let ua = require('../utils/ua');
-let cheerio = require('cheerio');
-let pinyin = require('../utils/pinyin');
+let cheerio = require('cheerio'); 
 let common = require('../utils/common');
 
 

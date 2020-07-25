@@ -54,27 +54,25 @@ class Stock extends base {
     }
 
     // 从es中获取所有 stock ;
-    getAllStockFromEs(fields = this.baseField) {
+    getIteratorArr(fields=[]) {
 		let params  = {
 			page: 1,
             size: 4000,
-            luceneStr: this.lucene_gp,
-		}
-		if( fields ){
-			params.fields2return = fields ;
-		}
+			luceneStr: this.lucene_gp,
+			fields2return: [ ...this.baseField , ...fields ]
+		} 
         return this.search( params );
     }
 
     /**
-     * stockFields 需要查询stock 的字段;
+     * esFields 需要查询stock 的字段;
      * @param funcArray
      * @param dealData
-     * @param stockFields
+     * @param esFields
      * @returns {Promise<void>}
      */
-    async stockIterator( { dealStock, stockFields  , t , barText="stockIterator" }) {
-		var allStork = await this.getAllStockFromEs(stockFields);
+    async Iterator( { dealEsEntity, esFields  , t=5 , barText="stock-Iterator"      }) {
+		var allStork = await this.getIteratorArr(esFields);
 		var length = allStork.data.length;
 		
 		var bar = new ProgressBar(`   ${barText} [:bar]  :index/${length}  :percent  :elapseds`, {
@@ -89,7 +87,7 @@ class Stock extends base {
 			if(t){
 				await sleep( t );
 			} 
-			await runWithReTry(dealStock, [stock]); 
+			await runWithReTry(dealEsEntity, [stock]); 
 
 			await bar.tick({
 				index: i + 1

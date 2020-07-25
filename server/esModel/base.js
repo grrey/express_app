@@ -25,15 +25,24 @@ module.exports = class esBase {
 		entity = entity.forEach ? entity : [entity];
 		// 批量创建;
 		let body = []; 
-		entity.forEach((obj) => {
+
+		for( let i = 0 ; i < entity.length ; ++i ){
+			let obj = entity[i];
 			if (obj._id && obj._source) {
 				body.push({ update: { _id: obj._id } });
 				body.push({ doc: obj._source });
 			} else{
-				body.push({ create: { _id: this._genId(obj) } });
-				body.push(obj);
+				let _id = this._genId( obj ); 
+				let  isExist = await  this.isIdExist( _id ); 
+				if( isExist ){
+					body.push({ update: { _id } });
+					body.push({ doc: obj });
+				}else { 
+					body.push({ create: { _id } });
+					body.push(obj);
+				}
 			}
-		});
+		} 
 		await client.bulk({
 			index: this.indexName,
 			type: this.defaultTypeName,

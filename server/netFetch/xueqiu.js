@@ -69,16 +69,12 @@ https://xueqiu.com/stock/forchartk/stocklist.json?symbol=SH600756&period=1day&ty
 				'Cookie':'aliyungf_tc=AQAAAGT0wX/ZwQ4Aj15I38PN+8Oys5Dc; acw_tc=2760820115950602369794069e9c89a594279ac958f8abecd69800b2b1719d; xq_a_token=ad923af9f68bb6a13ada0962232589cea11925c4; xqat=ad923af9f68bb6a13ada0962232589cea11925c4; xq_r_token=cf0e6f767c2318f1f1779fcee9323365f02e1b4b; xq_id_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1aWQiOi0xLCJpc3MiOiJ1YyIsImV4cCI6MTU5NjE2MjgxNSwiY3RtIjoxNTk1MDYwNDM0NzIwLCJjaWQiOiJkOWQwbjRBWnVwIn0.Z6Q2k38TfrxInaL5Oi5s29hRmXvyci3MJuqXJmOk0ZtRf8RurbbjZwQGTlo5gHqkHkfTrECXDDsuPBCDjyQ5bC-bAbGh5OMezqkrEJvzUUhrLFAxor5pHvc2de5xESQEOACIwRhQL0bj2dCBkQY_587m7GCGopCq1Z5Aey3uR4Nh2aULto9vJAiw8vjwoFRtGVKucgWUUWB2bkal7NTPpCuFbgQPY3hKp1aRKM2BF9OzvH_k16NP7X3VovtSSZLHfUWrF7h-XtIwah1QIYyyOhfnbwAIR21yCpxLdC3FnnhJqbASWGls4Rt_17WtHcpdrnM69ncz7HRuPoN7YDX4hg; u=411595060438147; Hm_lvt_1db88642e346389874251b5a1eded6e3=1595060440; Hm_lpvt_1db88642e346389874251b5a1eded6e3=1595060440; device_id=24700f9f1986800ab4fcc880530dd0ed'
 			}
 		});
-		
-
-		console.log( 8888 , d.length )
+		  
         d = Iconv.decode(d, 'GB2312');
         var arr = d.split('\r\n');
         arr.shift();
 		arr.pop();
-		
-
-		console.log( 111 , arr )
+		 
 
         var hisData = [],
             length = arr.length;

@@ -9,7 +9,9 @@ function parse2Num(str){
 	let num  =  parseFloat( str ) || 0  ;  
 	if(/万/.test( str )){  
 		num =  num/1000 ; 
-	} 
+	}else if(/万亿/.test(str)){
+		mun = num*1000 ;
+	}
 	return  + ( num.toFixed(2) ) ;
 }
 
