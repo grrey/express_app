@@ -12,7 +12,7 @@ let ProgressBar = require('progress');
 	"SSBK": [ "化工行业", "江苏板块", "锂电池"],
 
 	business:[
-		{ date:"" ,  
+		{   date:"" ,  
 			hy: [ { zygc:"行业类别" zysr:"主营收入" , srbl:"收入比例"}  ] ,  
 			cp:[ {zygc:"产品类别" ,  zysr:"主营收入" , srbl:"收入比例"} ]
 		}
@@ -37,7 +37,7 @@ class Stock extends base {
         this.pageSize = 200;
 
         // stock 基本字段;
-        this.baseField = ["_id", "market", "code", "name"];
+        this.baseField = ["_id", "market", "code", "name" , 'marketCode'];
         this.forHisField = ["_id", "market", "code", "latestHis"];
 
 
@@ -54,12 +54,12 @@ class Stock extends base {
     }
 
     // 从es中获取所有 stock ;
-    getIteratorArr(fields=[]) {
+    getIteratorArr({esFields=[] , lucene }) {
 		let params  = {
 			page: 1,
             size: 4000,
-			luceneStr: this.lucene_gp,
-			fields2return: [ ...this.baseField , ...fields ]
+			luceneStr: lucene || this.lucene_gp,
+			fields2return: [ ...this.baseField , ...esFields ]
 		} 
         return this.search( params );
     }
@@ -71,8 +71,8 @@ class Stock extends base {
      * @param esFields
      * @returns {Promise<void>}
      */
-    async Iterator( { dealEsEntity, esFields  , t=5 , barText="stock-Iterator"      }) {
-		var allStork = await this.getIteratorArr(esFields);
+    async Iterator( { dealEsEntity, esFields  , t=5 , barText="stock-Iterator"  , lucene }) {
+		var allStork = await this.getIteratorArr({esFields , lucene });
 		var length = allStork.data.length;
 		
 		var bar = new ProgressBar(`   ${barText} [:bar]  :index/${length}  :percent  :elapseds`, {

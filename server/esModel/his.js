@@ -1,3 +1,4 @@
+/*
 // marketCode,
 // date: rd[0].replace(/\//g, "-"),  // moment(rd[0]).format("YYYY-MM-DD"),
 
@@ -16,6 +17,19 @@
 
 // TCAP: parseInt( +rd[12] / 100000000 ) , //   总市值 ;   单位: 亿 ;
 // MCAP: parseInt( +rd[13] / 100000000 ) , //   流通市值,  单位: 亿 ;
+
+新闻类型 : 
+news:{
+	score: 
+	list:[
+		{ link:"" , title:"" , summary:"" ,  score }
+	]
+}
+
+
+*/
+
+
 let  base = require('./base');
 let ProgressBar = require('progress');
 
@@ -30,8 +44,6 @@ class His extends base {
 
         // 查询是每页条数;
         this.pageSize = 1000; 
-
- 
 
     }
 

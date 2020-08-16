@@ -5,6 +5,7 @@
 	"dependencies": {
 		"axios": "^0.16.0",
 		"baidu-aip-sdk": "^2.4.6",
+		"bodybuilder": "^2.2.21",
 		"cheerio": "^1.0.0-rc.3",
 		"commander": "^5.1.0",
 		"elasticsearch": "^16.7.1",

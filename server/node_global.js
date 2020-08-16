@@ -1,3 +1,9 @@
+let _ = require('lodash');
+let  moment = require('moment')
+
+global._ =_ ;
+global.moment = moment ;
+
 let noop = function(){}
 global.noop =  noop;
 
@@ -44,7 +50,19 @@ global.runWithReTry = async function (funcArr=noop, argsArr=noop, times = 2, t =
     }
     return result;
 }
-
+//---------------------------------------------------------------------------------------------------------
+global.Iterator = async function (  _in , func ){
+	if(!_in){
+		return ;
+	}
+	_in =  _in.forEach ? _in :[_in];
+	let length = _in.length ;
+	let o ; 
+	for( let i = 0 ; i < length ; ++i){
+		o = _in[i];
+		await func( o  , i ) 
+	}
+}
 //---------------------------------------------------------------------------------------------------------
 
 global.log = function(){

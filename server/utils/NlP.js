@@ -8,12 +8,14 @@ Secret Key : rE5fiUl2RUX2qrnbFzeknuZIFPqMW59C
  
 
 var AipNlpClient = require("baidu-aip-sdk").nlp;
-var token = require('../../token.json')
+var token = require('../../token.json');
+
+var  baiduNlp = token.baiduNlp ;
 
 // 设置APPID/AK/SK
-var APP_ID =token.APP_ID ; //  
-var API_KEY = token.API_KEY ; //  
-var SECRET_KEY = token.SECRET_KEY ; //  
+var APP_ID = baiduNlp.APP_ID ; //  
+var API_KEY = baiduNlp.API_KEY ; //  
+var SECRET_KEY = baiduNlp.SECRET_KEY ; //  
 
 // 新建一个对象，建议只保存一个对象调用服务接口
 var client = new AipNlpClient(APP_ID, API_KEY, SECRET_KEY);
@@ -32,14 +34,21 @@ var client = new AipNlpClient(APP_ID, API_KEY, SECRET_KEY);
 	}
  */
 async function sentiment( text ){
-	let result = await  client.sentimentClassify(text);
-	console.log( 2222 , result );
+	let result = await  client.sentimentClassify(text); 
+	let {
+		sentiment = 0 ,
+		positive_prob = 0 ,
+		confidence = 0 ,
+		negative_prob = 0
+	} = result.items[ 0 ] ||{} ;
+	let  s = sentiment * positive_prob - confidence * negative_prob ;
+	return  s? parseInt( s*1000 ) / 1000 : 0 ;
 }
 
 
 
-sentiment('主观观点信息的文本进行情感极性类别（积极、消极、中性）的判断，并给出相应的置信度。')
+// sentiment('主观观点信息的文本进行情感极性类别（积极、消极、中性）的判断，并给出相应的置信度。')
 
 module.exports = {
-
+	NLP_sentiment : sentiment
 }

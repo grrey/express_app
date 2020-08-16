@@ -6,7 +6,9 @@ process.env.disLog = true;
 
 (async () => {
  
-	await dimenCtrl.extractDimen();
+	// await dimenCtrl.extractDimen();
+
+	await dimenCtrl.parseHy();
 
 })()
 

@@ -14,6 +14,11 @@ module.exports = class esBase {
 		return isExist;
 	}
 
+	async  isExist( luceneStr ){
+		let arr =  this.search( { luceneStr , fields2return:['_id'] })
+		return  !!arr.length ;
+	}
+
 	/**
 	   * 创建; 支持批量; 
 	   *  entity =  { _id , _source } ||  { ... }
