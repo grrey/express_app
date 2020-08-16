@@ -1,18 +1,18 @@
 const config = [
   {
-    type: 'home',
+    name: 'home',
     link: '/',
     text: 'Home'
   },
   {
-    type: 'album',
+    name: 'album',
     link: '/album',
     text: 'Album'
   },
   {
-    type: 'config',
-    link: '/config',
-    text: 'config'
+    name: 'dayly',
+    link: '/dayly',
+    text: '日报'
   }
 ]
 

@@ -24,7 +24,7 @@ class NetFetch {
 		}else{
 		 	startDay = _source.latesHisDay || (moment().subtract(600, 'days').format('YYYYMMDD'));
 		}
-		 
+		 console.log( ' fiethc his ' ,  _source.marketCode , startDay );
 		let hislist = await tushare.fetchHis( {_id , _source }, startDay);
 		return hislist
 	}

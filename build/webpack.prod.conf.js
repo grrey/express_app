@@ -50,6 +50,10 @@ var config =  {
       {
         test: /\.vue$/,
         loader: ['vue-loader']
+      },
+	  {
+        test:/\.(woff|woff2|eot|otf|ttf)$/,
+		loader:'file-loader' 
       }
     ]
   }

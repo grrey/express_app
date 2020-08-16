@@ -2,12 +2,11 @@
   div.nav-bar
     .nav-bar-cntr
       ul.list
-        li.item(v-for="nav in NavConfig", :class="{active: pageType===nav.type}")
+        li.item(v-for="nav in NavConfig", :class="{active: name===nav.name}")
           router-link(:to="nav.link") {{ nav.text }}
 </template>
 <style lang="stylus">
-  .nav-bar
-    background: #fff
+  .nav-bar 
     box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.5)
     .nav-bar-cntr
       max-width: 1160px
@@ -57,7 +56,7 @@
       }
     },
     computed: {
-      pageType () {
+      name () {
         return this.$route.name
       }
     }

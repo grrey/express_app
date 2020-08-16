@@ -1,9 +1,9 @@
 import album from './album'
-import hello from './hello'
-import config from './config'
+import home from './home'
+import dayly from './dayly'
 
 export {
   album,
-  hello,
-  config
+  home,
+  dayly
 }

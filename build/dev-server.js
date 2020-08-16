@@ -51,7 +51,7 @@ devMiddleWare.waitUntilValid(() => {
 app.listen(80, function() {
   let uri = `http://localhost:80`
   console.log('start listening on 80')
-  opn(uri)
+//   opn(uri)
 })
 
 var _resolve

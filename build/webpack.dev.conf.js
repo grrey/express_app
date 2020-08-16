@@ -21,7 +21,11 @@ var devConfig =  {
     new HtmlWebpackPlugin({
       template: 'client/index.jade',
       filename: 'index.html'
-    })
+	}),
+	new webpack.ProvidePlugin({
+		moment:"moment",
+		_:'lodash',
+	})
   ],
   module: {
     rules: [
@@ -49,6 +53,10 @@ var devConfig =  {
       {
         test: /\.vue$/,
         loader: ['vue-loader']
+	  },
+	  {
+        test:/\.(woff|woff2|eot|otf|ttf)$/,
+		loader:'file-loader' 
       }
     ]
   }

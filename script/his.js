@@ -6,9 +6,9 @@ process.env.disLog = true;
 
 (async () => {
 
-	// await hisCtrl.upDataAllStockHis();
+	await hisCtrl.upDataAllStockHis();
 
-	await hisCtrl.upDataAlNews();
+	// await hisCtrl.upDataAlNews();
 
 })()
 
