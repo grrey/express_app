@@ -2,7 +2,7 @@
 	<div>
 		<el-row>
 			<el-col :span="6">
-				<el-input v-model="queryParams.key" placeholder="code/pinyin/nam1e"></el-input>
+				<el-input v-model="queryParams.key"   placeholder="code/pinyin/nam1e"></el-input>
 			</el-col>
 		</el-row>
 		<el-row>
@@ -13,29 +13,34 @@
 
 <script>
 
-import  { mapMutations }  from 'vuex';
-const  pageSize = 20 ;
+import  { mapMutations  , mapState , mapGetters }  from 'vuex'; 
 
 export default {
 	name:"stock-selector",
 	global:true ,
 
-	props:{
-		pageNo: { type:Number ,default:1}
-	},
-	mounted(){
+  
+	computed:{ 
+		stockPageSize(){
+			return this.$store.state.stock.stockPageSize
+		},
 
+		// ...mapState(  
+		// 	[ 'stockPageSize' ]
+		// ) ,
 	},
+ 
 
 	data(){
-		return {
+
+		return { 
 			queryParams:{
-				key:'000001', 
+				key:'上海', 
 			}
 		}
 	},
 	methods:{
-		// ...mapMutations([ 'setStockList' ]),
+		...mapMutations([ 'setStockPageData' ]),
 
 		async submit(){
 			let  lu = "";
@@ -46,10 +51,12 @@ export default {
 
 			let stockList =  await  this.$esStock.search({
 				page: 1 ,
-				size:  pageSize ,
+				size:   this.stockPageSize ,
 				luceneStr: lu
 				
-			})
+			});
+			console.log(1111 ,  stockList )
+			this.setStockPageData( stockList )
 
 		}
 	}

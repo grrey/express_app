@@ -1,20 +1,21 @@
-import vue from 'vue'
-import vuex from 'vuex'
+import vue from 'vue' 
 import esClient from './lib/esClient'
 import ElementUI from 'element-ui'; 
+import './page.styl' 
 import app from './app.vue'
+import store from './store'
 import router from './router'
-import './page.styl'
+
 
 vue.use(ElementUI);
 vue.use(esClient);
 
+  
+
 new vue({
   el: '#app',
+  store: store ,
   router,
-  data: {
-    intro: 'welcome1'
-  },
   components: {
     app  
   }
