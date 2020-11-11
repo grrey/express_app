@@ -27,3 +27,5 @@
 
 `npm start`           启动本地开发服务器 & 后端服务器
 
+redis:
+docker run -itd --name redis-local -p 6379:6379 redis

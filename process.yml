@@ -2,6 +2,7 @@ apps:
   - script : server/main.js
     watch  : ['./server']
     exec_mode: 'fockMode'
+ 
   - script : build/dev-server.js
     watch  : false
     exec_mode: 'fockMode'
