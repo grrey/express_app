@@ -8,6 +8,7 @@ let noop = function(){}
 global.noop =  noop;
 
 
+global.pm2id = process.env.pm_id ;
 
 //---------------------------------------------------------------------------------------------------------
 global.sleep = function (t = 1000) {
@@ -65,8 +66,11 @@ global.Iterator = async function (  _in , func ){
 }
 //---------------------------------------------------------------------------------------------------------
 
-global.log = function(){
+global.log = function(...args ){
 	if( !process.env.disLog ){
-		console.log.apply( console , arguments )
+		let pm2id = process.env.pm_id ;
+		 console.log(`cluster_${pm2id} ->: `, ...args)
+
 	}
 }
+

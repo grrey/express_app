@@ -1,6 +1,6 @@
 
 
-var  token = require('../../token.json');
+var  token = require('../../config');
 const Tushare = require('tusharepro');
  
 var ts = new Tushare(  token.tushare );

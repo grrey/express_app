@@ -64,12 +64,15 @@ class StockCtrl {
 			}
 		})
 	}
+
+	async handF(data){
+		log( 'handF run !!' , data )
+		return  await sleep( 1000 )
+	}
  
 
 }
 
-const stockCtrl = new StockCtrl();
-module.exports = stockCtrl;
-exports.StockCtrl = StockCtrl;
+module.exports = new StockCtrl();
 
  

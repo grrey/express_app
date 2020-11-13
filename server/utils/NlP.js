@@ -8,7 +8,7 @@ Secret Key : rE5fiUl2RUX2qrnbFzeknuZIFPqMW59C
  
 
 var AipNlpClient = require("baidu-aip-sdk").nlp;
-var token = require('../../token.json');
+var  token = require('../../config');
 
 var  baiduNlp = token.baiduNlp ;
 
