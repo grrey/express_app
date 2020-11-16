@@ -1,5 +1,6 @@
 
 exports.TaskName = {
 	updateBusiness:'updateBusiness', // 
-	updateHis:'updateHis'
+	updateHis:'updateHis',
+	updateNews:'updateNews'
 }

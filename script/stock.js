@@ -1,7 +1,7 @@
-const stockCtrl = require('../server/ctrl/stock');
 require('../server/node_global'); 
+const stockCtrl = require('../server/ctrl/stock');
 const redis = require('../server/utils/redis')
-
+const esStock = require('../server/esModel/stock');
 
 process.env.disLog = true;
  
@@ -15,15 +15,14 @@ process.env.disLog = true;
 
 	// fetch f10 ;
 	// stockCtrl.updeF10();
+  
+	// stockCtrl.pubStockQueue( { taskName: 'updateBusiness' } )
 
-	// 
-	// stockCtrl.updateBusiness({ _id: 'sz000002' , _source:{ market:'sz' , code:'000002'} });
+	// stockCtrl.pubStockQueue( { taskName: 'updateHis' ,fields: esStock.forHisField} )
 
-	// redis.publishTask( 'updataF' , arr )
+	stockCtrl.pubStockQueue( { taskName: 'updateNews' } )
 
-	
-	let list = await stockCtrl.getAllList();
-	redis.publishTask( 'updateBusiness', list );
+
 
 
 })()

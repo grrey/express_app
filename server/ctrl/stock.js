@@ -7,6 +7,7 @@ const esDimension = require('../esModel/dimension');
 const pinyin = require('../utils/pinyin');
 const stockListData = require('../../data/allStock')
 const redis = require('../utils/redis')
+const { TaskName  } = require('../chain/const')
 
 // esStock.getById('sz000002').then( console.log )
 
@@ -30,7 +31,12 @@ class StockCtrl {
 			size:4000 ,
 			fields2return: fields
 		});
-		return page.data ;
+		return page.data ; 
+	}
+	// 触发 task队列;
+	async pubStockQueue( {taskName , fields} ){
+		let list = await this.getAllList({ fields });
+		redis.publishTask( taskName , list );
 	}
 
 	// pinyin字段;

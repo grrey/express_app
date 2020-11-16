@@ -4,13 +4,14 @@ AppID:  16158372
 API Key : RBDNTSP2SzSfDN2i8GTHMGju
 Secret Key : rE5fiUl2RUX2qrnbFzeknuZIFPqMW59C 
 
+http://103.242.175.216:197/nlpir/
+
+
 */
  
 
 var AipNlpClient = require("baidu-aip-sdk").nlp;
 var  token = require('../../config');
-
-log( 111 , token )
 
 var  baiduNlp = token.baiduNlp ;
 
@@ -37,6 +38,7 @@ var client = new AipNlpClient(APP_ID, API_KEY, SECRET_KEY);
  */
 async function sentiment( text ){
 	let result = await  client.sentimentClassify(text); 
+	console.log( 11 , result )
 	let {
 		sentiment = 0 ,
 		positive_prob = 0 ,
@@ -47,10 +49,13 @@ async function sentiment( text ){
 	return  s? parseInt( s*1000 ) / 1000 : 0 ;
 }
 
-
-
-// sentiment('主观观点信息的文本进行情感极性类别（积极、消极、中性）的判断，并给出相应的置信度。')
-
 module.exports = {
 	NLP_sentiment : sentiment
 }
+
+
+sentiment('经济学的核心是经济规律；在对称经济学看来，资源的优化配置与优化再生只是经济规律的展开和具体表现，经济学的对象应该是资源优化配置与优化再生后面的经济规律与经济本质，而不是停留在资源的优化配置与优化再生层面。停留在资源的优化配置与优化再生层面的，是政治经济学而不是科学的经济学。')
+.then( console.log )
+
+
+

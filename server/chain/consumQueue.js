@@ -16,6 +16,10 @@ var  taskConsumConf  = [
 		taskName: TaskName.updateHis ,
 		consumHandler: reTryWarper( hisCtrl.upDataStockHis , 2 )  
 	},
+	{
+		taskName: TaskName.updateNews ,
+		consumHandler: reTryWarper( hisCtrl.upDataNews , 2 )  
+	}
 	
 ]; 
 
