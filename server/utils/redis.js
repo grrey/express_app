@@ -1,49 +1,57 @@
  
 var Redis = require('redis');
 
-const pubclient = Redis.createClient({
+// 发布,
+const pubClient = Redis.createClient({
   host: '127.0.0.1',
   port: 6379
 })
-
+// 订阅;
 const subClient = Redis.createClient({
 	host: '127.0.0.1',
 	port: 6379
 })
-
-const popClient = Redis.createClient({
+// 任务消费;
+const consumerClient = Redis.createClient({
 	host: '127.0.0.1',
 	port: 6379
 })
-const pushClient = Redis.createClient({
+// 任务生产
+const producterClient = Redis.createClient({
 	host: '127.0.0.1',
 	port: 6379
 })
 
 
-subClient.subscribe("notification");
+// subClient.subscribe("notification");
 
 // 逐个取任务;
 function popTask( taskName ){
 	return new Promise(resolve => 
-		popClient.blpop(taskName, 1000, (err, [channel ,data]) =>{ 
+		consumerClient.blpop(taskName, 1000, (err, [channel ,data]) =>{ 
 			resolve( JSON.parse(data) )
 		} )
 	)
 };
 
-var getRedisValue = (key) => new Promise(resolve => subClient.get(key, (err, reply) => resolve(reply)))
-var setRedisValue = (key ,value ) => new Promise(resolve => subClient.set(key,  JSON.stringify(value), resolve))
-var delRedisKey = (key) => new Promise(resolve => subClient.del(key, resolve))
+var getRedisValue = (key) => new Promise(resolve => pubClient.get(key, (err, reply) => resolve( JSON.parse(reply))))
+var setRedisValue = (key ,value ) => new Promise(resolve => pubClient.set(key,  JSON.stringify(value), resolve))
+var delRedisKey = (key) => new Promise(resolve => pubClient.del(key, resolve))
 
 //  订阅 任务队列;
-exports.subTask = async  function ( { taskName  , taskHandler }){ 
+exports.subTask = async  function ( { taskName  , consumHandler }){ 
+ 
+
+	if( !taskName ){
+		log.error( ' no task name !');
+		return ;
+	}
 	await delRedisKey( taskName );
-	log('subTask' , taskName   )
+	log('subTask:' , taskName   )
 	async function fun(){
 		let task = await popTask( taskName );
 		if( task ){ 
-			await taskHandler( task ) ;
+			await consumHandler( task ) ;
 			fun();
 		}
 	}  
@@ -52,17 +60,19 @@ exports.subTask = async  function ( { taskName  , taskHandler }){
 			fun();
 		}
 	});
-
 	subClient.subscribe( taskName );
 }
+
 // 发布 任务队列
 exports.publishTask = async function ( taskName , taskArr=[]){
 
 	taskArr.forEach((t)=>{
-		pushClient.lpush(taskName,  JSON.stringify(t) )
+		producterClient.lpush(taskName,  JSON.stringify(t) , function( err , result){ 
+		})
 	});
-	console.log('publishTask:' , taskName , '  tasksize=',taskArr.length )
-	pubclient.publish( taskName  , 'start' );
+	console.log('publishTask:' , taskName , ', tasksize=',taskArr.length )
+	pubClient.publish( taskName  , 'start' );
+
 }
 
 

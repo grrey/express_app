@@ -19,6 +19,18 @@ module.exports = class esBase {
 		return  !!arr.length ;
 	}
 
+	async  getById( id  , fields2return = this.baseField ){
+	
+		let obj =   await client.get({
+			index: this.indexName ,
+			id: id ,
+			_source: fields2return
+		});  
+		return obj ;
+	}
+
+	
+
 	/**
 	   * 创建; 支持批量; 
 	   *  entity =  { _id , _source } ||  { ... }

@@ -44,9 +44,16 @@ class Stock extends base {
         // luceneStr 查询 短语;
 		this.lucene_gp = "code:/[0,3,6]{1}.{5}/";
 		
-        // this.lucene_gp = "code:/[0,3,6]{1}.{5}/"
-
-    }
+		// this.lucene_gp = "code:/[0,3,6]{1}.{5}/"
+		
+		this.FIELDS = {
+			latestHis:"latestHis",
+			SSBK:'SSBK',
+			zycp:'zycp',
+			zyhy:'zyhy'
+		}
+	}
+	
 
     // 生成id;
     _genId(entity) {

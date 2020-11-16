@@ -6,7 +6,9 @@ const esStock = require('../esModel/stock');
 const esDimension = require('../esModel/dimension');
 const pinyin = require('../utils/pinyin');
 const stockListData = require('../../data/allStock')
+const redis = require('../utils/redis')
 
+// esStock.getById('sz000002').then( console.log )
 
 class StockCtrl {
 
@@ -16,11 +18,19 @@ class StockCtrl {
 		let list = stockListData.data.map((d)=>{
 			d._source.marketCode = d._source.market + d._source.code ;
 			return  d._source  ;
-		})
-
+		}) 
 		console.log('stock length = ', list.length);
 		let result = await esStock.createOrUpdate(list);
 		console.log(' es result ', result)
+	}
+	// 获取所有列表
+	async getAllList( {luceneStr = esStock.lucene_gp , fields = esStock.baseField }){
+		let  page =  await  esStock.search({ 
+			luceneStr ,
+			size:4000 ,
+			fields2return: fields
+		});
+		return page.data ;
 	}
 
 	// pinyin字段;
@@ -54,20 +64,18 @@ class StockCtrl {
 	}
 
 	// 跟新经营数据 比例; 
-	async updateBusiness(){
-		await esStock.Iterator({
-			t:50 ,
-			dealEsEntity: async ({_id , _source })=>{
-				let  doc =  await  netFetch.fetchBusiness( {_source}) 
-				console.log( _id , doc ); 
-				await esStock.createOrUpdate({_id , _source: doc })
-			}
-		})
+	async updateBusiness( esObj ){ 
+		let id = esObj._id ;
+		let ess = await esStock.getById( id , [ esStock.FIELDS.zycp , esStock.FIELDS.zyhy]);
+		let  bus  =  await  netFetch.fetchBusiness(  esObj ) ;
+		// 合并 数据 ?
+		log('updateBusiness' , esObj , bus )
+		await esStock.createOrUpdate({ _id: id  , _source: bus });
 	}
 
 	async handF(data){
 		log( 'handF run !!' , data )
-		return  await sleep( 1000 )
+		return  await sleep( 200 )
 	}
  
 

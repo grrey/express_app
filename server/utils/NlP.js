@@ -10,6 +10,8 @@ Secret Key : rE5fiUl2RUX2qrnbFzeknuZIFPqMW59C
 var AipNlpClient = require("baidu-aip-sdk").nlp;
 var  token = require('../../config');
 
+log( 111 , token )
+
 var  baiduNlp = token.baiduNlp ;
 
 // 设置APPID/AK/SK

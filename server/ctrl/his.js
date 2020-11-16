@@ -7,18 +7,16 @@ const moment = require('moment');
 class HisCtrl {
 	
 	// 更新历史 open.close , 值; 
-	async  upDataAllStockHis(){ 
-		await esStock.Iterator({
-			t:200 ,
-			dealEsEntity: async ( esObj ) => {
-				var  list = await netFetch.fetchHis( esObj );
-				if( list && list.length ){
-					await  esHis.createOrUpdate( list );
-					esObj._source.latesHisDay = list.pop().date.replace(/-/g , '') ; 
-					await  esStock.createOrUpdate( esObj );
-				}
-			}
-		}) 
+	async  upDataStockHis(esObj){ 
+		
+		var  list = await netFetch.fetchHis( esObj );
+		log( 'upDataStockHis:' , esObj , list && list.length )
+		if( list && list.length ){
+			await  esHis.createOrUpdate( list );
+			esObj._source.latesHisDay = list.pop().date.replace(/-/g , '') ; 
+			await  esStock.createOrUpdate( esObj );
+		}
+		await  sleep()
 	} 
 
 	// 抓取新闻; 
@@ -69,4 +67,3 @@ class HisCtrl {
 const hisCtrl = new HisCtrl();
 
 module.exports = hisCtrl;
-exports.HisCtrl = HisCtrl;

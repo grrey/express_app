@@ -97,7 +97,11 @@ class Dfcfw {
 		return F10;
 	};
 
-	// 经营 比例;
+	/**
+	 * 更新: 产品, 行业, 季度报告,
+	 * 经营, 
+	 * @param {} param0 
+	 */
 	async  fetchBusiness( {_source }){
 		// http://f10.eastmoney.com/BusinessAnalysis/BusinessAnalysisAjax?code=SZ000002
 		// let url = `http://122.70.142.37/BusinessAnalysis/BusinessAnalysisAjax?code=${_source.market}${_source.code}`;
@@ -118,31 +122,35 @@ class Dfcfw {
 		})
 		   
 		let { zygcfx = []} = d ;
-		 
-		let business =   zygcfx.map(( { rq , hy=[] , cp =[] })=>{
-			return {
-				date: rq ,
-				hy: hy.map((h)=>{
+		let zyhy = [] , zycp = [] ;
+
+		zygcfx.forEach( ({ rq , hy = [] ,cp=[]})=>{
+			zyhy.push({
+				data: rq ,
+				hy:hy.map((h)=>{
 					return {
 						zygc: h.zygc ,
 						zysr: common.parse2Num( h.zysr),
-						srbl: common.parse2Num( h.srbl),
+						// srbl: common.parse2Num( h.srbl),
 					}
 				}),
+			});
+			zycp.push({
+				data: rq ,
 				cp: cp.map((c)=>{
 					return {
 						zygc: c.zygc ,
 						zysr: common.parse2Num( c.zysr),
-						srbl: common.parse2Num( c.srbl),
+						// srbl: common.parse2Num( c.srbl),
 					}
 				}),
-			}
-		});
+			});
+
+		}) 
 
 		return {
-			business ,
-			zyhy:  ( business[0] && business[0].hy ) || [],
-			zycp:  ( business[0] && business[0].cp ) || [],
+			zyhy,
+			zycp,
 		}
 	}
 

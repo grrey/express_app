@@ -51,6 +51,24 @@ global.runWithReTry = async function (funcArr=noop, argsArr=noop, times = 2, t =
     }
     return result;
 }
+
+global.reTryWarper =  function( fun , times = 2 , t ){
+	return  async  function( ){ 
+		let succ = false  , result ; 
+		for(let i  = 0 ;  i < times && !succ ; ++i){
+			try {
+				result = await fun(...arguments);
+				succ = true ;
+			}catch(e){
+				await sleep(t);
+				log.error("reTryWarper error  try = ", i , fun , e  );
+			}
+		}
+		return result  ;
+	}
+	
+} 
+
 //---------------------------------------------------------------------------------------------------------
 global.Iterator = async function (  _in , func ){
 	if(!_in){
@@ -74,3 +92,9 @@ global.log = function(...args ){
 	}
 }
 
+global.log.error = function(...args ){
+	if( !process.env.disLog ){
+		let pm2id = process.env.pm_id ;
+		 console.error(`cluster_${pm2id} ->: `, ...args) 
+	}
+}
