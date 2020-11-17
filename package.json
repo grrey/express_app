@@ -11,6 +11,7 @@
 		"commander": "^5.1.0",
 		"elasticsearch": "^16.7.1",
 		"express": "^4.15.3",
+		"express-ws": "^4.0.0",
 		"formidable": "^1.1.1",
 		"iconv-lite": "^0.6.2",
 		"lodash": "^4.17.19",
