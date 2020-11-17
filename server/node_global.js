@@ -52,7 +52,7 @@ global.runWithReTry = async function (funcArr=noop, argsArr=noop, times = 2, t =
     return result;
 }
 
-global.reTryWarper =  function( fun , times = 2 , t ){
+global.reTryWarper =  function( fun , times = 2 , t=20 ){
 	return  async  function( ){ 
 		let succ = false  , result ; 
 		for(let i  = 0 ;  i < times && !succ ; ++i){

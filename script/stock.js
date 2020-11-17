@@ -20,13 +20,13 @@ process.env.disLog = true;
 
 	// stockCtrl.pubStockQueue( { taskName: 'updateHis' ,fields: esStock.forHisField} )
 
-	stockCtrl.pubStockQueue( { taskName: 'updateNews' } )
+	// stockCtrl.pubStockQueue( { taskName: 'updateNews' } )
 
+	// watchVal: { height , low } ,// 
+	var list = await stockCtrl.getAllList( { luceneStr:" watchVal.height:123 " })
 
+	console.log(11 ,  list  )
 
 
 })()
-
-
-
-
+ 

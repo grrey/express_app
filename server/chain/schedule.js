@@ -14,50 +14,121 @@
 每周1的1点1分30秒触发 ：'30 1 1 * * 1'
 每分钟的1-10秒都会触发，其它通配符依次类推: '1-10,20-30 * * * * 1-5'
 
+	{
+		schedu:'0 20 20 1 3,6,9,12 *' ,
+		taskName: TaskName.updateBusiness ,
+		pubParams: {
+			fields: esStock.forHisField,
+			luceneStr:null ,
+		},
+		consumParams:{
+			handler: stockCtrl.updateBusiness ,
+			retry: 2 ,
+			sleep: 200 ,  // retry 时  sleep ;
+		}
+	},
+
 */
 
 const stockCtrl = require('../ctrl/stock');
 const esStock = require('../esModel/stock')
 var redis = require('../utils/redis');
+var redis = require( '../utils/redis');
+var  {TaskName} = require('./const'); 
+const stockCtrl = require('../ctrl/stock');
+const hisCtrl = require('../ctrl/his');
+
+
 var {
     TaskName
 } = require('./const');
 const schedule = require('node-schedule');
 
-//buiss
-schedule.scheduleJob('0 20 20 1 3,6,9,12 *', async () => {
-    stockCtrl.pubStockQueue({
-        taskName: TaskName.updateBusiness
-    });
-});
-// his 
-schedule.scheduleJob('0 20 20 1 3,6,9,12 *', async () => {
-    stockCtrl.pubStockQueue({
-        taskName: TaskName.updateHis,
-        fields: esStock.forHisField
-    });
-});
 
-// news :
-schedule.scheduleJob('0 20 1 * * *', async () => {
-    stockCtrl.pubStockQueue({
-        taskName: TaskName.updateNews,
-        fields: esStock.forHisField
-    });
-});
+const task = [
 
-//监视 历史,每天; 生成报表
-schedule.scheduleJob('0 0 3 * * 1-5', async () => {
-    stockCtrl.pubStockQueue({
-        taskName: TaskName.watchPinVal,
-        fields: esStock.forHisField
-	}); 
-});
+	// ================ 数据类 ===============
+	// update business ;
+	{
+		schedu:'0 20 20 1 3,6,9,12 *' ,
+		taskName: TaskName.updateBusiness ,
+		pubParams: {
+			fields: esStock.forHisField,
+			luceneStr:null ,
+		},
+		consumParams:{
+			handler: stockCtrl.updateBusiness ,
+			retry: 2 ,
+			sleep: 200 ,
+		}
+	},
 
-//监视 实时, 2 分钟 ;
-schedule.scheduleJob('0 */2 9-12,13-15 * * 1-5', async () => {
-    stockCtrl.pubStockQueue({
-        taskName: TaskName.watchCurrentVal,
-        fields: esStock.forHisField
-	}); 
+	// his:
+	{
+		schedu:'0 20 1 * * 1-5' ,
+		taskName: TaskName.updateHis ,
+		pubParams: {
+			fields: esStock.forHisField,
+			luceneStr:null ,
+		},
+		consumParams:{
+			handler: stockCtrl.upDataStockHis 
+		}
+	},
+	// news 
+	{
+		schedu:'0 20 1 * * *' ,
+		taskName: TaskName.updateNews ,
+		pubParams: {},
+		consumParams:{
+			handler: stockCtrl.upDataNews ,
+		}
+	},
+
+
+	// ================ 报表类 ===============
+	//监视 历史,每天; 生成报表
+	{
+		schedu:'0 0 3 * * 1-5' ,
+		taskName: TaskName.watchValDayly ,
+		pubParams: {
+			luceneStr:null ,
+		},
+		consumParams:{
+			handler: stockCtrl.upDataNews ,
+		}
+	},
+	// 事实监控; 2 分钟 
+	{
+		schedu: '0 */3 9-12,13-15 * * 1-5',
+		taskName: TaskName.watchValCurrent ,
+		pubParams: {
+			luceneStr:null ,
+		},
+		consumParams:{
+			handler: stockCtrl.upDataNews ,
+		}
+	}, 
+]
+
+
+
+task.forEach( (t)=>{
+	if( pm2id === 0 ){
+		// 发布任务,
+		schedule.scheduleJob( t.schedu , async () => {
+			stockCtrl.pubStockQueue({
+				taskName: t.taskName ,
+				luceneStr: t.pubParams.luceneStr ,
+				fields: t.pubParams.fields
+			});
+		}); 
+	}
+	// 处理任务;
+	let { handler , retry , sleep  } = this.consumParams ;
+	redis.subTask( { 
+		taskName: t.taskName ,
+		consumHandler: reTryWarper(  handler , retry , sleep  )
+	})
+
 });

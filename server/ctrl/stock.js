@@ -34,8 +34,8 @@ class StockCtrl {
 		return page.data ; 
 	}
 	// 触发 task队列;
-	async pubStockQueue( {taskName , fields} ){
-		let list = await this.getAllList({ fields });
+	async pubStockQueue( {taskName , fields , luceneStr} ){
+		let list = await this.getAllList({ fields  , luceneStr });
 		redis.publishTask( taskName , list );
 	}
 

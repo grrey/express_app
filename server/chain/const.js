@@ -3,7 +3,19 @@ exports.TaskName = {
 	updateBusiness:'updateBusiness', // 
 	updateHis:'updateHis',
 	updateNews:'updateNews',
-	watchPinVal:'watchPinVal' , //划定的界限;
-	watchCurrentVal:'watchCurrentVal' , //划定的界限;
+
+	watchValDayly:'watchPinVal' , //划定的界限;
+	watchValCurrent:'watchCurrentVal' , //划定的界限;
 
 }
+
+
+exports.TableName = {
+	valDayly: "valDayly" ,
+	valMinutes: "valMinutes" ,
+
+}
+
+
+
+

@@ -18,7 +18,9 @@ let ProgressBar = require('progress');
 		}
 	],
 	zyhy: [] // 最近时间 主营行业, 
-	zycp: [] // 最近时间 主营产品;
+	zycp: [] // 最近时间 主营产品;,
+
+	watchVal: { height , low } ,// 
 	 
  }
  
