@@ -7,7 +7,7 @@
  */
 module.exports = {
 	apps : [{
-	  name: 'lobaster',
+	  name: 'lobaster_server',
 	  script: 'server/main.js',  
 	  
 	  instances: 4, 

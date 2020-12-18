@@ -16,6 +16,7 @@ class NetFetch {
 		let result = await dfcfw.fetchF10(esStock);
 		return result;
 	}
+
 	// 抓取 历史交易
 	async fetchHis({ _id, _source }) {
 		let startDay ; 
@@ -28,7 +29,8 @@ class NetFetch {
 		let hislist = await tushare.fetchHis( {_id , _source }, startDay);
 		return hislist
 	}
-	// 抓取 经营数据;
+
+	// 抓取 经营数据; 历史报表
 	async  fetchBusiness (esobj ){
 		let result =   await  dfcfw.fetchBusiness( esobj );
 		return result ;

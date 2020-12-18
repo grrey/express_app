@@ -6,9 +6,11 @@ require('./chain');
 
 const express = require('express')
 const http = require('http')
-var app = express()
 var setApi = require('./api')
 var setRouter = require('./router')
+
+var app = express();
+app.use( express.static('../lobaster_client/dist') );
 
 var server = http.createServer(app)
 
@@ -21,6 +23,8 @@ server.listen(8080, function() {
 setApi(app)
 setRouter(app)
 
+// NODE_ENV
+console.log('xxxxxxx' , process.env.NODE_ENV )
 
 
 /*

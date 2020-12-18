@@ -40,7 +40,7 @@ class Stock extends base {
 
         // stock 基本字段;
         this.baseField = ["_id", "market", "code", "name" , 'marketCode'];
-        this.forHisField = ["_id", "market", "code", "latestHis"];
+        this.forHisField = ["_id", 'marketCode' ,"market", "code", "latestHis"];
 
 
         // luceneStr 查询 短语;
@@ -91,12 +91,14 @@ class Stock extends base {
 			total: length
 		});
 
+		let reTryDelEsEntiy = reTryWarper(dealEsEntity);
+
         for (var i = 0; i < length; ++i) {
 			let stock = allStork.data[i]; 
 			if(t){
 				await sleep( t );
 			} 
-			await runWithReTry(dealEsEntity, [stock]); 
+			await reTryDelEsEntiy(stock); 
 
 			await bar.tick({
 				index: i + 1

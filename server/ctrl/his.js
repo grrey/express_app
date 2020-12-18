@@ -10,12 +10,14 @@ class HisCtrl {
 	async  upDataStockHis(esObj){ 
 		
 		var  list = await netFetch.fetchHis( esObj );
-		log( 'upDataStockHis:' , esObj , list && list.length );
 		if( list && list.length ){
 			await  esHis.createOrUpdate( list );
-			esObj._source = { latesHisDay : list.pop().date.replace(/-/g , '')  } ; 
+			let latesHisDay  = list.pop().date.replace(/-/g , '');
+			esObj._source = { latesHisDay  } ; 
 			await  esStock.createOrUpdate( esObj );
-		}
+
+			log( 'upDataStockHis:' , esObj , list && list.length , latesHisDay );
+		} 
 		await  sleep();
 
 	}
@@ -25,7 +27,7 @@ class HisCtrl {
  
 		var  newsList = await netFetch.fetchNews( esstock  ); // [ {} , ];
 		// 值抓取 当天的 ; 
-		if( false ){
+		if( true ){
 			let todayStr =  moment().format('YYYY-MM-DD');
 			newsList = newsList.filter((n)=>{
 				return  n.date == todayStr ;
@@ -39,23 +41,28 @@ class HisCtrl {
 		
 		await Iterator( dateList , async ( day , i )=>{
 			let  dayNews =  NewsByDay[ day ]; 
-			var totalScore = 0 ; 
+			var total_nlp_positive = 0 ; 
+			var total_nlp_negative= 0 ; 
 
 			await  Iterator( dayNews , async ( news )=>{ 
-				let  score   = await NLP_sentiment( news.summary ); ///{sentiment:up , confidence:down }
-				news.score  = score  ;  
-				totalScore += score ; 
+				let   resp   = await NLP_sentiment( news.summary ); ///{sentiment:up , confidence:down }
+				Object.assign( news , resp );
+				await sleep(200); 
+				total_nlp_positive+= resp.nlp_positive;
+				total_nlp_negative+= resp.nlp_negative;
+
 			});
+  
+			await sleep(1000); 
 
-			console.log( ' upDataNews' , esstock._id  , day , dayNews.length  )
+			console.log(  day , dayNews )
 
-			await sleep(200);
-			
 			await  esHis.createOrUpdate( {
-				marketCode:  esstock._source.marketCode ,
+				marketCode: esstock._source.marketCode ,
 				date: day ,
 				news: {
-					score :totalScore ,
+					total_nlp_positive,
+					total_nlp_negative,
 					list:dayNews
 				}
 			})

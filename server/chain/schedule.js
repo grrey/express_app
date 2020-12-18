@@ -34,8 +34,7 @@ const stockCtrl = require('../ctrl/stock');
 const esStock = require('../esModel/stock')
 var redis = require('../utils/redis');
 var redis = require( '../utils/redis');
-var  {TaskName} = require('./const'); 
-const stockCtrl = require('../ctrl/stock');
+var  {TaskName} = require('./const');
 const hisCtrl = require('../ctrl/his');
 
 
@@ -72,7 +71,7 @@ const task = [
 			luceneStr:null ,
 		},
 		consumParams:{
-			handler: stockCtrl.upDataStockHis 
+			handler: hisCtrl.upDataStockHis 
 		}
 	},
 	// news 
@@ -81,7 +80,7 @@ const task = [
 		taskName: TaskName.updateNews ,
 		pubParams: {},
 		consumParams:{
-			handler: stockCtrl.upDataNews ,
+			handler: hisCtrl.upDataNews ,
 		}
 	},
 
@@ -95,7 +94,7 @@ const task = [
 			luceneStr:null ,
 		},
 		consumParams:{
-			handler: stockCtrl.upDataNews ,
+			// handler: stockCtrl.upDataNews ,
 		}
 	},
 	// 事实监控; 2 分钟 
@@ -106,7 +105,7 @@ const task = [
 			luceneStr:null ,
 		},
 		consumParams:{
-			handler: stockCtrl.upDataNews ,
+			// handler: stockCtrl.upDataNews ,
 		}
 	}, 
 ]
@@ -125,7 +124,7 @@ task.forEach( (t)=>{
 		}); 
 	}
 	// 处理任务;
-	let { handler , retry , sleep  } = this.consumParams ;
+	let { handler , retry , sleep  } = t.consumParams ;
 	redis.subTask( { 
 		taskName: t.taskName ,
 		consumHandler: reTryWarper(  handler , retry , sleep  )

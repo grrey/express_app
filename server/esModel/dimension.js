@@ -77,12 +77,14 @@ class Dimension extends base {
 			total: length
 		});
 
+		let retryDelEsEntity  = reTryWarper( dealEsEntity );
+
 		for (var i = 0; i < length; ++i) {
 			let stock = allStork.data[i];
 			if (t) {
 				await sleep(t);
 			}
-			await runWithReTry(dealEsEntity, [stock]);
+			await retryDelEsEntity(stock);
 
 			await bar.tick({
 				index: i + 1

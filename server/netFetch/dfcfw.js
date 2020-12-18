@@ -154,6 +154,15 @@ class Dfcfw {
 		}
 	}
 
+	/**
+	 * {
+			link: n .url ,
+			title: n.title ,
+			summary: n.summary ,
+			date:  moment(n.showDateTime).format('YYYY-MM-DD')  // timestamp ;
+		}
+	 * @param {*} param0 
+	 */
 	async fetchNews( {_source }){
 		let stock = _source ;
 		          // http://f10.eastmoney.com/NewsBulletin/NewsBulletinAjax?code=SH600519
