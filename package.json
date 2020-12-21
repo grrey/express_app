@@ -24,6 +24,7 @@
 		"request": "^2.88.2",
 		"request-promise": "^4.2.5",
 		"shortid": "^2.2.15",
+		"socket.io": "^3.0.4",
 		"tusharepro": "^1.0.2",
 		"uuid": "^8.2.0"
 	},

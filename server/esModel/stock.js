@@ -20,7 +20,13 @@ let ProgressBar = require('progress');
 	zyhy: [] // 最近时间 主营行业, 
 	zycp: [] // 最近时间 主营产品;,
 
-	watchVal: { height , low } ,// 
+	// 价格监控 , 实时的, 历史的 
+	watchVal: { 
+		curr_high , 
+		curr_low  ,
+		his_high ,
+		his_low 
+	}, 
 	 
  }
  
@@ -39,21 +45,13 @@ class Stock extends base {
         this.pageSize = 200;
 
         // stock 基本字段;
-        this.baseField = ["_id", "market", "code", "name" , 'marketCode'];
-        this.forHisField = ["_id", 'marketCode' ,"market", "code", "latestHis"];
-
+        this.baseField = ["_id", 'marketCode' ,"market", "code", 'name' ,'latesHisDay'  ];
+        this.forHisField = ["_id", 'marketCode' ,"market", "code", 'name' ,'latesHisDay'  ];
 
         // luceneStr 查询 短语;
 		this.lucene_gp = "code:/[0,3,6]{1}.{5}/";
 		
 		// this.lucene_gp = "code:/[0,3,6]{1}.{5}/"
-		
-		this.FIELDS = {
-			latestHis:"latestHis",
-			SSBK:'SSBK',
-			zycp:'zycp',
-			zyhy:'zyhy'
-		}
 	}
 	
 

@@ -4,12 +4,12 @@
  */
 
 exports.TaskName = {
-	updateBusiness:'updateBusiness', // 
-	updateHis:'updateHis',
-	updateNews:'updateNews',
+	updateBusiness:'queue_updateBusiness', // 
+	updateHis:'queue_updateHis',
+	updateNews:'queue_updateNews',
 
-	watchValDayly:'watchPinVal' , //划定的界限;
-	watchValCurrent:'watchCurrentVal' , //划定的界限;
+	watchValDayly:'queue_watchHisVal' , // 历史区间.
+	watchValCurrent:'queue_watchCurrentVal' , //划定的界限;
 
 }
 

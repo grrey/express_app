@@ -13,10 +13,13 @@ class HisCtrl {
 		if( list && list.length ){
 			await  esHis.createOrUpdate( list );
 			let latesHisDay  = list.pop().date.replace(/-/g , '');
+ 
+			log( 'upDataStockHis:' , esObj , list && list.length , latesHisDay );
+			
 			esObj._source = { latesHisDay  } ; 
 			await  esStock.createOrUpdate( esObj );
 
-			log( 'upDataStockHis:' , esObj , list && list.length , latesHisDay );
+
 		} 
 		await  sleep();
 

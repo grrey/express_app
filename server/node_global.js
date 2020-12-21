@@ -59,7 +59,7 @@ global.Iterator = async function (  _in , func ){
 global.log = function(...args ){
 	if( !process.env.disLog ){
 		let pm2id = process.env.pm_id ;
-		 console.log(`cluster_${pm2id} ->: `, ...args)
+		 console.log(  new Date().toLocaleString() , "| " , ...args)
 
 	}
 }
@@ -67,6 +67,6 @@ global.log = function(...args ){
 global.log.error = function(...args ){
 	if( !process.env.disLog ){
 		let pm2id = process.env.pm_id ;
-		 console.error(`cluster_${pm2id} ->: `, ...args) 
+		 console.error(  new Date().toLocaleString() ,"| " , ...args) 
 	}
 }

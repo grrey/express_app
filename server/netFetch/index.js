@@ -1,11 +1,13 @@
 /**
  * 
  */
+let rp = require('request-promise');
 
 const dfcfw = require('./dfcfw');
 const tushare = require('./tushare');
 
 const moment = require("moment");
+
 class NetFetch {
 	async fetchStock() {
 		let list = await dfcfw.fetchStock();
@@ -20,12 +22,11 @@ class NetFetch {
 	// 抓取 历史交易
 	async fetchHis({ _id, _source }) {
 		let startDay ; 
-		if( _source.latesHisDay ){
+		if( _source.latesHisDay ){ //latesHisDay
 			startDay = moment( _source.latesHisDay ).add(1 ,'days').format('YYYYMMDD');
 		}else{
 		 	startDay = _source.latesHisDay || (moment().subtract(600, 'days').format('YYYYMMDD'));
 		}
-		 console.log( ' fiethc his ' ,  _source.marketCode , startDay );
 		let hislist = await tushare.fetchHis( {_id , _source }, startDay);
 		return hislist
 	}
@@ -38,14 +39,18 @@ class NetFetch {
 	// 抓取新闻; [  ]
 	async  fetchNews( esStock ){
 		let newsList = await  dfcfw.fetchNews( esStock );
-		
+		console.log( 'fetch news' , esStock ,newsList )
 		return  newsList ;
+	}
+
+	// 实时交易数据;
+	async  fetchCurrentVal( esStock ){
+		return  11.11
 	}
 
 
 }
-
-var s = new NetFetch();
+ 
 
 module.exports = new NetFetch();
 

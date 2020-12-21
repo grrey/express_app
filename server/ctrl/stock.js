@@ -79,12 +79,27 @@ class StockCtrl {
 		await esStock.createOrUpdate({ _id: id  , _source: bus });
 	}
 
-	async handF(data){
-		log( 'handF run !!' , data )
-		return  await sleep( 200 )
-	}
+	/**
+	 * 监控  实时  val ,
+	 * watchVal: { 
+			curr_high , 
+			curr_low  ,
+			his_high ,
+			his_low 
+		},  
+	 */
+	async watchCurrentVal(esObj){
+		let { curr_high = 0, curr_low = 0 } = esObj._source.watchVal || {} ;
+		let curr_val = await netFetch.fetchCurrentVal( esObj );
+		
+	} 
  
+	/**
+	 * 监控   历史 val ,
+	 */
+	async watchHisVal(){
 
+	} 
 }
 
 module.exports = new StockCtrl();

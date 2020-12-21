@@ -40,14 +40,14 @@ var delRedisKey = (key) => new Promise(resolve => pubClient.del(key, resolve))
 
 //  订阅 任务队列;
 exports.subTask = async  function ( { taskName  , consumHandler }){ 
- 
-
+  
 	if( !taskName ){
 		log.error( ' no task name !');
 		return ;
 	}
-	await delRedisKey( taskName );
-	log('subTask:' , taskName   )
+	// await delRedisKey( taskName );
+
+	log('subTask:' , taskName );
 	async function fun(){
 		let task = await popTask( taskName );
 		if( task ){ 
@@ -56,6 +56,7 @@ exports.subTask = async  function ( { taskName  , consumHandler }){
 		}
 	}  
 	subClient.on('message', function( channel , message ){ 
+		console.log( ' on message' , channel , message )
 		if(channel === taskName && message ==='start'){
 			fun();
 		}
@@ -65,6 +66,8 @@ exports.subTask = async  function ( { taskName  , consumHandler }){
 
 // 发布 任务队列
 exports.publishTask = async function ( taskName , taskArr=[]){
+	
+	await delRedisKey( taskName );
 
 	taskArr.forEach((t)=>{
 		producterClient.lpush(taskName,  JSON.stringify(t) , function( err , result){ 
