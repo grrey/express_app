@@ -58,7 +58,7 @@ class HisCtrl {
   
 			await sleep(1000); 
 
-			console.log(  day , dayNews )
+			log(  day , dayNews )
 
 			await  esHis.createOrUpdate( {
 				marketCode: esstock._source.marketCode ,

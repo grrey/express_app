@@ -22,6 +22,11 @@ const producterClient = Redis.createClient({
 	port: 6379
 })
 
+const redisClient = Redis.createClient({
+	host: '127.0.0.1',
+	port: 6379
+})
+
 
 // subClient.subscribe("notification");
 
@@ -34,9 +39,14 @@ function popTask( taskName ){
 	)
 };
 
-var getRedisValue = (key) => new Promise(resolve => pubClient.get(key, (err, reply) => resolve( JSON.parse(reply))))
-var setRedisValue = (key ,value ) => new Promise(resolve => pubClient.set(key,  JSON.stringify(value), resolve))
-var delRedisKey = (key) => new Promise(resolve => pubClient.del(key, resolve))
+// redis crud ;
+var getRedisValue = (key) => new Promise(resolve => redisClient.get(key, (err, reply) => resolve( JSON.parse(reply))))
+var setRedisValue = (key ,value ) => new Promise(resolve => redisClient.set(key,  JSON.stringify(value), resolve))
+var delRedisKey = (key) => new Promise(resolve => redisClient.del(key, resolve))
+
+
+
+
 
 //  订阅 任务队列;
 exports.subTask = async  function ( { taskName  , consumHandler }){ 
@@ -56,7 +66,7 @@ exports.subTask = async  function ( { taskName  , consumHandler }){
 		}
 	}  
 	subClient.on('message', function( channel , message ){ 
-		console.log( ' on message' , channel , message )
+		log( ' on message' , channel , message )
 		if(channel === taskName && message ==='start'){
 			fun();
 		}
@@ -73,7 +83,7 @@ exports.publishTask = async function ( taskName , taskArr=[]){
 		producterClient.lpush(taskName,  JSON.stringify(t) , function( err , result){ 
 		})
 	});
-	console.log('publishTask:' , taskName , ', tasksize=',taskArr.length )
+	log('publishTask:' , taskName , ', tasksize=',taskArr.length )
 	pubClient.publish( taskName  , 'start' );
 
 }

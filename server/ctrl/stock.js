@@ -4,12 +4,15 @@
 const netFetch = require("../netFetch");
 const esStock = require('../esModel/stock');
 const esDimension = require('../esModel/dimension');
+const esCommon = require('../esModel/common');
 const pinyin = require('../utils/pinyin');
 const stockListData = require('../../data/allStock')
 const redis = require('../utils/redis')
-const { TaskName  } = require('../chain/const')
+const { TaskName  } = require('../chain/const');
 
-// esStock.getById('sz000002').then( console.log )
+const  commonCtrl = require('./common')
+ 
+ 
 
 class StockCtrl {
 
@@ -20,9 +23,9 @@ class StockCtrl {
 			d._source.marketCode = d._source.market + d._source.code ;
 			return  d._source  ;
 		}) 
-		console.log('stock length = ', list.length);
+		log('stock length = ', list.length);
 		let result = await esStock.createOrUpdate(list);
-		console.log(' es result ', result)
+		log(' es result ', result)
 	}
 	// 获取所有列表
 	async getAllList( {luceneStr = esStock.lucene_gp , fields = esStock.baseField }){
@@ -80,20 +83,52 @@ class StockCtrl {
 	}
 
 	/**
-	 * 监控  实时  val ,
+	 * 监控  实时  val , 批量 ,
 	 * watchVal: { 
+			curr:true | false ,
+			his:true| false ,
+
+			outter: 超出边界 ,
+			inner:  进入边界;
 			curr_high , 
 			curr_low  ,
 			his_high ,
 			his_low 
 		},  
 	 */
-	async watchCurrentVal(esObj){
-		let { curr_high = 0, curr_low = 0 } = esObj._source.watchVal || {} ;
-		let curr_val = await netFetch.fetchCurrentVal( esObj );
-		
-	} 
- 
+	async watchCurrentVal(esObjs){
+		// curr = true 
+		var  currDataArr = await  netFetch.fetchCurrentVal( esObjs );
+
+		currDataArr.forEach(( currData , i )=>{ 
+			let esObj = esObjs[i];
+			let { curr_high = 0, curr_low = 0 , curr  , inner , outter } = esObj._source.watchVal || {} ;
+			let message ; 
+			if( inner && +curr_low < +currData.curr && +currData.curr < +curr_high  ){
+				// message in ;
+				message = {
+					type: esCommon.TYPE.watch_curr_val_message ,
+					entity: esObj._id ,
+					desc:' curren_val  in ' + currData.curr ,
+					value: currData.curr ,
+					day: currData.day
+				};
+			}
+			if( outter &&  ( +curr_low > +currData.curr || +currData.curr > +curr_val ) ){
+				// message out ;
+				message = {
+					type: esCommon.TYPE.watch_curr_val_message ,
+					entity: esObj._id ,
+					desc:' curren_val  out : ' + currData.curr ,
+					value: currData.curr ,
+					day: currData.day
+				}; 
+			}
+			if( message ){
+				await commonCtrl.pushMessage( message);
+			}
+		})
+	}
 	/**
 	 * 监控   历史 val ,
 	 */

@@ -28,8 +28,20 @@ module.exports = class esBase {
 		});  
 		return obj ;
 	}
-
-	
+	/**
+	 * id: _id  
+	 * _source:  docJsonBody 
+	 * @param {*} id 
+	 * @param {*} _source 
+	 */
+	async update( id , _source ){
+		return await client.update({ 
+			body:{doc: _source } , 
+			id: id,
+			index: this.indexName ,
+			type: this.defaultTypeName,
+		})
+	}
 
 	/**
 	   * 创建; 支持批量; 
@@ -106,7 +118,7 @@ module.exports = class esBase {
 			params.sort = sort;
 		}
 
-		// console.log(' search params = ', params);
+		// log(' search params = ', params);
 
 		var { hits = {} } = await client.search(params);
  

@@ -1,7 +1,7 @@
 /**
  * 汉子 拼音 取首字母; 
   var pinyin  = HanZi_PinYin.get("洪都航空");
-     console.log(  pinyin )
+     log(  pinyin )
  */
 var pinyin = require("pinyin");
 

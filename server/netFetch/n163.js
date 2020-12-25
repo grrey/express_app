@@ -35,7 +35,7 @@ class N163 {
             `code=${yahooCode}&start=${start}&end=${end}`
             + `&fields=TCLOSE;HIGH;LOW;TOPEN;CHG;PCHG;TURNOVER;VOTURNOVER;VATURNOVER;TCAP;MCAP`;
 
-        console.log( `  net163 gethist params :  ${stock.market }  : ${yahooCode}&start=${start}&end=${end} ` );
+        log( `  net163 gethist params :  ${stock.market }  : ${yahooCode}&start=${start}&end=${end} ` );
 
         var d = await rp({
             url,
@@ -95,7 +95,7 @@ class N163 {
         }
 
 
-        console.log(`   net163 gethis  ${ marketCode }:  his data.length:  ${ hisData.length} , org arr.leng= ${arr.length}`);
+        log(`   net163 gethis  ${ marketCode }:  his data.length:  ${ hisData.length} , org arr.leng= ${arr.length}`);
         return { hisData }
 
     }

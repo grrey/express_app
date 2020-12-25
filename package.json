@@ -33,7 +33,7 @@
 		"opn": "^5.1.0"
 	},
 	"scripts": {
-		"server": "supervisor ./server/main.js",
+		"server": "supervisor ./server/index.js",
 		"start": "pm2 start process.yml"
 	},
 	"author": "",

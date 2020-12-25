@@ -7,7 +7,7 @@ var ts = new Tushare(  token.tushare );
 
 
 async function fetchStockList(){ 
-	let s = await  ts.stock_basic().catch( (a)=>{ console.log(333,a)} );
+	let s = await  ts.stock_basic().catch( (a)=>{ log(333,a)} );
 	return s ;
 }
 
@@ -19,7 +19,7 @@ async function fetchHis( {_id , _source } , startDay ){
 	 * TusharePro.prototype.daily = function (ts_code = '', trade_date = '', start_date = '20200411', end_date = '', symbol = '', fields = '') 
 	 */
 	let code = _source.code + '.'+ _source.market ;
-	let resp = await ts.daily(  code  , ''  , startDay ).catch( (a)=>{ console.log(333,a)} );
+	let resp = await ts.daily(  code  , ''  , startDay ).catch( (a)=>{ log(333,a)} );
 	let list = (resp.data.items || [] ).reverse().map((d)=>{
 		return {
 			marketCode: _source.market + _source.code ,
@@ -38,15 +38,15 @@ async function fetchHis( {_id , _source } , startDay ){
 			}
 		}
 	})
-	// console.log( '  startatay = ', startDay , '  list.length = ',list  )
+	// log( '  startatay = ', startDay , '  list.length = ',list  )
 	return  list ;
 }
 
 // 获取复权因子; 
 async function _getFq(){
-	let list = await ts.adj_factor('000001.sz' ) .catch( (a)=>{ console.log(333,a)} );;
+	let list = await ts.adj_factor('000001.sz' ) .catch( (a)=>{ log(333,a)} );;
 
-	console.log( list )
+	log( list )
 	
 }
 

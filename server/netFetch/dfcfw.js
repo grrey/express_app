@@ -179,7 +179,7 @@ class Dfcfw {
                 "Host": "emweb.securities.eastmoney.com", 
             }
         });
-        console.info("get news list , ", stock.code);
+        log("get news list , ", stock.code);
         // 只获取 新闻摘要;
         // gsxx: 新闻摘要.
 		// gggg: 公司公告 咱不获取;

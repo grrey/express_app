@@ -70,7 +70,7 @@ class DimensionCtrl {
 				});
 				HyResult.push({ hy_name: hyName ,   total , stock_num })
 
-				console.log( '行业 = ' , hyName  , total )
+				log( '行业 = ' , hyName  , total )
 			}
 		})
 		hy.hy_list = HyResult.sort( ( a, b)=>{

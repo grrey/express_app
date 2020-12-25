@@ -59,7 +59,7 @@ global.Iterator = async function (  _in , func ){
 global.log = function(...args ){
 	if( !process.env.disLog ){
 		let pm2id = process.env.pm_id ;
-		 console.log(  new Date().toLocaleString() , "| " , ...args)
+		console.log(  new Date().toLocaleString() , "| " , ...args)
 
 	}
 }

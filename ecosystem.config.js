@@ -7,14 +7,14 @@
 module.exports = {
     apps: [{
         name: 'lobaster_server',
-        script: 'server/main.js',
+        script: 'server/index.js',
 
         instances: 4,
         exec_mode: 'cluster',
         max_memory_restart: '1G',
 
-        autorestart: false,
-        // watch  : ['./server'],
+        autorestart: true,
+        watch  : ['./server'],
 
         env: {
             NODE_ENV: 'development'
