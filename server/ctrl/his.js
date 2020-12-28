@@ -12,13 +12,16 @@ class HisCtrl {
 		var  list = await netFetch.fetchHis( esObj );
 		if( list && list.length ){
 			await  esHis.createOrUpdate( list );
-			let latesHisDay  = list.pop().date.replace(/-/g , '');
+			let latestHis = list.pop();
+			let latesHisDay  = latestHis.date.replace(/-/g , '');
  
-			log( 'upDataStockHis:' , esObj , list && list.length , latesHisDay );
+			console.log( 'upDataStockHis:' , esObj._id , list && list.length , latesHisDay );
 			
-			esObj._source = { latesHisDay  } ; 
+			esObj._source = { 
+				latesHisDay , macp: latestHis.macp , tcap: latestHis.tcap , 
+				macp_rate :  +( latestHis.macp / latestHis.tcap ).toFixed(2) 
+			} ;
 			await  esStock.createOrUpdate( esObj );
-
 
 		} 
 		await  sleep();
@@ -58,7 +61,7 @@ class HisCtrl {
   
 			await sleep(1000); 
 
-			log(  day , dayNews )
+			console.log(  day , dayNews )
 
 			await  esHis.createOrUpdate( {
 				marketCode: esstock._source.marketCode ,

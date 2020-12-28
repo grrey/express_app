@@ -57,7 +57,7 @@ exports.subTask = async  function ( { taskName  , consumHandler }){
 	}
 	// await delRedisKey( taskName );
 
-	log('subTask:' , taskName );
+	console.log('subTask:' , taskName );
 	async function fun(){
 		let task = await popTask( taskName );
 		if( task ){ 
@@ -66,7 +66,7 @@ exports.subTask = async  function ( { taskName  , consumHandler }){
 		}
 	}  
 	subClient.on('message', function( channel , message ){ 
-		log( ' on message' , channel , message )
+		console.log( ' on message' , channel , message )
 		if(channel === taskName && message ==='start'){
 			fun();
 		}
@@ -83,7 +83,7 @@ exports.publishTask = async function ( taskName , taskArr=[]){
 		producterClient.lpush(taskName,  JSON.stringify(t) , function( err , result){ 
 		})
 	});
-	log('publishTask:' , taskName , ', tasksize=',taskArr.length )
+	console.log('publishTask:' , taskName , ', tasksize=',taskArr.length )
 	pubClient.publish( taskName  , 'start' );
 
 }

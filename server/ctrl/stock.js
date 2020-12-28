@@ -23,9 +23,9 @@ class StockCtrl {
 			d._source.marketCode = d._source.market + d._source.code ;
 			return  d._source  ;
 		}) 
-		log('stock length = ', list.length);
+		console.log('stock length = ', list.length);
 		let result = await esStock.createOrUpdate(list);
-		log(' es result ', result)
+		console.log(' es result ', result)
 	}
 	// 获取所有列表
 	async getAllList( {luceneStr = esStock.lucene_gp , fields = esStock.baseField }){
@@ -78,7 +78,7 @@ class StockCtrl {
 		let ess = await esStock.getById( id , [ esStock.FIELDS.zycp , esStock.FIELDS.zyhy]);
 		let  bus  =  await  netFetch.fetchBusiness(  esObj ) ;
 		// 合并 数据 ?
-		log('updateBusiness' , esObj , bus )
+		console.log('updateBusiness' , esObj , bus )
 		await esStock.createOrUpdate({ _id: id  , _source: bus });
 	}
 
@@ -100,7 +100,7 @@ class StockCtrl {
 		// curr = true 
 		var  currDataArr = await  netFetch.fetchCurrentVal( esObjs );
 
-		currDataArr.forEach(( currData , i )=>{ 
+		currDataArr.forEach( async ( currData , i )=>{ 
 			let esObj = esObjs[i];
 			let { curr_high = 0, curr_low = 0 , curr  , inner , outter } = esObj._source.watchVal || {} ;
 			let message ; 

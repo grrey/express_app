@@ -19,14 +19,14 @@ process.env.disLog = true;
   
 	// stockCtrl.pubStockQueue( { taskName: TaskName.updateBusiness } )
 
-	// stockCtrl.pubStockQueue( { taskName: TaskName.updateHis  ,fields: esStock.forHisField} )
+	stockCtrl.pubStockQueue( { taskName: TaskName.updateHis  ,fields: esStock.forHisField} )
 
 	// stockCtrl.pubStockQueue( { taskName: TaskName.updateNews  } )
 
 	// watchVal: { height , low } ,// 
 	// var list = await stockCtrl.getAllList( { luceneStr:" watchVal.height:123 " })
 
-	// log(11 ,  list  )
+	//console.log(11 ,  list  )
 
 
 })()

@@ -7,19 +7,12 @@ let moment = require('moment');
 
 class N163 {
 
-	async getStockHis( esStockObj) {
+	async fetchHis( esStockObj , start ) {
 		
 		let  stock = esStockObj._source ;
 
         var end = moment().format('YYYYMMDD');
-        var start = "";
-        if ( !stock.latestHis) {
-            // start = moment().subtract(365, 'days').format('YYYYMMDD');
-            start = moment().subtract( 600, 'days').format('YYYYMMDD');
-        } else {
-            // latestHis ='2018-04-11'
-            start = moment(stock.latestHis).format('YYYYMMDD');
-        }
+      
         if (start == end) {
             return {his: []}
         }
@@ -35,7 +28,7 @@ class N163 {
             `code=${yahooCode}&start=${start}&end=${end}`
             + `&fields=TCLOSE;HIGH;LOW;TOPEN;CHG;PCHG;TURNOVER;VOTURNOVER;VATURNOVER;TCAP;MCAP`;
 
-        log( `  net163 gethist params :  ${stock.market }  : ${yahooCode}&start=${start}&end=${end} ` );
+        console.log( `  net163 gethist params :  ${stock.market }  : ${yahooCode}&start=${start}&end=${end} ` );
 
         var d = await rp({
             url,
@@ -47,7 +40,7 @@ class N163 {
             }
         });
 
-        d = Iconv.decode(d, 'GB2312');
+        d = iconv.decode(d, 'GB2312');
         var arr = d.split('\r\n');
         arr.shift();
         arr.pop();
@@ -70,37 +63,37 @@ class N163 {
                 marketCode,
                 date: rd[0].replace(/\//g, "-"),  // moment(rd[0]).format("YYYY-MM-DD"),
 
-                CLOSE: +rd[3], // 收盘价 ;
-                HIGH: +rd[4],  //最高,
-                LOW: +rd[5],       // 最低
-                OPEN: +rd[6],     // 开盘价
+                close: +rd[3], // 收盘价 ;
+                high: +rd[4],  //最高,
+                low: +rd[5],       // 最低
+                open: +rd[6],     // 开盘价
 
-                CHG: +rd[7], //  涨跌金额
-                PCHG: +rd[8], //  涨跌幅
+                chg: +rd[7], //  涨跌金额
+                pchg: +rd[8], //  涨跌幅
 
-                T_rate: +rd[9], // 换手率    :   百分比;
-                T_volume:  parseFloat(  (+rd[10] / 1000000).toFixed(2) ), //  成交量     单位:万手
-                T_value:  parseFloat(  (+rd[11] / 100000000).toFixed(2) ), //  成交金额;   单位: 亿 ;
+                rate: +rd[9], // 换手率    :   百分比;
+                amount:  parseFloat(  (+rd[10] / 1000000).toFixed(2) ), //  成交量     单位:万手
+                value:  parseFloat(  (+rd[11] / 100000000).toFixed(2) ), //  成交金额;   单位: 亿 ;
 
-
-                TCAP: parseInt( +rd[12] / 100000000 ) , //   总市值 ;   单位: 亿 ;
-                MCAP: parseInt( +rd[13] / 100000000 ) , //   流通市值,  单位: 亿 ;
+                tcap: parseInt( +rd[12] / 100000000 ) , //   总市值 ;   单位: 亿 ;
+                macp: parseInt( +rd[13] / 100000000 ) , //   流通市值,  单位: 亿 ;
 
             }
             // 真实的品均价;
-            d.AVG =   parseFloat(  ( +rd[11] / +rd[10] ).toFixed(2)  );
+            d.avg =   parseFloat(  ( +rd[11] / +rd[10] ).toFixed(2)  );
 
             hisData.push(d);
 
         }
-
-
-        log(`   net163 gethis  ${ marketCode }:  his data.length:  ${ hisData.length} , org arr.leng= ${arr.length}`);
-        return { hisData }
+ 
+        console.log(`   net163 gethis  ${ marketCode }:  his data.length:  ${ hisData.length} , org arr.leng= ${arr.length}`);
+        return  hisData;
 
     }
 
 }
 
-
+var n163 = new N163(); 
 module.exports = new N163();
+
+// n163.getStockHis({_id:'sh600000' ,_source:{ code:"600000" , market:"sh"} } , '20201111' ).then( console.log );

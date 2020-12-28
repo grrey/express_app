@@ -118,7 +118,7 @@ module.exports = class esBase {
 			params.sort = sort;
 		}
 
-		// log(' search params = ', params);
+		//console.log(' search params = ', params);
 
 		var { hits = {} } = await client.search(params);
  

@@ -19,14 +19,14 @@ class WSRouter {
         var me = this;
 
         this.app.ws('/', function(ws, req) {
-            log("client connect to server successful!");
+           console.log("client connect to server successful!");
             me.clients.push(ws);
             ws.on('message', function(msg) {
-                log("receive client msg :", msg);
+               console.log("receive client msg :", msg);
                 me.receiveCmd(msg);
             });
             ws.on("close", function(msg){
-                log("client is closed");
+               console.log("client is closed");
                 for(var index = 0; index < me.clients.length; index++){
                     if(me.clients[index] == this){
                         me.clients.splice(index, 1)

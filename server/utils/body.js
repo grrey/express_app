@@ -7,11 +7,11 @@ var a = bodybuilder()
 
 
 .query('nested', { path: 'obj1', score_mode: 'avg' }, (q) => {
-	log( q )
+	console.log( q )
     return q
       .query('match', 'obj1.name', 'blue')
       .query('range', 'obj1.count', {gt: 5})
   })
 .build();
 
-log(  JSON.stringify(a)   )
+console.log(  JSON.stringify(a)   )

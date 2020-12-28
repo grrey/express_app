@@ -32,7 +32,7 @@ var client = new AipNlpClient(APP_ID, API_KEY, SECRET_KEY);
  */
 async function sentiment( text ){
 	let result = await  client.sentimentClassify(text); 
-	log( '  nlp result = ' , result )
+	console.log( '  nlp result = ' , result )
 	let {
 		sentiment = 0 ,
 		positive_prob = 0 ,

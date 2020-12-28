@@ -54,7 +54,7 @@ https://xueqiu.com/stock/forchartk/stocklist.json?symbol=SH600756&period=1day&ty
 
 
 
-		log( url ) 
+		console.log( url ) 
 
         var d = await rp({
             url,
@@ -116,7 +116,7 @@ https://xueqiu.com/stock/forchartk/stocklist.json?symbol=SH600756&period=1day&ty
 
         }
 
-        log(`  net163 gethis  ${ marketCode }:  his data.length:  ${ hisData.length} , org arr.leng= ${arr.length}`);
+       console.log(`  net163 gethis  ${ marketCode }:  his data.length:  ${ hisData.length} , org arr.leng= ${arr.length}`);
         return  hisData 
 
     }

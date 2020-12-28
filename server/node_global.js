@@ -33,7 +33,7 @@ global.reTryWarper =  function( fun , times = 2 , t=20 ){
 				succ = true ;
 			}catch(e){
 				await sleep(t);
-				log.error("reTryWarper error  try = ", i , fun , e  );
+				console.error("reTryWarper error  try = ", i , fun , e  );
 			}
 		}
 		return result  ;
@@ -56,17 +56,13 @@ global.Iterator = async function (  _in , func ){
 }
 //---------------------------------------------------------------------------------------------------------
 
-global.log = function(...args ){
-	if( !process.env.disLog ){
-		let pm2id = process.env.pm_id ;
-		console.log(  new Date().toLocaleString() , "| " , ...args)
-
-	}
+const  rowLog = console.log ;
+console.log = function(){
+	rowLog( new Date().toLocaleString() , "| " , ...arguments)
 }
 
-global.log.error = function(...args ){
-	if( !process.env.disLog ){
-		let pm2id = process.env.pm_id ;
-		 console.error(  new Date().toLocaleString() ,"| " , ...args) 
-	}
+const rowError = console.error ;
+console.error = function(){
+	rowError(  new Date().toLocaleString() ,"| " , ...arguments) 
 }
+ 

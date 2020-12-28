@@ -5,7 +5,7 @@ let rp = require('request-promise');
 
 const dfcfw = require('./dfcfw');
 const tushare = require('./tushare');
-
+const n163 = require('./n163')
 const moment = require("moment");
 
 class NetFetch {
@@ -19,7 +19,13 @@ class NetFetch {
         return result;
     }
 
-    // 抓取 历史交易
+	// 抓取 历史交易
+	/**
+	 * 
+	 * @param {*} param0 
+	 * @returns []
+	 * @deprecated
+	 */
     async fetchHis({
         _id,
         _source
@@ -30,10 +36,16 @@ class NetFetch {
         } else {
             startDay = _source.latesHisDay || (moment().subtract(600, 'days').format('YYYYMMDD'));
         }
-        let hislist = await tushare.fetchHis({
+        // let hislist = await tushare.fetchHis({
+        //     _id,
+        //     _source
+		// }, startDay);
+
+		let hislist = await n163.fetchHis({
             _id,
             _source
-        }, startDay);
+		}, startDay);
+		
         return hislist
     }
 
@@ -45,7 +57,7 @@ class NetFetch {
     // 抓取新闻; [  ]
     async fetchNews(esStock) {
         let newsList = await dfcfw.fetchNews(esStock);
-        log('fetch news', esStock, newsList)
+       console.log('fetch news', esStock, newsList)
         return newsList;
     }
  
@@ -114,13 +126,14 @@ module.exports = new NetFetch();
 
 
 
+
 // rp('http://hq.sinajs.cn/list=sh600000,sh600004').then((d) => {
 //     var arr = d.split(';');
 //     var result = [];
 //     arr = arr.map((cur) => {
 //         if (cur && cur.length > 10) {
 //             let data = cur.split('=')[1].split(',');
-//             log(1111, data)
+//            console.log(1111, data)
 //         }
 //     })
 // })

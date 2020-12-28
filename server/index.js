@@ -20,5 +20,5 @@ initScoket( server);
 server.listen(8080, function() {
     let host = server.address().address
     let port = server.address().port
-    log('app listening at', host, port)
+    console.log('app listening at', host, port)
 })

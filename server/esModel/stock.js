@@ -27,7 +27,10 @@ let ProgressBar = require('progress');
 		his_high ,
 		his_low 
 	}, 
-	 
+	// 市值
+	tcap: 总,
+	mcap: 流通 ,
+	macp_rate:   macp/tcap ;
  }
  
  */
