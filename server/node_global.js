@@ -1,8 +1,10 @@
 let _ = require('lodash');
-let  moment = require('moment')
+let  moment = require('moment');
+let config = require('../config');
 
 global._ =_ ;
 global.moment = moment ;
+global.appConfig = config ;
 
 let noop = function(){}
 global.noop =  noop;

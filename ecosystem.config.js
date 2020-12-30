@@ -13,8 +13,8 @@ module.exports = {
         exec_mode: 'cluster',
         max_memory_restart: '1G',
 
-        autorestart: true,
-        watch  : ['./server'],
+        // autorestart: false,
+        // watch  : ['./server'],
 
         env: {
             NODE_ENV: 'development'

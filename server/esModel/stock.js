@@ -31,6 +31,8 @@ let ProgressBar = require('progress');
 	tcap: 总,
 	mcap: 流通 ,
 	macp_rate:   macp/tcap ;
+
+	tag: [ '组1' , '组2' ,... ] , // 打的标签
  }
  
  */

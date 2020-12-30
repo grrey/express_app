@@ -47,7 +47,7 @@ const schedule = require('node-schedule');
 const task = [
 
 	// ================ 数据类 ===============
-	// update business ;
+	// update business  ,财报;
 	{
 		schedu:'0 20 20 1 3,6,9,12 *' ,
 		taskName: TaskName.updateBusiness ,
@@ -62,7 +62,7 @@ const task = [
 		}
 	},
 
-	// his:
+	// update his:
 	{
 		schedu:'0 20 1 * * 1-5' ,
 		taskName: TaskName.updateHis ,
@@ -74,7 +74,20 @@ const task = [
 			handler: hisCtrl.upDataStockHis 
 		}
 	},
-	// news 
+	// calc ma 
+	{
+		schedu:'0 20 3 * * 1-5' ,
+		taskName: TaskName.calcMa ,
+		pubParams: {
+			fields: esStock.forHisField,
+			luceneStr:null ,
+		},
+		consumParams:{
+			handler: hisCtrl.caclMaVal 
+		}
+	},
+
+	// fetch news 
 	{
 		schedu:'0 20 1 * * *' ,
 		taskName: TaskName.updateNews ,

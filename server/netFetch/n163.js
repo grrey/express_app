@@ -62,25 +62,26 @@ class N163 {
             var d = {
                 marketCode,
                 date: rd[0].replace(/\//g, "-"),  // moment(rd[0]).format("YYYY-MM-DD"),
-
-                close: +rd[3], // 收盘价 ;
-                high: +rd[4],  //最高,
-                low: +rd[5],       // 最低
-                open: +rd[6],     // 开盘价
-
-                chg: +rd[7], //  涨跌金额
-                pchg: +rd[8], //  涨跌幅
-
-                rate: +rd[9], // 换手率    :   百分比;
-                amount:  parseFloat(  (+rd[10] / 1000000).toFixed(2) ), //  成交量     单位:万手
-                value:  parseFloat(  (+rd[11] / 100000000).toFixed(2) ), //  成交金额;   单位: 亿 ;
-
-                tcap: parseInt( +rd[12] / 100000000 ) , //   总市值 ;   单位: 亿 ;
-                macp: parseInt( +rd[13] / 100000000 ) , //   流通市值,  单位: 亿 ;
+				k:{ 
+					close: +rd[3], // 收盘价 ;
+					high: +rd[4],  //最高,
+					low: +rd[5],       // 最低
+					open: +rd[6],     // 开盘价
+	
+					chg: +rd[7], //  涨跌金额
+					pchg: +rd[8], //  涨跌幅
+	
+					rate: +rd[9], // 换手率    :   百分比;
+					amount:  parseFloat(  (+rd[10] / 1000000).toFixed(2) ), //  成交量     单位:万手
+					value:  parseFloat(  (+rd[11] / 100000000).toFixed(2) ), //  成交金额;   单位: 亿 ;
+	
+					tcap: parseInt( +rd[12] / 100000000 ) , //   总市值 ;   单位: 亿 ;
+					macp: parseInt( +rd[13] / 100000000 ) , //   流通市值,  单位: 亿 ;
+				}
 
             }
             // 真实的品均价;
-            d.avg =   parseFloat(  ( +rd[11] / +rd[10] ).toFixed(2)  );
+            d.k.avg =   parseFloat(  ( +rd[11] / +rd[10] ).toFixed(2)  );
 
             hisData.push(d);
 

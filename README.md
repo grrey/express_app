@@ -5,3 +5,6 @@ docker run -itd --name redis-local -p 6379:6379 redis
 
 
 pm2 start / kill  启动/停止 项目
+
+
+[elasticSearchApi文档地址](https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/16.x/api-reference.html)

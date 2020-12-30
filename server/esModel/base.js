@@ -1,4 +1,8 @@
-
+/**
+ * elastic 文档
+ * https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/16.x/api-reference.html
+ * 
+ */
 const esHost = 'http://localhost:9200';
 
 const { Client } = require('elasticsearch');
@@ -92,22 +96,20 @@ module.exports = class esBase {
 	}
 
 	/**
-	   * sort :  A comma-separated list of <field>:<direction> pairs
-	   * demo :   { sort:"date:desc"  }  // desc , asc
+	   * sort : demo { sort:"date:desc"  }  // desc , asc
 	   * @param type
 	   * @param page
 	   * @param fields2return
 	   * @param sort
 	   * @returns {Promise<*>}
-	   *
-	   *  sort = "date:-"
+	   * 
 	   */
-	async search({ page = 1, size, luceneStr = '', fields2return, sort }) {
+	async search({ page = 1, size, luceneStr = '', q ="", fields2return, sort }) {
 		var params = {
 			index: this.indexName,
 			from: (page - 1) * this.pageSize,
 			size: size || this.pageSize,
-			q: luceneStr
+			q: luceneStr || q 
 		};
 
 		if (fields2return) {
@@ -118,7 +120,7 @@ module.exports = class esBase {
 			params.sort = sort;
 		}
 
-		//console.log(' search params = ', params);
+		console.log(' search params = ', params);
 
 		var { hits = {} } = await client.search(params);
  

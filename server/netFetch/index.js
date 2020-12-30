@@ -24,18 +24,21 @@ class NetFetch {
 	 * 
 	 * @param {*} param0 
 	 * @returns []
-	 * @deprecated
 	 */
     async fetchHis({
         _id,
         _source
     }) {
-        let startDay;
-        if (_source.latesHisDay) { //latesHisDay
-            startDay = moment(_source.latesHisDay).add(1, 'days').format('YYYYMMDD');
-        } else {
-            startDay = _source.latesHisDay || (moment().subtract(600, 'days').format('YYYYMMDD'));
-        }
+		let startDay;
+		if( appConfig.forceHis ){
+			startDay = moment().subtract(600, 'days').format('YYYYMMDD')
+		} else if( _source.latesHisDay ){
+			startDay = moment(_source.latesHisDay).add(1, 'days').format('YYYYMMDD');
+		}else {
+			startDay = moment().subtract(600, 'days').format('YYYYMMDD');
+		}
+  
+
         // let hislist = await tushare.fetchHis({
         //     _id,
         //     _source
