@@ -23,7 +23,9 @@ process.env.disLog = true;
 
 	// stockCtrl.pubStockQueue( { taskName: TaskName.updateNews  } )
 
-	stockCtrl.pubStockQueue( { taskName: TaskName.calcMa  } )
+	// stockCtrl.pubStockQueue( { taskName: TaskName.calcMa  } )
+
+	stockCtrl.pubStockQueue( { taskName: TaskName.analyseHis  } )
 
 	// watchVal: { height , low } ,// 
 	// var list = await stockCtrl.getAllList( { luceneStr:" watchVal.height:123 " })

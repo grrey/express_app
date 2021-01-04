@@ -1,6 +1,8 @@
 /**
- * elastic 文档
- * https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/16.x/api-reference.html
+ * elastic 文档: https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/16.x/api-reference.html
+ * lucence 文档: https://lucene.apache.org/core/3_0_3/queryparsersyntax.html#Range%20Searches
+ * 
+ *  字段是否存在用:   field:*  去过滤 
  * 
  */
 const esHost = 'http://localhost:9200';
@@ -56,6 +58,9 @@ module.exports = class esBase {
 	   */
 	async createOrUpdate(entity) {
 		entity = entity.forEach ? entity : [entity];
+		if(!entity.length){
+			return ;
+		}
 		// 批量创建;
 		let body = []; 
 
@@ -120,7 +125,12 @@ module.exports = class esBase {
 			params.sort = sort;
 		}
 
-		console.log(' search params = ', params);
+		if( this.indexName == 'stock'){
+			let subQ = " latesHisDay:> 20201228  AND  macp:>200 "
+			params.q = ( params.q ? ( params.q +" AND " ): "" ) + subQ ; // 有历史的 stock ;
+		}
+
+		console.log('search params = ',  JSON.stringify(params) );
 
 		var { hits = {} } = await client.search(params);
  

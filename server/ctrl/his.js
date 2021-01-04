@@ -32,16 +32,23 @@ class HisCtrl {
 	}
 
 	async caclMaVal(esObj){
-		var { data } = await esHis.search({ q:`marketCode:${ esObj._id}` , size:100,  sort:"date:desc"});
+		console.log( 'clac ma  start id  = ' , esObj._id )
+		var { data } = await esHis.search({ q:`marketCode:${ esObj._id} AND k:*` , size:10000,  sort:"date:desc"});
 		var ma = [ 5 , 10 ,  20 , 30 , 60 ];
 		var maCal = ma.map((v) => {
 			return { day: v , vals:[] , total:0};
 		}); 
 		// reverse() ...
-		var hisMa =  data.reverse().map((his) => {
-			// ma ----------------
+		let hisDataArr = data.reverse();
+
+		var calcHisArr = [];
+		hisDataArr.forEach((his , i ) => {
+
+			// mmmm ----------------------
 			var ma = {};
-			maCal.forEach(( maDay) => {
+			maCal.forEach(( maDay ) => {
+				// console.log(  his._source )
+
 				let close = his._source.k.close ;
 				maDay.vals.push( close );
 				maDay.total += close;
@@ -50,17 +57,33 @@ class HisCtrl {
 					maDay.total -= head ;
 					ma[ 'ma'+maDay.day ] =   + ( (maDay.total / maDay.day ).toFixed(2) )
 				}
-			}); 
-			// boll ----------------
-			var  boll = {}; 
+			});   
+			let obj = { _id: his._id , _source:  { ma: Object.assign( his._source.ma || {} , ma )  }  }
 			
+			// boll ---------------------- ; 
+			if( i > 20 ){ 
+				let ma20 = ma.ma20 ;
+				let boll = { m: ma20 };
+  
+				let sum = 0 
+				for (let j = i; j > i - 20 ; j--) {
+					let close = hisDataArr[ j ]._source.k.close ;
+					sum += Math.pow(  close - ma20 , 2);  
+				} 
 
+				let sd = Math.sqrt(sum / 20 )
+				boll.u = +( ma20 + 2 * sd).toFixed(2);
+				boll.d = +( ma20 - 2 * sd).toFixed(2);
 
-			// ----------------------
-			return { _id: his._id , _source:  { ma: Object.assign( his._source.ma || {} , ma )  }  };
+				obj._source.boll = boll ;
+			}
+			calcHisArr.push( obj  )
+			
 		});
-		console.log( 'clac ma  id = ' , esObj._id )
-		await esHis.createOrUpdate( hisMa );
+  
+		console.log( 'clac ma   ok , id = ' , esObj._id  ,  'his length = ' , calcHisArr.length)
+		await esHis.createOrUpdate( calcHisArr );
+		return  calcHisArr 
 	}
 
 	// 抓取新闻; 
@@ -118,4 +141,7 @@ const hisCtrl = new HisCtrl();
 module.exports = hisCtrl;
 
 
-hisCtrl.caclMaVal( {_id:'sh603013' , _source: { }}) 
+// hisCtrl.caclMaVal( {_id:'sz300362' , _source: { }}).then( (params) => {
+// 	console.log( JSON.stringify(params))
+	
+// })

@@ -8,6 +8,7 @@ exports.TaskName = {
 	updateHis:'queue_updateHis',
 	updateNews:'queue_updateNews',
 	calcMa : 'queue_calcMa',
+	analyseHis : 'queue_analyseHis',
 
 	watchValDayly:'queue_watchHisVal' , // 历史区间.
 	watchValCurrent:'queue_watchCurrentVal' , //划定的界限;

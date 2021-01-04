@@ -36,6 +36,8 @@ var redis = require('../utils/redis');
 var redis = require( '../utils/redis');
 var  {TaskName} = require('./const');
 const hisCtrl = require('../ctrl/his');
+const analyseCtrl = require('../ctrl/analyse');
+
 
 
 var {
@@ -75,6 +77,29 @@ const task = [
 		}
 	},
 	// calc ma 
+	{
+		schedu:'0 20 3 * * 1-5' ,
+		taskName: TaskName.calcMa ,
+		pubParams: {
+			fields: esStock.forHisField,
+			luceneStr:null ,
+		},
+		consumParams:{
+			handler: hisCtrl.caclMaVal 
+		}
+	},
+	// analiz his
+	{
+		schedu:'0 20 3 * * 1-5' ,
+		taskName: TaskName.analyseHis ,
+		pubParams: {
+			fields: esStock.forHisField,
+			luceneStr:null ,
+		},
+		consumParams:{
+			handler: analyseCtrl.analyseHis 
+		}
+	},
 	{
 		schedu:'0 20 3 * * 1-5' ,
 		taskName: TaskName.calcMa ,
