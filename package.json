@@ -3,7 +3,7 @@
 	"version": "1.0.0",
 	"description": "",
 	"dependencies": {
-		"axios": "^0.16.0",
+		"axios": "^0.21.1",
 		"baidu-aip-sdk": "^2.4.6",
 		"body-parser": "^1.17.2",
 		"bodybuilder": "^2.2.21",
