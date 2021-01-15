@@ -45,17 +45,7 @@ async function fetchHis({
     //console.log( '  startatay = ', startDay , '  list.length = ',list  )
     return list;
 }
-
-// 获取复权因子; 
-async function _getFq() {
-    let list = await ts.adj_factor('000001.sz').catch((a) => {
-        console.log(333, a)
-    });;
-    console.log(list)
-}
-
-// fetchHis({_source:{code:"000078" , market:"sz"}} , '20201111')
-
+ 
 
 
 

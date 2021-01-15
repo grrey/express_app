@@ -9,6 +9,7 @@
 		"bodybuilder": "^2.2.21",
 		"cheerio": "^1.0.0-rc.3",
 		"commander": "^5.1.0",
+		"compression": "^1.7.4",
 		"elasticsearch": "^16.7.1",
 		"express": "^4.15.3",
 		"express-ws": "^4.0.0",

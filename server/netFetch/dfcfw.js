@@ -58,44 +58,7 @@ class Dfcfw {
 		});
 		return data;
 	}
-	// 所属板块, 经营范围
-	async fetchF10({_source}) {
-		var code = _source.code;
-		var market = _source.market;
-
-		// var url = `http://f9.eastmoney.com/F9/GetCoreContent?stockcode=600002.sh`; 
-		var url = `http://140.207.218.10/F9/GetCoreContent?stockcode=${code}.${market}`;
-		var resp = await rp({
-			url,
-			timeout: 10000,
-			json: true,
-			headers: {
-				"Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-				"Upgrade-Insecure-Requests": 1,
-				"Host": "f9.eastmoney.com",
-				"Accept-Encoding": "gzip, deflate",
-				"Accept-Language": "zh-cn",
-				"Connection": "keep-alive", 
-				"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6)",
-			}
-		});
-		var { HXTC } = resp;
-		if (!HXTC || !HXTC.hxtc) {
-			return;
-		}
-		//所属板块;
-		var SSBK = HXTC.hxtc[0] && HXTC.hxtc[0].ydnr && HXTC.hxtc[0].ydnr.split(" ");
-		var JYFW = HXTC.hxtc[1] && HXTC.hxtc[1].ydnr;
-
-		var F10 = {};
-		if (SSBK) {
-			F10.SSBK = SSBK
-		}
-		if (JYFW) {
-			F10.JYFW = JYFW
-		}
-		return F10;
-	};
+ 
 
 	/**
 	 * 更新: 产品, 行业, 季度报告,
@@ -154,48 +117,10 @@ class Dfcfw {
 		}
 	}
 
-	/**
-	 * {
-			link: n .url ,
-			title: n.title ,
-			summary: n.summary ,
-			date:  moment(n.showDateTime).format('YYYY-MM-DD')  // timestamp ;
-		}
-	 * @param {*} param0 
-	 */
-	async fetchNews( {_source }){
-		let stock = _source ;
-		          // http://f10.eastmoney.com/NewsBulletin/NewsBulletinAjax?code=SH600519
-		var url = `http://f10.eastmoney.com/NewsBulletin/NewsBulletinAjax?code=${ stock.market + stock.code }`;
-
-        var newsList = await  rp({
-            url,
-            timeout: 4000,
-            json: true,
-            headers: {
-                "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.108 Safari/537.36",
-                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8", 
-                "Connection": "keep-alive",
-                "Host": "emweb.securities.eastmoney.com", 
-            }
-        });
-       console.log("get news list , ", stock.code);
-        // 只获取 新闻摘要;
-        // gsxx: 新闻摘要.
-		// gggg: 公司公告 咱不获取;
-		return  _.get( newsList || {} , 'ggxx.data.items' ,  [] ).map((n)=>{
-			return {
-				link: n .url ,
-				title: n.title ,
-				summary: n.summary ,
-				date:  moment(n.showDateTime).format('YYYY-MM-DD')  // timestamp ;
-			}
-		})
-  
-	}
+ 
 }
 
 
 module.exports = new Dfcfw();
 
-
+ 

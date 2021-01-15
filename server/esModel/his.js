@@ -53,7 +53,7 @@ class His extends base {
 
     // 生成id;
     _genId(entity) {
-        return entity.marketCode +"_" +  entity.date ;
+        return entity.marketCode +"_" + entity.date ;
     }
 
    

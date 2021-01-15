@@ -1,6 +1,6 @@
 require('../server/node_global'); 
 const stockCtrl = require('../server/ctrl/stock');
-const redis = require('../server/utils/redis')
+// const redis = require('../server/utils/redis')
 const esStock = require('../server/esModel/stock');
 const {TaskName}  = require('../server/chain/const')
 

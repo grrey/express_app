@@ -13,13 +13,24 @@ class AnalyseCtrl {
 
 	async analyseHis (esst ){
 		
-		var { data } = await esHis.search({ q:`marketCode:${ esst._id} AND k:*` , size:50,  sort:"date:desc"});
+		var { data } = await esHis.search({ q:`marketCode:${ esst._id} AND k:*` , size:250,  sort:"date:desc"});
 		let hisArr = data.reverse(); 
 
-		// conti_close_up_5
-		await analyseCtrl.ContiCloseUp(  esst ,  _.takeRight( hisArr , 5 ) );
-		
-		// 
+		// conti_close_up_5 指标
+		// await analyseCtrl.ContiCloseUp(  esst ,  _.takeRight( hisArr , 5 ) );
+		 
+		let  arr = groupBy( hisArr  , '_source.k.chg' ); 
+		arr.forEach((params) => {
+			// console.log( JSON.stringify( params[0]._id ))
+		})
+
+		let  arr1 = smooth( hisArr ,  {path:'_source.k.chg'  , size:20 });
+		let arr2 = groupBy( hisArr  , 'chg_smooth' ); 
+		console.log('------ ssssss --------')
+		arr2.forEach((params) => {
+			console.log( JSON.stringify( params[0]._id ))
+		})
+
 
 	}
 
@@ -79,44 +90,72 @@ async function upDataTag( _id ,  tagName  , hit ){
 	await  esStock.update( _id , { tag });
 }
 /**
- * 
+ *  正反 分向
  */
-function groupBy(  dataArr ){
+function groupBy(  dataArr  , path ){
 	let arr = [];
+	// a,b,c,d,new 
+	function compare( a , b ){
+		if( a == null || b == null ){
+			return true ;
+		}
+		if( a * b >= 0 ){
+			return true ;
+		}
+		if( Math.abs( b/a) < 0.2){
+			return true 
+		}
+		return false ;
+	}
 
 	dataArr.reduce((a ,b,) => {
-		let ar = arr.pop();
-		if(!ar){
-			ar = [ a ];
-			arr.push(ar)
-		};
+		let bv = b ; 
+		
+		let bool = compare( _.get( a , path , null ) , _.get( b , path , null ) ) ;
 
-		let late = 
-
-
+		if( bool ){
+			// 同方
+			let ar = arr.pop();
+			if(!ar){
+				ar = [ bv ];
+			}else {
+				ar.push(bv)
+			}
+			arr.push(ar);
+		}else {
+			// 反向;
+			arr.push([ bv ]);
+		} 
 		return b ;
-	})
-	
-
-
-
+	}) 
+	return arr ;
 }
 
 
+function smooth( dataArr ,  { path='_source.k.chg' , size  = 4 } ){
+	dataArr = dataArr.map( (o,i) => {
+		if( i > size ){
+			let total = 0 ;
+			for(let j = 0 ; j < size ; ++j){ 
+				total += _.get( dataArr[ i - j ] , path , 0 )
+			}
+			o.chg_smooth = +( total/size ).toFixed(2);
+			return o ;
+		}else{
+			return o 
+		}
+	})
+	return dataArr
+}
 
-
+ 
 const analyseCtrl = new AnalyseCtrl();
 
 module.exports = analyseCtrl;
 
 
-analyseCtrl.analyseHis( {_id:'sh601390'});
- 
 
-var a = [1,2,3,4,5,6,7,8];
 
-a.reduce((a,b,c,d) => {
-	console.log( '----' , a,b,c );
 
-	return b ;
-})
+// analyseCtrl.analyseHis( {_id:'sh600332'});
+

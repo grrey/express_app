@@ -1,30 +1,34 @@
 
-const netFetch = require("../netFetch");
+const {fetchHis} = require("../netFetch/valhis");
+const { fetchNews } = require("../netFetch/news");
 const esStock = require('../esModel/stock');
 const esHis = require('../esModel/his');
 const { NLP_sentiment } = require('../utils/NlP');
 const moment = require('moment');
 const his = require("../esModel/his");
+const _ = require('lodash');
+require('../node_global')
+
 class HisCtrl {
 	
 	// 更新历史 open.close , 值; 
 	async  upDataStockHis(esObj){ 
 		
-		var  list = await netFetch.fetchHis( esObj );
+		var  list = await fetchHis( esObj );
 		if( list && list.length ){
 			await  esHis.createOrUpdate( list );
+			
 			let latestHis = list.pop();
 			let latesHisDay  = latestHis.date.replace(/-/g , '');
  
 			console.log( 'upDataStockHis:' , esObj._id , list && list.length , latesHisDay );
-			
-			esObj._source = { 
+			 
+			await  esStock.update( esObj._id , {
 				latesHisDay ,
 				macp: latestHis.k.macp , 
 				tcap: latestHis.k.tcap , 
 				macp_rate: +( latestHis.k.macp / latestHis.k.tcap ).toFixed(2) 
-			} ;
-			await  esStock.createOrUpdate( esObj );
+			});
 
 		} 
 		await  sleep();
@@ -33,7 +37,7 @@ class HisCtrl {
 
 	async caclMaVal(esObj){
 		console.log( 'clac ma  start id  = ' , esObj._id )
-		var { data } = await esHis.search({ q:`marketCode:${ esObj._id} AND k:*` , size:10000,  sort:"date:desc"});
+		var { data } = await esHis.search({ q:`marketCode:${ esObj._id} AND k:*` , size:200,  sort:"date:desc"});
 		var ma = [ 5 , 10 ,  20 , 30 , 60 ];
 		var maCal = ma.map((v) => {
 			return { day: v , vals:[] , total:0};
@@ -89,26 +93,22 @@ class HisCtrl {
 	// 抓取新闻; 
 	async  upDataNews( esstock ){
  
-		var  newsList = await netFetch.fetchNews( esstock  ); // [ {} , ];
-		// 值抓取 当天的 ; 
-		if( true ){
-			let todayStr =  moment().format('YYYY-MM-DD');
-			newsList = newsList.filter((n)=>{
-				return  n.date == todayStr ;
-			})
+		var  newsList = await fetchNews( esstock  ); // [ {} , ];
+		  
+		if(!newsList.length){
+			return ;
 		}
-
 		var NewsByDay = _.groupBy( newsList ,  function(item){
 			return  moment(item.date).format('YYYY-MM-DD')
 		})  
 		var dateList=  Object.keys( NewsByDay );
 		
-		await Iterator( dateList , async ( day , i )=>{
+		dateList.asyncForEach( async ( day , i )=>{
 			let  dayNews =  NewsByDay[ day ]; 
 			var total_nlp_positive = 0 ; 
 			var total_nlp_negative= 0 ; 
 
-			await  Iterator( dayNews , async ( news )=>{ 
+			await dayNews.asyncForEach( async ( news )=>{ 
 				let   resp   = await NLP_sentiment( news.summary ); ///{sentiment:up , confidence:down }
 				Object.assign( news , resp );
 				await sleep(200); 
@@ -117,9 +117,7 @@ class HisCtrl {
 
 			});
   
-			await sleep(1000); 
-
-			console.log(  day , dayNews )
+			await sleep(1000);   
 
 			await  esHis.createOrUpdate( {
 				marketCode: esstock._source.marketCode ,
@@ -130,8 +128,9 @@ class HisCtrl {
 					list:dayNews
 				}
 			})
-			
 		}); 
+		await sleep(1000)
+		return newsList;
 	}
 	
 }
@@ -141,7 +140,7 @@ const hisCtrl = new HisCtrl();
 module.exports = hisCtrl;
 
 
-// hisCtrl.caclMaVal( {_id:'sz300362' , _source: { }}).then( (params) => {
-// 	console.log( JSON.stringify(params))
-	
-// })
+hisCtrl.upDataNews( {_id:'sh600519' , _source: { market:"sh" , code:600519 }}).then( (params) => {
+	console.log(222,  JSON.stringify(params))
+})
+

@@ -13,7 +13,7 @@ module.exports = {
         exec_mode: 'cluster',
         max_memory_restart: '1G',
 
-        // autorestart: false,
+        // autorestart: true ,
         // watch  : ['./server'],
 
         env: {

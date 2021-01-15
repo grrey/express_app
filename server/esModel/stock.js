@@ -32,7 +32,10 @@ let ProgressBar = require('progress');
 	mcap: 流通 ,
 	macp_rate:   macp/tcap ;
 
-	tag: [ '组1' , '组2' ,... ] , // 打的标签
+	tag: [ '组1' , '组2' ,... ] , // 打的标签 ,
+	current: {  // 监控的 实时 数据; 
+
+	}
  }
  
  */
@@ -83,29 +86,15 @@ class Stock extends base {
      * @param esFields
      * @returns {Promise<void>}
      */
-    async Iterator( { dealEsEntity, esFields  , t=5 , barText="stock-Iterator"  , lucene }) {
-		var allStork = await this.getIteratorArr({esFields , lucene });
-		var length = allStork.data.length;
-		
-		var bar = new ProgressBar(`   ${barText} [:bar]  :index/${length}  :percent  :elapseds`, {
-			complete: '#',
-			incomplete: '-',
-			width: 60,
-			total: length
-		});
-
-		let reTryDelEsEntiy = reTryWarper(dealEsEntity);
-
+    async Iterator( { dealEsEntity,  stockList =[]  , t=5 }) { 
+		var length = stockList.length; 
+		let reTryDelEsEntiy = reTryWarper(dealEsEntity); 
         for (var i = 0; i < length; ++i) {
 			let stock = allStork.data[i]; 
-			if(t){
+			if(t!= undefined){
 				await sleep( t );
 			} 
-			await reTryDelEsEntiy(stock); 
-
-			await bar.tick({
-				index: i + 1
-			}) 
+			await reTryDelEsEntiy(stock);  
         }
     }
 

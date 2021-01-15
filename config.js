@@ -7,5 +7,5 @@ module.exports = {
 	},
 
 	// 强制更新 his;
-	forceHis : true 
+	forceHis : false 
 }

@@ -21,7 +21,7 @@ global.sleep = function (t = 1000) {
 
 //---------------------------------------------------------------------------------------------------------
 /**
- * 包裹成  可重试的 函数;
+ * 包裹成 可重试的 函数;
  * @param {} fun 
  * @param {*} times 
  * @param {*} t 
@@ -30,7 +30,7 @@ global.reTryWarper =  function( fun , times = 2 , t=20 ){
 	return  async  function( ){ 
 		let succ = false  , result ; 
 		for(let i  = 0 ;  i < times && !succ ; ++i){
-			try {
+			try { 
 				result = await fun(...arguments);
 				succ = true ;
 			}catch(e){
@@ -43,16 +43,12 @@ global.reTryWarper =  function( fun , times = 2 , t=20 ){
 	
 } 
 
-//---------------------------------------------------------------------------------------------------------
-global.Iterator = async function (  _in , func ){
-	if(!_in){
-		return ;
-	}
-	_in =  _in.forEach ? _in :[_in];
-	let length = _in.length ;
+//--------------- 数组异步遍历 ------------------------------------------------------------------------------------------
+Array.prototype.asyncForEach = async function ( func ){
+	let length = this.length ;  
 	let o ; 
 	for( let i = 0 ; i < length ; ++i){
-		o = _in[i];
+		o = this[i];
 		await func( o  , i ) 
 	}
 }
@@ -67,4 +63,3 @@ const rowError = console.error ;
 console.error = function(){
 	rowError(  new Date().toLocaleString() ,"| " , ...arguments) 
 }
- 
