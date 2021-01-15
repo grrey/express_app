@@ -92,7 +92,7 @@ class HisCtrl {
 
 	// 抓取新闻; 
 	async  upDataNews( esstock ){
- 
+		await sleep(2000);
 		var  newsList = await fetchNews( esstock  ); // [ {} , ];
 		  
 		if(!newsList.length){
@@ -129,7 +129,6 @@ class HisCtrl {
 				}
 			})
 		}); 
-		await sleep(1000)
 		return newsList;
 	}
 	
@@ -140,7 +139,7 @@ const hisCtrl = new HisCtrl();
 module.exports = hisCtrl;
 
 
-hisCtrl.upDataNews( {_id:'sh600519' , _source: { market:"sh" , code:600519 }}).then( (params) => {
-	console.log(222,  JSON.stringify(params))
-})
+// hisCtrl.upDataNews( {_id:'sh600519' , _source: { market:"sh" , code:600519 }}).then( (params) => {
+// 	console.log(222,  JSON.stringify(params))
+// })
 

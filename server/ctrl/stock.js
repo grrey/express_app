@@ -32,7 +32,9 @@ class StockCtrl {
 	async getProcessStList({luceneStr = esStock.lucene_gp , fields = esStock.baseField }={}){
 		let  { total , data } = await this.getAllList({ luceneStr , fields});
 		let { pm_id=0   ,  instances=1 } = process.env ;
-		let w =  Math.ceil( total/instances ); 
+		pm_id = +pm_id ;
+		instances = +instances ; 
+		let w =  Math.ceil( total/instances );  
 		return  data.slice( pm_id * w ,  (pm_id+1)*w );
 	}
 	  

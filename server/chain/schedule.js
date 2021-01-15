@@ -34,9 +34,7 @@ const StockTask = [
 		enable: true ,
 		immediate:false ,
 		schedu:'0 20 1 * * 1-5' , 
-		stockSearchParams: { 
-
-		},
+		stockSearchParams: {  	},
 		handler:  reTryWarper( hisCtrl.upDataStockHis   , 2 , 1000 )
 	},
 	// calc ma 
@@ -92,6 +90,7 @@ StockTask.forEach( ({
 		console.log(' run schedult = ' , name  ); 
 		let stockList = await  stockCtrl.getProcessStList(stockSearchParams);
 		let stl = stockList.length ;
+		 
 		while( stockList.length ){
 			let esObj ; 
 			if(1 == batch){
