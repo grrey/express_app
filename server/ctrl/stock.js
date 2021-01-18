@@ -8,10 +8,9 @@ const {fetchBusiness} = require("../netFetch/business");
 const esStock = require('../esModel/stock'); 
 const esCommon = require('../esModel/common'); 
 const stockListData = require('../../data/allStock');
-
-const { TaskName  } = require('../chain/const');
  
- require('../node_global')
+ 
+require('../node_global')
 
 class StockCtrl {
 
@@ -112,31 +111,33 @@ class StockCtrl {
 			// 写入 数据库 ---------------------------
 			let row = currData._row ;
 			let current = {
-				buy1_l: row[10],
-				buy1_j: row[11], 
-				buy2_l: row[12],
-				buy2_j: row[13],
-				buy3_l: row[14],
-				buy3_j: row[15],
-				buy4_l: row[16],
-				buy4_j: row[17],
-				buy5_l: row[18],
-				buy6_j: row[19],
+				buy1_l: +row[10],
+				buy1_j: +row[11], 
+				buy2_l: +row[12],
+				buy2_j: +row[13],
+				buy3_l: +row[14],
+				buy3_j: +row[15],
+				buy4_l: +row[16],
+				buy4_j: +row[17],
+				buy5_l: +row[18],
+				buy6_j: +row[19],
 
-				sell1_l: row[20],
-				sell1_j: row[21],
-				sell2_l: row[22],
-				sell2_j: row[23],
-				sell3_l: row[24],
-				sell3_j: row[25],
-				sell4_l: row[26],
-				sell5_j: row[27],
-				sell6_l: row[28],
-				sell5_j: row[29],
+				sell1_l: +row[20],
+				sell1_j: +row[21],
+				sell2_l: +row[22],
+				sell2_j: +row[23],
+				sell3_l: +row[24],
+				sell3_j: +row[25],
+				sell4_l: +row[26],
+				sell5_j: +row[27],
+				sell6_l: +row[28],
+				sell5_j: +row[29],
 
 				date: row[30],
 				time: row[31]
 			}
+
+			console.log(  currData.entity  , current )
 			await  esStock.update( currData.entity , {current} );
 			await sleep(50);
 		})
@@ -154,7 +155,7 @@ var stockCtrl = new  StockCtrl();
 module.exports = stockCtrl;
 
   
-// stockCtrl.watchCurrentVal( [{_source:{ marketCode:"sh600311"}}] )
+stockCtrl.watchCurrentVal( [{_source:{ marketCode:"sh600311"}}] )
 
 
 // stockCtrl.getProcessStList({}).then(  (params) => {

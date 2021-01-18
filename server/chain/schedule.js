@@ -13,16 +13,12 @@
 */
 
 const stockCtrl = require('../ctrl/stock');
-const esStock = require('../esModel/stock') 
-var  {TaskName} = require('./const');
+const esStock = require('../esModel/stock')  
 const hisCtrl = require('../ctrl/his');
 const analyseCtrl = require('../ctrl/analyse');
 const _ = require('lodash')
 
-
-var {
-    TaskName
-} = require('./const');
+ 
 const schedule = require('node-schedule');
 
 
@@ -51,7 +47,7 @@ const StockTask = [
 	{
 		name: 'upDataNews',
 		enable: true ,
-		immediate:true ,
+		immediate:false ,
 		schedu:'20 1 * * *' ,
 		stockSearchParams: {}, 
 		handler: reTryWarper(hisCtrl.upDataNews ,2,1000), 
@@ -60,8 +56,8 @@ const StockTask = [
 	// 事实监控; 2 分钟 
 	{	
 		name:"watchCurrent",
-		enable: false , 
-		immediate:false ,
+		enable: true , 
+		immediate:true ,
 		schedu: '*/5 9-12,13-15 * * *',  
 		stockSearchParams: { },
 		handler: reTryWarper(  stockCtrl.watchCurrentVal , 2 ),
