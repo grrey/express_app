@@ -75,7 +75,7 @@ exports.fetchBusiness = fetchBusiness;
 //     var bus = await fetchBusiness({
 //         _source: {
 //             market: 'SH',
-//             code: 600519
+//             code: 600332
 //         }
 //     });
 

@@ -126,7 +126,7 @@ module.exports = class esBase {
 		}
 
 		if( this.indexName == 'stock'){
-			let subQ = " latesHisDay:> 20201228  AND  macp:>200 "
+			let subQ = " latesHisDay:>20201228  AND  macp:>50 "
 			params.q = ( params.q ? ( params.q +" AND " ): "" ) + subQ ; // 有历史的 stock ;
 		}
 

@@ -117,7 +117,7 @@ class HisCtrl {
 
 			});
   
-			await sleep(1000);   
+			await sleep(500);   
 
 			await  esHis.createOrUpdate( {
 				marketCode: esstock._source.marketCode ,
@@ -139,7 +139,7 @@ const hisCtrl = new HisCtrl();
 module.exports = hisCtrl;
 
 
-// hisCtrl.upDataNews( {_id:'sh600519' , _source: { market:"sh" , code:600519 }}).then( (params) => {
-// 	console.log(222,  JSON.stringify(params))
-// })
+hisCtrl.upDataNews( {_id:'sh600519' , _source: { market:"sh" , code:600519 }}).then( (params) => {
+	console.log(222,  JSON.stringify(params))
+})
 

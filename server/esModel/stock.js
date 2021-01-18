@@ -10,14 +10,8 @@ let ProgressBar = require('progress');
     "name": "百川股份",
     "JYFW": "危险化学品经营(按许可证所列方式和项目经营);--经营的东西, 干什么的.",
 	"SSBK": [ "化工行业", "江苏板块", "锂电池"],
-
-	business:[
-		{   date:"" ,  
-			hy: [ { zygc:"行业类别" zysr:"主营收入" , srbl:"收入比例"}  ] ,  
-			cp:[ {zygc:"产品类别" ,  zysr:"主营收入" , srbl:"收入比例"} ]
-		}
-	],
-	zyhy: [] // 最近时间 主营行业, 
+ 
+	zyhy: [{ zygc:"行业类别" zysr:"主营收入" , srbl:"收入比例"},..] // 最近时间 主营行业, 
 	zycp: [] // 最近时间 主营产品;,
 
 	// 价格监控 , 实时的, 历史的 
@@ -60,6 +54,12 @@ class Stock extends base {
 		this.lucene_gp = "code:/[0,3,6]{1}.{5}/";
 		
 		// this.lucene_gp = "code:/[0,3,6]{1}.{5}/"
+		this.allField = [
+			'marketCode' ,"market", "code", 'name' ,'pinyin',
+			'latesHisDay' ,
+			'JYFW' , 'SSBK' ,
+			'business','zyhy','zycp',
+		]
 	}
 	
 

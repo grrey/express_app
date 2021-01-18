@@ -42,22 +42,34 @@ const StockTask = [
 		stockSearchParams: { }, 
 		handler: hisCtrl.caclMaVal  
 	},
- 
+
+	// update F10 ;
+	{
+		name:"upDataStock-F10",
+		enable: true ,
+		immediate:false ,
+		schedu:'0 0 2 * 3,6,9,12 1' , 
+		stockSearchParams: {  	},
+		handler:  reTryWarper( stockCtrl.updeF10   , 2 , 1000 ),
+		sleep:200,
+	},
+  
 	// fetch news 
 	{
 		name: 'upDataNews',
 		enable: true ,
-		immediate:false ,
+		immediate:true ,
 		schedu:'20 1 * * *' ,
 		stockSearchParams: {}, 
 		handler: reTryWarper(hisCtrl.upDataNews ,2,1000), 
+		sleep:200,
 	},
 
 	// 事实监控; 2 分钟 
 	{	
 		name:"watchCurrent",
 		enable: true , 
-		immediate:true ,
+		immediate:false ,
 		schedu: '*/5 9-12,13-15 * * *',  
 		stockSearchParams: { },
 		handler: reTryWarper(  stockCtrl.watchCurrentVal , 2 ),
@@ -76,17 +88,17 @@ StockTask.forEach( ({
 	schedu,
 	stockSearchParams,
 	handler,
-	batch =1
+	batch =1,
+	sleep:st
 })=>{
 	if(!enable){
 		return ;
 	}
 
 	var taskFun = async ()=>{
-		console.log(' run schedult = ' , name  ); 
 		let stockList = await  stockCtrl.getProcessStList(stockSearchParams);
-		let stl = stockList.length ;
-		 
+		console.log(' run schedult = ' , name , 'stock.lenght =' , stockList.length  ); 
+		let stl = stockList.length ; 
 		while( stockList.length ){
 			let esObj ; 
 			if(1 == batch){
@@ -96,6 +108,10 @@ StockTask.forEach( ({
 			} 
 			console.log( `scheduleJob ${name} ,  process =  ${ stl - stockList.length} / ${stl} ` )
 			await handler( esObj );
+			if(st){
+				await sleep(st)
+			}
+
 		} 
 	}
 	console.log( ' scheduleJob ', schedu , name )
