@@ -53,7 +53,7 @@ class AnalyseCtrl {
 		if( c1<c2 && c2 <c3 && c3 <c4 && c4<c5 ){
 			hit = true ;
 		}
-		await  upDataTag( esst._id , TagName , hit );
+		await  esStock.upDataTag( esst._id , TagName , hit );
  
 	}
 
@@ -69,26 +69,6 @@ class AnalyseCtrl {
 }
 
 
-/**
- * 更新tag , 
- * @param {*} _id 
- * @param {*} tagName 
- * @param {*} hit 
- */
-async function upDataTag( _id ,  tagName  , hit ){
-	let {_source} = await esStock.getById( _id , ['tag']);
-	let { tag=[] } = _source ;
-	if( tag.length ){
-		tag = tag.filter((params) => {
-			return params != tagName ;
-		}); 
-	} 
-	if( hit ){
-		tag.push(tagName );
-		console.log( 'updata Tag' , _id , tagName ,hit )
-	} 
-	await  esStock.update( _id , { tag });
-}
 /**
  *  正反 分向
  */

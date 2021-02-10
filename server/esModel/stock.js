@@ -98,6 +98,28 @@ class Stock extends base {
         }
     }
 
+
+    /**
+     * 更新tag , 
+     * @param {*} _id 
+     * @param {*} tagName 
+     * @param {*} hit 
+     */
+    async upDataTag( _id ,  tagName  , hit ){
+    	let {_source} = await this.getById( _id , ['tag']);
+    	let { tag=[] } = _source ;
+    	if( tag.length ){
+    		tag = tag.filter((params) => {
+    			return params != tagName ;
+    		}); 
+    	} 
+    	if( hit ){
+    		tag.push(tagName );
+    		console.log( 'updata Tag' , _id , tagName ,hit )
+    	} 
+    	await  this.update( _id , { tag });
+    }
+
 }
  
 module.exports = new Stock();

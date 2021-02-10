@@ -13,114 +13,113 @@
 */
 
 const stockCtrl = require('../ctrl/stock');
-const esStock = require('../esModel/stock')  
+const esStock = require('../esModel/stock')
 const hisCtrl = require('../ctrl/his');
 const analyseCtrl = require('../ctrl/analyse');
 const _ = require('lodash')
 
- 
+
 const schedule = require('node-schedule');
 
 
 const StockTask = [
 
-	// update his:
-	{
-		name:"upDataStockHis",
-		enable: true ,
-		immediate:false ,
-		schedu:'0 20 1 * * 1-5' , 
-		stockSearchParams: {  	},
-		handler:  reTryWarper( hisCtrl.upDataStockHis   , 2 , 1000 )
-	},
-	// calc ma 
-	{
-		name:"caclMa",
-		enable: true ,
-		immediate:false ,
-		schedu:'0 20 3 * * 1-5' , 
-		stockSearchParams: { }, 
-		handler: hisCtrl.caclMaVal  
-	},
+    // update his:
+    {
+        name: "upDataStockHis",
+        enable: true,
+        immediate: false,
+        schedu: '0 20 1 * * 1-5',
+        stockSearchParams: {},
+        handler: reTryWarper(hisCtrl.upDataStockHis, 2, 1000)
+    },
+    // calc ma 
+    {
+        name: "caclMa",
+        enable: true,
+        immediate: false,
+        schedu: '0 20 3 * * 1-5',
+        stockSearchParams: {},
+        handler: hisCtrl.caclMaVal
+    },
 
-	// update F10 ;
-	{
-		name:"upDataStock-F10",
-		enable: true ,
-		immediate:false ,
-		schedu:'0 0 2 * 3,6,9,12 1' , 
-		stockSearchParams: {  	},
-		handler:  reTryWarper( stockCtrl.updeF10   , 2 , 1000 ),
-		sleep:200,
-	},
-  
-	// fetch news 
-	{
-		name: 'upDataNews',
-		enable: true ,
-		immediate:true ,
-		schedu:'20 1 * * *' ,
-		stockSearchParams: {}, 
-		handler: reTryWarper(hisCtrl.upDataNews ,2,1000), 
-		sleep:200,
-	},
+    // update F10 ;
+    {
+        name: "upDataStock-F10",
+        enable: true,
+        immediate: false,
+        schedu: '0 0 2 * 3,6,9,12 1',
+        stockSearchParams: {},
+        handler: reTryWarper(stockCtrl.updeF10, 2, 1000),
+        sleep: 200,
+    },
 
-	// 事实监控; 2 分钟 
-	{	
-		name:"watchCurrent",
-		enable: true , 
-		immediate:false ,
-		schedu: '*/5 9-12,13-15 * * *',  
-		stockSearchParams: { },
-		handler: reTryWarper(  stockCtrl.watchCurrentVal , 2 ),
-		batch: 10
-	}, 
- 
+    // fetch news 
+    {
+        name: 'upDataNews',
+        enable: true,
+        immediate: false,
+        schedu: '20 1 * * *',
+        stockSearchParams: {},
+        handler: reTryWarper(hisCtrl.upDataNews, 2, 1000),
+        sleep: 200,
+    },
+
+    // 事实监控; 2 分钟 
+    {
+        name: "watchCurrent",
+        enable: true,
+        immediate: false,
+        schedu: '*/5 9-12,13-15 * * *',
+        stockSearchParams: {},
+        handler: reTryWarper(stockCtrl.watchCurrentVal, 2),
+        batch: 10
+    },
+
 
 ];
 
 
 
-StockTask.forEach( ({
-	name,
-	enable,
-	immediate,
-	schedu,
-	stockSearchParams,
-	handler,
-	batch =1,
-	sleep:st
-})=>{
-	if(!enable){
-		return ;
-	}
+StockTask.forEach(({
+    name,
+    enable,
+    immediate,
+    schedu,
+    stockSearchParams,
+    handler,
+    batch = 1,
+    sleep: st
+}) => {
+    if (!enable) {
+        return;
+    }
 
-	var taskFun = async ()=>{
-		let stockList = await  stockCtrl.getProcessStList(stockSearchParams);
-		console.log(' run schedult = ' , name , 'stock.lenght =' , stockList.length  ); 
-		let stl = stockList.length ; 
-		while( stockList.length ){
-			let esObj ; 
-			if(1 == batch){
-				esObj = stockList.splice(0,1)[0];
-			}else {
-				esObj = stockList.splice(0,batch);
-			} 
-			console.log( `scheduleJob ${name} ,  process =  ${ stl - stockList.length} / ${stl} ` )
-			await handler( esObj );
-			if(st){
-				await sleep(st)
-			}
+    var taskFun = async () => {
+        let stockList = await stockCtrl.getProcessStList(stockSearchParams);
+        console.log(' run schedult = ', name, 'stock.lenght =', stockList.length);
+        let stl = stockList.length;
+        while (stockList.length) {
+            let esObj;
+            if (1 == batch) {
+                esObj = stockList.splice(0, 1)[0];
+            } else {
+                esObj = stockList.splice(0, batch);
+            }
+            console.log(`scheduleJob ${name} ,  process =  ${ stl - stockList.length} / ${stl} `)
+            await handler(esObj);
+            if (st) {
+                await sleep(st)
+            }
 
-		} 
-	}
-	console.log( ' scheduleJob ', schedu , name )
-	schedule.scheduleJob( schedu , taskFun );
+        }
+    }
+    console.log(' scheduleJob ', schedu, name)
+    schedule.scheduleJob(schedu, taskFun);
 
-	if(immediate){
-		taskFun();
-	}
- 
+    if (immediate) {
+        taskFun();
+    }
+
 
 });
-
