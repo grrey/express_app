@@ -7,17 +7,18 @@ const esHis = require('../esModel/his');
 const esStock = require('../esModel/stock');
 const _ =require('lodash'); 
 const his = require('../esModel/his');
-
-let day = 5 ; //连续几天; 
+const ana = require('./ana');
+  
 class AnalyseCtrl {
 
 	async analyseHis (esst ){
 		
-		var { data } = await esHis.search({ q:`marketCode:${ esst._id} AND k:*` , size:250,  sort:"date:desc"});
-		let hisArr = data.reverse(); 
+		var { data } = await esHis.search({ q:`marketCode:${ esst._id} AND k:*` , size:100,  sort:"date:desc"});
 
-		// conti_close_up_5 指标
-		// await analyseCtrl.ContiCloseUp(  esst ,  _.takeRight( hisArr , 5 ) );
+
+		// conti_close_up_X 指标
+		await  ana.closeUp(  esst ,  _.takeRight( hisArr , 10 ) ,  5  );
+
 		 
 		let  arr = groupBy( hisArr  , '_source.k.chg' ); 
 		arr.forEach((params) => {

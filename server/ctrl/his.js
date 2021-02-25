@@ -111,6 +111,10 @@ class HisCtrl {
 			await dayNews.asyncForEach( async ( news )=>{ 
 				let   resp   = await NLP_sentiment( news.summary ); ///{sentiment:up , confidence:down }
 				Object.assign( news , resp );
+        
+        // date 已经提出出来了;
+        // delete news.date ;
+
 				await sleep(200); 
 				total_nlp_positive+= resp.nlp_positive;
 				total_nlp_negative+= resp.nlp_negative;
@@ -139,7 +143,7 @@ const hisCtrl = new HisCtrl();
 module.exports = hisCtrl;
 
 
-hisCtrl.upDataNews( {_id:'sh600519' , _source: { market:"sh" , code:600519 }}).then( (params) => {
-	console.log(222,  JSON.stringify(params))
-})
+// hisCtrl.upDataNews( {_id:'sh600519' , _source: { market:"sh" , code:600519 }}).then( (params) => {
+// 	console.log(222,  JSON.stringify(params))
+// })
 

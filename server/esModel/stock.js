@@ -28,7 +28,10 @@ let ProgressBar = require('progress');
 
 	tag: [ '组1' , '组2' ,... ] , // 打的标签 ,
 	current: {  // 监控的 实时 数据; 
-
+    // hot 
+    buy_sell_l: parseInt( current.buy1_l * current.sell1_l  / 10000  ) 
+    //
+    
 	}
  }
  

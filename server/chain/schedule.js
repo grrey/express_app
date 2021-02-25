@@ -16,6 +16,7 @@ const stockCtrl = require('../ctrl/stock');
 const esStock = require('../esModel/stock')
 const hisCtrl = require('../ctrl/his');
 const analyseCtrl = require('../ctrl/analyse');
+const watchCtrl = require('../ctrl/watch');
 const _ = require('lodash')
 
 
@@ -28,7 +29,7 @@ const StockTask = [
     {
         name: "upDataStockHis",
         enable: true,
-        immediate: false,
+        immediate: true,
         schedu: '0 20 1 * * 1-5',
         stockSearchParams: {},
         handler: reTryWarper(hisCtrl.upDataStockHis, 2, 1000)
@@ -36,7 +37,7 @@ const StockTask = [
     // calc ma 
     {
         name: "caclMa",
-        enable: true,
+        enable: false,
         immediate: false,
         schedu: '0 20 3 * * 1-5',
         stockSearchParams: {},
@@ -46,7 +47,7 @@ const StockTask = [
     // update F10 ;
     {
         name: "upDataStock-F10",
-        enable: true,
+        enable: false,
         immediate: false,
         schedu: '0 0 2 * 3,6,9,12 1',
         stockSearchParams: {},
@@ -57,7 +58,7 @@ const StockTask = [
     // fetch news 
     {
         name: 'upDataNews',
-        enable: true,
+        enable: false,
         immediate: false,
         schedu: '20 1 * * *',
         stockSearchParams: {},
@@ -69,10 +70,10 @@ const StockTask = [
     {
         name: "watchCurrent",
         enable: true,
-        immediate: false,
-        schedu: '*/5 9-12,13-15 * * *',
+        immediate: true ,
+        schedu: '*/10 9-12,13-15 * * *',
         stockSearchParams: {},
-        handler: reTryWarper(stockCtrl.watchCurrentVal, 2),
+        handler: reTryWarper(watchCtrl.watchCurrentVal, 2),
         batch: 10
     },
 
@@ -111,7 +112,6 @@ StockTask.forEach(({
             if (st) {
                 await sleep(st)
             }
-
         }
     }
     console.log(' scheduleJob ', schedu, name)

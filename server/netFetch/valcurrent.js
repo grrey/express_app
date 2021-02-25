@@ -52,15 +52,14 @@ async function fetchCurrentVal (esStocks = []) {
             let currData = cur.split('=')[1].split(',');
 
             result.push({
-                entity: idArr[i],
+                _id: idArr[i],
                 day: currData[30],
 
                 curr: currData[3],
                 high: currData[4],
-				low: currData[5],
-				
-				_row: currData
-
+        				low: currData[5],
+        				
+        				_row: currData 
             });
         }
     })
