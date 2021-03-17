@@ -13,60 +13,28 @@ class AnalyseCtrl {
 
 	async analyseHis (esst ){
 		
-		var { data } = await esHis.search({ q:`marketCode:${ esst._id} AND k:*` , size:100,  sort:"date:desc"});
-
-
-		// conti_close_up_X 指标
-		await  ana.closeUp(  esst ,  _.takeRight( hisArr , 10 ) ,  5  );
-
-		 
-		let  arr = groupBy( hisArr  , '_source.k.chg' ); 
-		arr.forEach((params) => {
-			// console.log( JSON.stringify( params[0]._id ))
-		})
-
-		let  arr1 = smooth( hisArr ,  {path:'_source.k.chg'  , size:20 });
-		let arr2 = groupBy( hisArr  , 'chg_smooth' ); 
-		console.log('------ ssssss --------')
-		arr2.forEach((params) => {
-			console.log( JSON.stringify( params[0]._id ))
-		})
-
-
-	}
-
-	/**
-	 * 连续上;
-	 * @param {*} message 
-	 */
-	async  ContiCloseUp( esst  , hisArr ){
-
-		const TagName = 'conti_close_up_5' 
-		let c1 = _.get(  hisArr , '[0]._source.k.close' );
-		let c2 = _.get(  hisArr , '[1]._source.k.close' );
-		let c3 = _.get(  hisArr , '[2]._source.k.close' );
-		let c4 = _.get(  hisArr , '[3]._source.k.close' );
-		let c5 = _.get(  hisArr , '[4]._source.k.close' );
-
-		console.log( 'close val=' ,c1 ,c2 ,c3 ,c4 ,c5 );
-
-		let hit = false;
-		if( c1<c2 && c2 <c3 && c3 <c4 && c4<c5 ){
-			hit = true ;
-		}
-		await  esStock.upDataTag( esst._id , TagName , hit );
+    // [新 -> 旧]
+		var { data:hisArr } = await esHis.search({ q:`marketCode:${ esst._id} AND k:*` , size:100,  sort:"date:desc"});
  
-	}
 
-	 /**
-	  * 转折
-	  * @param {*} esst 
-	  * @param {*} hisArr 
-	  */
-	async CalcDD( esst , hisArr){
+    if( hisArr.length < 30 ){
+      return ;
+    }
+    
+    let shortHis = _.take( hisArr , 20) ;
+    await  ana.closeUp(  esst ,  shortHis ,  3 );
+    await  ana.closeUp(  esst ,  shortHis ,  5 );
+    await  ana.closeUp(  esst ,  shortHis ,  8 );
+
+		await ana.ztype( esst , hisArr  );
 		
+    await ana.xiangti( esst , hisArr  );
+
 
 	}
+  
+
+  
 }
 
 
@@ -138,5 +106,5 @@ module.exports = analyseCtrl;
 
 
 
-// analyseCtrl.analyseHis( {_id:'sh600332'});
+analyseCtrl.analyseHis( {_id:'sh600332'});
 
