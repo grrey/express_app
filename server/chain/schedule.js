@@ -19,7 +19,6 @@ const analyseCtrl = require('../ctrl/analyse');
 const watchCtrl = require('../ctrl/watch');
 const _ = require('lodash')
 
-
 const schedule = require('node-schedule');
 
 
@@ -37,18 +36,18 @@ const StockTask = [
     // calc ma 
     {
         name: "caclMa",
-        enable: false,
-        immediate: false,
+        enable: false ,
+        immediate: false ,
         schedu: '0 20 3 * * 1-5',
         stockSearchParams: {},
-        handler: hisCtrl.caclMaVal
+        handler: hisCtrl.caclMaVal 
     },
 
     // update F10 ;
     {
         name: "upDataStock-F10",
-        enable: false,
-        immediate: false,
+        enable: false ,
+        immediate: false ,
         schedu: '0 0 2 * 3,6,9,12 1',
         stockSearchParams: {},
         handler: reTryWarper(stockCtrl.updeF10, 2, 1000),
@@ -69,8 +68,8 @@ const StockTask = [
     // 事实监控; 2 分钟 
     {
         name: "watchCurrent",
-        enable: true,
-        immediate: true ,
+        enable: false ,
+        immediate: false ,
         schedu: '*/10 9-12,13-15 * * *',
         stockSearchParams: {},
         handler: reTryWarper(watchCtrl.watchCurrentVal, 2),
@@ -79,12 +78,24 @@ const StockTask = [
     // analyse .js 
     {
       name: "analyseSt",
-      enable: true,
-      immediate: true ,
+      enable: false,
+      immediate: false ,
       schedu: '10 6 * * *',
       stockSearchParams: {},
       handler: reTryWarper(analyseCtrl.analyseHis, 2)
     },
+
+    //==================== script ==============
+    {
+      name: "dealSelf",
+      enable: true ,
+      immediate: true ,
+      schedu: '10 6 * * 1',
+      stockSearchParams: {},
+      handler: reTryWarper(stockCtrl.dealSelf, 2),
+      sleep: 10,
+    },
+
 
 ];
 

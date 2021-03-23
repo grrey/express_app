@@ -21,9 +21,13 @@ module.exports = {
         },
         env_production: {
             NODE_ENV: 'production'
-		},
-		
-		log_file: 'logs/log.log',
+        },
+
+        log_file: 'logs/log.log',
+        'pm2-logrotate': {
+            max_size: '2M',
+            compress: false
+        }
 
     }]
 }

@@ -11,6 +11,10 @@ const { Client } = require('elasticsearch');
 const client = new Client({ node: esHost });
 
 module.exports = class esBase {
+  constructor(){
+    this.client = client ;
+  }
+  
 	async isIdExist(id) {
 		var isExist = await client.exists({
 			index: this.indexName,
@@ -125,10 +129,10 @@ module.exports = class esBase {
 			params.sort = sort;
 		}
 
-		if( this.indexName == 'stock'){
-			let subQ = " latesHisDay:>20201228  AND  macp:>50 "
-			params.q = ( params.q ? ( params.q +" AND " ): "" ) + subQ ; // 有历史的 stock ;
-		}
+		// if( this.indexName == 'stock'){
+		// 	let subQ = " latesHisDay:>20201228  AND  macp:>50 "
+		// 	params.q = ( params.q ? ( params.q +" AND " ): "" ) + subQ ; // 有历史的 stock ;
+		// }
 
 		console.log('search params = ',  JSON.stringify(params) );
 

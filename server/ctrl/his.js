@@ -14,8 +14,15 @@ class HisCtrl {
 	// 更新历史 open.close , 值; 
 	async  upDataStockHis(esObj){ 
 		
+    var { hy } = esObj._source ;
+
 		var  list = await fetchHis( esObj );
+    
 		if( list && list.length ){
+      list.forEach((h) => {
+        h.hy = hy ;
+      })
+
 			await  esHis.createOrUpdate( list );
 			
 			let latestHis = list.pop();
@@ -62,7 +69,7 @@ class HisCtrl {
 					ma[ 'ma'+maDay.day ] =   + ( (maDay.total / maDay.day ).toFixed(2) )
 				}
 			});   
-			let obj = { _id: his._id , _source:  { ma: Object.assign( his._source.ma || {} , ma )  }  }
+			let obj = { _id: his._id , _source:  {  hy:'' ,  ma: Object.assign( his._source.ma || {} , ma )  }  }
 			
 			// boll ---------------------- ; 
 			if( i > 20 ){ 

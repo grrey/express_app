@@ -60,8 +60,8 @@ class Stock extends base {
 		this.allField = [
 			'marketCode' ,"market", "code", 'name' ,'pinyin',
 			'latesHisDay' ,
-			'JYFW' , 'SSBK' ,
-			'business','zyhy','zycp',
+			'JYFW' , 'SSBK' ,'ticai',
+			'business','zyhy','zycp', 'hy'
 		]
 	}
 	

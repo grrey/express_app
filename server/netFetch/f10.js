@@ -1,5 +1,5 @@
 let rp = require('request-promise');
-let _= require('lodash');
+let _ = require('lodash');
 
 // 所属板块, 经营范围
 async function fetchF10({
@@ -23,36 +23,46 @@ async function fetchF10({
             "Connection": "keep-alive",
             "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6)",
         }
-	});
+    });
     var {
-        HXTC
+        HXTC,
+        BKMC = "",
     } = resp;
     if (!HXTC || !HXTC.hxtc) {
         return;
     }
     //所属板块;
-	var SSBK = HXTC.hxtc[0] && HXTC.hxtc[0].ydnr && HXTC.hxtc[0].ydnr.split(" ");
-	//经营范围
-	var JYFW = HXTC.hxtc[1] && HXTC.hxtc[1].ydnr;
-	
-	// 题材;
-	var ticai  =  _.get( HXTC , "hxtc" , []);
-	
-	ticai = _.drop( ticai , 2 ).map(({gjc,ydnr}) => {
-		return {
-			gjc,
-			ydnr
-		}
-	})
+    var SSBK = HXTC.hxtc[0] && HXTC.hxtc[0].ydnr && HXTC.hxtc[0].ydnr.split(" ");
+    //经营范围
+    var JYFW = HXTC.hxtc[1] && HXTC.hxtc[1].ydnr;
 
-    var F10 = {};
+    // 题材;
+    var ticai = _.get(HXTC, "hxtc", []);
+
+    // 主要板块
+    var hy = BKMC
+
+    ticai = _.drop(ticai, 2).map(({
+        gjc,
+        ydnr
+    }) => {
+        return {
+            gjc,
+            ydnr
+        }
+    })
+
+    var F10 = {
+        hy
+    };
+    
     if (SSBK) {
         F10.SSBK = SSBK
     }
     if (JYFW) {
         F10.JYFW = JYFW
-	}
-	F10.ticai =ticai ;
+    }
+    F10.ticai = ticai;
 
     return F10;
 };
@@ -60,7 +70,7 @@ async function fetchF10({
 
 
 exports.fetchF10 = fetchF10;
- 
+
 
 
 // ( async () => {
