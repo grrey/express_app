@@ -44,39 +44,24 @@ class StockCtrl {
     }
 
     async dealSelf(esObj) {
-        // let { ticai=[] } = esObj._source ;
-        // var  reg = /行业$/;
-        // let hy = ticai.find( (ti) => {
-        //     if( reg.test( ti.gjc ) ){
-        //       return true ;
-        //     }
-        //     if(  !/,|、/.test( ti.gjc ) ){
-        //       return true ;
-        //     }
-        // }) 
-        // if( hy ){
-        //   console.log( esObj._id ,  hy.gjc );
-        //   await  esStock.update(  esObj._id , {  hy:  hy.gjc })
-        // }
+    
 
-        // 更新 hisData 的hy字段; 
-        let {
-            marketCode,
-            hy
-        } = esObj._source;
+        // ================更新 hisData 的hy字段============; 
+        // let {
+        //     marketCode,
+        //     hy
+        // } = esObj._source; 
+        // console.log( marketCode, hy ); 
+        // var s = await esHis.client.updateByQuery({
+        //   index: esHis.indexName,
+        //   type: esHis.defaultTypeName, 
+        //   q:`marketCode:${marketCode}`,
+        //   body:{  
+        //     script: `ctx._source.hy='${hy}'`   
+        //   }
+        // }); 
 
-        console.log(111, marketCode, hy );
 
-        var s = await esHis.client.updateByQuery({
-          index: esHis.indexName,
-          type: esHis.defaultTypeName, 
-          q:`marketCode:${marketCode}`,
-          body:{  
-            script: `ctx._source.hy='${hy}'`   
-          }
-        });
-
-        console.log('ssss = ', s)
     }
 
 
