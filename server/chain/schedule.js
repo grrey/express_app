@@ -27,8 +27,8 @@ const StockTask = [
     // update his:
     {
         name: "upDataStockHis",
-        enable: true ,
-        immediate: true ,
+        enable: false ,
+        immediate: false ,
         schedu: '0 20 1 * * 1-5',
         stockSearchParams: {},
         handler: reTryWarper(hisCtrl.upDataStockHis, 2, 1000)
@@ -70,7 +70,7 @@ const StockTask = [
         name: "watchCurrent",
         enable: false ,
         immediate: false ,
-        schedu: '*/10 9-12,13-15 * * *',
+        schedu: '0 9-12,13-15 * * *',
         stockSearchParams: {},
         handler: reTryWarper(watchCtrl.watchCurrentVal, 2),
         batch: 10
@@ -78,8 +78,8 @@ const StockTask = [
     // analyse .js 
     {
       name: "analyseSt",
-      enable: false ,
-      immediate: false ,
+      enable: true ,
+      immediate: true ,
       schedu: '10 6 * * *',
       stockSearchParams: {},
       handler: reTryWarper(analyseCtrl.analyseHis, 2)

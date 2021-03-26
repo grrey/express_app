@@ -1,4 +1,5 @@
 
+require('../node_global')
 const {fetchHis} = require("../netFetch/valhis");
 const { fetchNews } = require("../netFetch/news");
 const esStock = require('../esModel/stock');
@@ -7,8 +8,7 @@ const { NLP_sentiment } = require('../utils/NlP');
 const moment = require('moment');
 const his = require("../esModel/his");
 const _ = require('lodash');
-require('../node_global')
-
+const  markZheDianData = require('./ana/zhedian');
 class HisCtrl {
 	
 	// 更新历史 open.close , 值; 
@@ -45,12 +45,17 @@ class HisCtrl {
 	async caclMaVal(esObj){
 		console.log( 'clac ma  start id  = ' , esObj._id )
 		var { data } = await esHis.search({ q:`marketCode:${ esObj._id} AND k:*` , size:200,  sort:"date:desc"});
+
+		// reverse() ...
+		let hisDataArr = data.reverse(); ;
+
+    console.log( hisDataArr );
+ 
+      
 		var ma = [ 5 , 10 ,  20 , 30 , 60 ];
 		var maCal = ma.map((v) => {
 			return { day: v , vals:[] , total:0};
 		}); 
-		// reverse() ...
-		let hisDataArr = data.reverse();
 
 		var calcHisArr = [];
 		hisDataArr.forEach((his , i ) => {
@@ -94,7 +99,18 @@ class HisCtrl {
   
 		console.log( 'clac ma   ok , id = ' , esObj._id  ,  'his length = ' , calcHisArr.length)
 		await esHis.createOrUpdate( calcHisArr );
-		return  calcHisArr 
+
+
+    var arr = hisDataArr.map((o) => {
+        var k = o._source.k ;  
+        return  { close : k.close , date: o._source.date } ;
+    });
+    var  zhedianData = markZheDianData( arr );
+
+    console.log( 'markZheDian ' , esObj._id   )
+    await esStock.update( esObj._id ,  { zheDian: zhedianData } )
+    
+		return  {calcHisArr , zhedianData } 
 	}
 
 	// 抓取新闻; 
@@ -143,6 +159,20 @@ class HisCtrl {
 		return newsList;
 	}
 	
+  // 在st.zhedian 中编辑his的历史折点;
+  async  markZheDian( hisObjs ){
+    
+    var arr = hisObjs.map((o) => {
+        var k = o._source.k ;  
+        return  { close : k.close , date: o._source.date } ;
+    });
+
+    var  zhedianData = markZheDianData( arr );
+
+    console.log( zhedianData )
+
+  }
+ 
 }
 
 const hisCtrl = new HisCtrl();
@@ -154,3 +184,9 @@ module.exports = hisCtrl;
 // 	console.log(222,  JSON.stringify(params))
 // })
 
+
+var   d  = hisCtrl.caclMaVal( {_id:'sh600585' , _source: { market:"sh" , code:600585 }});
+d.then( ({zhedianData}) => {
+  console.log(111 , zhedianData )
+  
+})

@@ -106,5 +106,5 @@ module.exports = analyseCtrl;
 
 
 
-analyseCtrl.analyseHis( {_id:'sh600332'});
+// analyseCtrl.analyseHis( {_id:'sh600332'});
 

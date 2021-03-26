@@ -1,5 +1,5 @@
 	/**
-	 * 连续上;
+	 * 连续上; 的 V type ;
 	 * @param {*} message 
 	 */
 
