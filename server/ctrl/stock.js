@@ -26,7 +26,7 @@ class StockCtrl {
         let page = await esStock.search({
             luceneStr,
             size: 4000,
-            fields2return: fields
+            fields2return: fields ,
         });
         return page;
     }

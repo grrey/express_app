@@ -26,6 +26,9 @@ class WatchCtrl {
 		},  
 	 */
 	async watchCurrentVal(esObjs){ 
+    console.log('wwww~~')
+    return;
+
 		esObjs = esObjs.forEach ? esObjs: [ esObjs]; 
 		var  currDataArr = await fetchCurrentVal( esObjs ); 
 

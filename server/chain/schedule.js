@@ -1,6 +1,7 @@
 /** 
  * 
 6个占位符从左到右分别代表：秒、分、时、日、月、周几
+每6秒运行  "*\/6 * 9-12,13-23 * * *"
 每分钟的第30秒触发： '30 * * * * *'
 每小时的1分30秒触发 ：'30 1 * * * *'
 每天的凌晨1点1分30秒触发 ：'30 1 1 * * *'
@@ -27,22 +28,30 @@ const StockTask = [
     // update his:
     {
         name: "upDataStockHis",
-        enable: false ,
+        enable: true ,
         immediate: false ,
-        schedu: '0 20 1 * * 1-5',
+        schedu: '0 0 1 */2 * 1-5',
         stockSearchParams: {},
         handler: reTryWarper(hisCtrl.upDataStockHis, 2, 1000)
     },
     // calc ma 
     {
         name: "caclMa",
-        enable: false ,
+        enable: true ,
         immediate: false ,
-        schedu: '0 20 3 * * 1-5',
+        schedu: '0 0 3 */2 * 1-5',
         stockSearchParams: {},
         handler: hisCtrl.caclMaVal 
     },
-
+    // analyse .js 
+    {
+      name: "analyseSt",
+      enable: true ,
+      immediate: true ,
+      schedu: '0 0 4 */2 * 1-5',
+      stockSearchParams: {},
+      handler: reTryWarper(analyseCtrl.analyseHis, 2)
+    },
     // update F10 ;
     {
         name: "upDataStock-F10",
@@ -69,21 +78,13 @@ const StockTask = [
     {
         name: "watchCurrent",
         enable: false ,
-        immediate: false ,
-        schedu: '0 9-12,13-15 * * *',
+        immediate: false  ,
+        schedu: '0 */10 9-12,13-15 * * *',
         stockSearchParams: {},
         handler: reTryWarper(watchCtrl.watchCurrentVal, 2),
         batch: 10
     },
-    // analyse .js 
-    {
-      name: "analyseSt",
-      enable: true ,
-      immediate: true ,
-      schedu: '10 6 * * *',
-      stockSearchParams: {},
-      handler: reTryWarper(analyseCtrl.analyseHis, 2)
-    },
+  
 
     //==================== script ==============
     {

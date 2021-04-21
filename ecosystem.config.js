@@ -11,7 +11,7 @@ module.exports = {
 
         instances: 4,
         exec_mode: 'cluster',
-        max_memory_restart: '1G',
+        max_memory_restart: '200M',
 
         // autorestart: true ,
         // watch  : ['./server'],
@@ -24,10 +24,11 @@ module.exports = {
         },
 
         log_file: 'logs/log.log',
-        'pm2-logrotate': {
-            max_size: '2M',
-            compress: false
-        }
+        
+        // 'pm2-logrotate': {
+        //     max_size: '2M',
+        //     compress: false
+        // }
 
     }]
 }

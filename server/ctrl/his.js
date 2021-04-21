@@ -38,7 +38,7 @@ class HisCtrl {
 			});
 
 		} 
-		await  sleep();
+		await  sleep(100);
 
 	}
 
@@ -49,7 +49,7 @@ class HisCtrl {
 		// reverse() ...
 		let hisDataArr = data.reverse(); ;
 
-    console.log( hisDataArr );
+    // console.log( hisDataArr );
  
       
 		var ma = [ 5 , 10 ,  20 , 30 , 60 ];
@@ -105,10 +105,10 @@ class HisCtrl {
         var k = o._source.k ;  
         return  { close : k.close , date: o._source.date } ;
     });
-    var  zhedianData = markZheDianData( arr );
-
-    console.log( 'markZheDian ' , esObj._id   )
-    await esStock.update( esObj._id ,  { zheDian: zhedianData } )
+    // 标记折点;
+    var  zhedianData = markZheDianData( arr , [ 2,3,4,5,6,7,8,9,10 ,11 ,12 ] );
+    console.log( 'markZheDian ' , esObj._id   );
+    await esStock.update( esObj._id ,  { zheDian: zhedianData } );
     
 		return  {calcHisArr , zhedianData } 
 	}
@@ -158,21 +158,7 @@ class HisCtrl {
 		}); 
 		return newsList;
 	}
-	
-  // 在st.zhedian 中编辑his的历史折点;
-  async  markZheDian( hisObjs ){
-    
-    var arr = hisObjs.map((o) => {
-        var k = o._source.k ;  
-        return  { close : k.close , date: o._source.date } ;
-    });
-
-    var  zhedianData = markZheDianData( arr );
-
-    console.log( zhedianData )
-
-  }
- 
+	 
 }
 
 const hisCtrl = new HisCtrl();
@@ -185,8 +171,9 @@ module.exports = hisCtrl;
 // })
 
 
-var   d  = hisCtrl.caclMaVal( {_id:'sh600585' , _source: { market:"sh" , code:600585 }});
-d.then( ({zhedianData}) => {
-  console.log(111 , zhedianData )
-  
-})
+// var   d  = hisCtrl.caclMaVal( {_id:'sh600586' , _source: { market:"sh" , code:600586 }});
+// var   d  = hisCtrl.caclMaVal( {_id:'sh603505' , _source: { market:"sh" , code:600586 }});
+// d.then( ({zhedianData}) => {
+//   console.log(111 , zhedianData , 'xx')
+// });
+

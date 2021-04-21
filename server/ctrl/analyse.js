@@ -14,19 +14,21 @@ class AnalyseCtrl {
 	async analyseHis (esst ){
 		
     // [新 -> 旧]
-		var { data:hisArr } = await esHis.search({ q:`marketCode:${ esst._id} AND k:*` , size:100,  sort:"date:desc"});
+		var { data:hisArr } = await esHis.search({ q:`marketCode:${ esst._id} AND k:*` , size:30,  sort:"date:desc"});
  
-
     if( hisArr.length < 30 ){
       return ;
     }
     
     let shortHis = _.take( hisArr , 20) ;
-    await  ana.closeUp(  esst ,  shortHis ,  3 );
-    await  ana.closeUp(  esst ,  shortHis ,  5 );
-    await  ana.closeUp(  esst ,  shortHis ,  8 );
 
-		await ana.ztype( esst , hisArr  );
+ 
+
+    // await  ana.closeUp(  esst ,  shortHis ,  3 );
+    // await  ana.closeUp(  esst ,  shortHis ,  5 );
+    // await  ana.closeUp(  esst ,  shortHis ,  8 );
+
+		// await ana.ztype( esst , hisArr  );
 		
     await ana.xiangti( esst , hisArr  );
 
@@ -106,5 +108,5 @@ module.exports = analyseCtrl;
 
 
 
-// analyseCtrl.analyseHis( {_id:'sh600332'});
+analyseCtrl.analyseHis( {_id:'sz300447'});
 

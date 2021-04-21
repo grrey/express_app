@@ -6,10 +6,48 @@ const his = require('../../esModel/his');
 const utils = require('./utils')
 
 module.exports = async function xiangti (esst, hisArr) {
-    // 2-5天内最大的chg > 3 ,  之后的在箱体内跳动, 当天的靠近 箱体顶部
-    const TagName = 'xiang_ti';
+    // 15(totalDay) 天内最大的chg ,chg > -5(mixChag) ,  是每个chg的 3倍大(chgTimes), 每个val是最大chg val的  +- 0.03 (offset)之间 ,  最后 2() 天看 突破;
+
+    // hisArr = [新,旧 ,.... ]
+
+    let  totalDay = 15 ;  // 15 天
+    let  mixChag = -5 ;
+    let  chgTimes = 3 ;
+    let  offset = 0.03;
+    let  judgeDay = 2 ;
+
+    let judgeData =  _.slice( hisArr , 0 ,2 );
+    let anaData = _.slice(hisArr  ,2 , totalDay );
  
-    
+
+    let hit  = false ;
+    let maxDay =  _.minBy( anaData , (o) => {
+      let d = _.get( o , '_source.k.chg' );
+      let d1 = _.get( o , '_source.date' );
+
+      console.log('xxx' ,d1,d )
+        return  d 
+    });
+
+
+
+
+    for (let index = anaData.length -1;  index >=0 ; index--) {
+      let lastDay = anaData[index];
+
+
+      const element = anaData[index];
+      
+    }
+     
+
+
+    console.log( 'xxx', maxDay , judgeDay ,anaData )
+
+
+
+    const TagName = 'xiang_ti';
+  
     let hIndex ;
     let hs
     hisArr.find( (item ,i ) => {
@@ -49,4 +87,5 @@ module.exports = async function xiangti (esst, hisArr) {
 }
 
 
+ 
  

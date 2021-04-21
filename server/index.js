@@ -15,6 +15,7 @@ var server = http.createServer(app);
 
 app.use(compression())
 app.use( express.static('../lobaster_client/dist') );
+app.use( express.static('./publick') );
 
 setApi(app)
 setRouter(app)

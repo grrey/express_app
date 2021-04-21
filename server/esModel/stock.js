@@ -54,7 +54,7 @@ class Stock extends base {
         this.forHisField = ["_id", 'marketCode' ,"market", "code", 'name' ,'latesHisDay'  ];
 
         // luceneStr 查询 短语;
-		this.lucene_gp = "code:/[0,3,6]{1}.{5}/";
+		this.lucene_gp = "code:/[0,3,6]{1}.{5}/ AND latesHisDay:>20201228  AND  macp:>10";
 		
 		// this.lucene_gp = "code:/[0,3,6]{1}.{5}/"
 		this.allField = [
