@@ -1,5 +1,3 @@
 #!/bin/sh
 echo '1231231232112'
-
-pm2 kill
-pm2 start
+ 
