@@ -21,15 +21,10 @@ class AnalyseCtrl {
     }
     
     let shortHis = _.take( hisArr , 20) ;
-
  
-
-    // await  ana.closeUp(  esst ,  shortHis ,  3 );
-    // await  ana.closeUp(  esst ,  shortHis ,  5 );
-    // await  ana.closeUp(  esst ,  shortHis ,  8 );
-
-		// await ana.ztype( esst , hisArr  );
-		
+    await  ana.closeUp(  esst ,  shortHis ,  3 );
+    await  ana.closeUp(  esst ,  shortHis ,  5 ); 
+  
     await ana.xiangti( esst , hisArr  );
 
 
@@ -108,5 +103,5 @@ module.exports = analyseCtrl;
 
 
 
-analyseCtrl.analyseHis( {_id:'sz300447'});
+analyseCtrl.analyseHis( {_id:'sh600519'});
 

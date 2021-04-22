@@ -23,7 +23,7 @@ module.exports = async function xiangti (esst, hisArr) {
     let judgeData =  _.slice( hisArr , 0 ,2 );
     let anaData = _.slice(hisArr  ,2 , totalDay );
  
-    let chgKey= '_source.k.chg'
+    let chgKey= '_source.k.pchg'
     let closeKey = '_source.k.close'
     let openKey = '_source.k.open'
  
@@ -37,44 +37,40 @@ module.exports = async function xiangti (esst, hisArr) {
       let  close = _.get( cDay , closeKey)
       let  open = _.get( cDay , openKey)
 
-      let hitMinChg = chg < -mixChag ;
-      let hitChgTime = true ; 
-      let hitToffset  = true ;
-      let hitBoffset  = true ;
+      let hitA = chg < -mixChag ; 
+      let hitB  = true ;
+      let hitC  = true ;
+      let hitD  = true ;
 
       for (let i = index -1 ; i>=0  ; i-- ) {
         let  bd = anaData[ i ];
         let  bchg = _.get( bd ,chgKey);
         let  bclose = _.get(bd , closeKey); 
         let  bopen = _.get(bd , openKey); 
+  
+        let offset = bopen  / close ;
+        let cffset = bclose / close ;
  
-        let ctime =  Math.abs( chg / bchg );
-        let Toffset =   Math.max( bclose ,bopen) / close ;
-        let Boffset =   Math.min( bclose ,bopen) / close ;
 
-        hitMinChg = hitMinChg && chg < bchg ; 
-        hitChgTime = hitChgTime && ctime > chgTimes;
-        hitToffset = hitToffset &&  ( Toffset <  ( 100 - mixChag*0.5 )/100 )
-        hitBoffset = hitBoffset &&  ( Boffset > ( 100 - mixChag*1.5 )/100  )
+        // hitChgTime = hitChgTime && ctime > chgTimes;
+        hitB = hitB &&  (  offset < 1.03 &&   offset > 0.97 )
+        hitC = hitC &&  (  cffset < 1.03 &&   cffset > 0.97 ) 
         
-        if( hitMinChg &&hitChgTime && hitToffset && hitBoffset  ){
+        if( hitA && hitB && hitC ){
           hitIndex = index;
           hitData = cDay;
           break;
         }
       }  
     }
+    
     await esStock.upDataTag(esst._id,  TagName , !!hitData    )
 
     // await esStock.upDataTag(esst._id,  !!hitData ,  TagName , {
     //   hit: !!hitData ,
     //   date: _.get( hitData , '_source.date' )
-    // });
-     
+    // }); 
 
-    if(!!hitData){
-      console.log("~~~~~~~~~~~~" , esst._id , TagName )
-    }
 }
 
 

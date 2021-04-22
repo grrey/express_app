@@ -3,6 +3,7 @@ const _ = require('lodash');
 /**
  * 上下趋势
  * @param {qu} param0 
+ * @deprecated
  */
 exports.qushi = function({
     dataArr,
@@ -28,6 +29,7 @@ exports.qushi = function({
 
 /**
  * 折点
+ * @deprecated
  */
 exports.zhedian = function({
     dataArr,

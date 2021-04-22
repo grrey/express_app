@@ -47,7 +47,7 @@ const StockTask = [
     {
       name: "analyseSt",
       enable: true ,
-      immediate: true ,
+      immediate: false ,
       schedu: '0 0 4 */2 * 1-5',
       stockSearchParams: {},
       handler: reTryWarper(analyseCtrl.analyseHis, 2)
@@ -127,7 +127,7 @@ StockTask.forEach(({
             } else {
                 esObj = stockList.splice(0, batch);
             }
-            console.log(`scheduleJob ${name} ,  process =  ${ stl - stockList.length} / ${stl} `)
+            // console.log(`scheduleJob ${name} ,  process =  ${ stl - stockList.length} / ${stl} `)
             await handler(esObj);
             if (st) {
                 await sleep(st)
