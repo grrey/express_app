@@ -14,7 +14,7 @@ class AnalyseCtrl {
 	async analyseHis (esst ){
 		
     // [新 -> 旧]
-		var { data:hisArr } = await esHis.search({ q:`marketCode:${ esst._id} AND k:*` , size:30,  sort:"date:desc"});
+		var { data:hisArr } = await esHis.search({ q:`marketCode:${ esst._id} AND k:*` , size:50,  sort:"date:desc"});
  
     if( hisArr.length < 30 ){
       return ;
