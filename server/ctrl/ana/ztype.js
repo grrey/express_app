@@ -26,6 +26,9 @@ module.exports = async function ztype(esst, hisArr) {
     });
 
     let hit = madown && maup;
+
+    
+
     await esStock.upDataTag(esst._id, TagName, hit);
 
 

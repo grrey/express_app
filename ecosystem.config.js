@@ -13,8 +13,8 @@ module.exports = {
         exec_mode: 'cluster',
         max_memory_restart: '200M',
 
-        // autorestart: true ,
-        // watch  : ['./server'],
+        autorestart: true ,
+        watch  : ['./server'],
 
         env: {
             NODE_ENV: 'development'
@@ -25,10 +25,7 @@ module.exports = {
 
         log_file: 'logs/log.log',
         
-        // 'pm2-logrotate': {
-        //     max_size: '2M',
-        //     compress: false
-        // }
+        
 
     }]
 }

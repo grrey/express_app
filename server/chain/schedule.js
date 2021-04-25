@@ -28,8 +28,8 @@ const StockTask = [
     // update his:
     {
         name: "upDataStockHis",
-        enable: true ,
-        immediate: false ,
+        enable: true,
+        immediate: false,
         schedu: '0 0 1 */2 * 1-5',
         stockSearchParams: {},
         handler: reTryWarper(hisCtrl.upDataStockHis, 2, 1000)
@@ -37,26 +37,26 @@ const StockTask = [
     // calc ma 
     {
         name: "caclMa",
-        enable: true ,
-        immediate: false ,
+        enable: true,
+        immediate: false,
         schedu: '0 0 3 */2 * 1-5',
         stockSearchParams: {},
-        handler: hisCtrl.caclMaVal 
+        handler: hisCtrl.caclMaVal
     },
     // analyse .js 
     {
-      name: "analyseSt",
-      enable: true ,
-      immediate: false ,
-      schedu: '0 0 4 */2 * 1-5',
-      stockSearchParams: {},
-      handler: reTryWarper(analyseCtrl.analyseHis, 2)
+        name: "analyseSt",
+        enable: true,
+        immediate: false,
+        schedu: '0 0 4 */2 * 1-5',
+        stockSearchParams: {},
+        handler: reTryWarper(analyseCtrl.analyseHis, 2)
     },
     // update F10 ;
     {
         name: "upDataStock-F10",
-        enable: false ,
-        immediate: false ,
+        enable: false,
+        immediate: false,
         schedu: '0 0 2 * 3,6,9,12 1',
         stockSearchParams: {},
         handler: reTryWarper(stockCtrl.updeF10, 2, 1000),
@@ -66,8 +66,8 @@ const StockTask = [
     // fetch news 
     {
         name: 'upDataNews',
-        enable: false ,
-        immediate: false ,
+        enable: false,
+        immediate: false,
         schedu: '20 1 * * *',
         stockSearchParams: {},
         handler: reTryWarper(hisCtrl.upDataNews, 2, 1000),
@@ -77,24 +77,24 @@ const StockTask = [
     // 事实监控; 2 分钟 
     {
         name: "watchCurrent",
-        enable: false ,
-        immediate: false  ,
+        enable: false,
+        immediate: false,
         schedu: '0 */10 9-12,13-15 * * *',
         stockSearchParams: {},
         handler: reTryWarper(watchCtrl.watchCurrentVal, 2),
         batch: 10
     },
-  
+
 
     //==================== script ==============
     {
-      name: "dealSelf",
-      enable: false ,
-      immediate: false ,
-      schedu: '10 6 * * 1',
-      stockSearchParams: {},
-      handler: reTryWarper(stockCtrl.dealSelf, 2),
-      sleep: 10,
+        name: "dealSelf",
+        enable: false,
+        immediate: false,
+        schedu: '10 6 * * 1',
+        stockSearchParams: {},
+        handler: reTryWarper(stockCtrl.dealSelf, 2),
+        sleep: 10,
     },
 
 
@@ -127,7 +127,7 @@ StockTask.forEach(({
             } else {
                 esObj = stockList.splice(0, batch);
             }
-            // console.log(`scheduleJob ${name} ,  process =  ${ stl - stockList.length} / ${stl} `)
+            console.log(`scheduleJob ${name} ,  process =  ${ stl - stockList.length} / ${stl} `)
             await handler(esObj);
             if (st) {
                 await sleep(st)

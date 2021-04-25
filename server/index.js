@@ -27,3 +27,8 @@ server.listen(8080, function() {
     console.log('app listening at', host, port)
 })
  
+
+
+const cluster = require('cluster');
+
+console.log('1111111111111111' , cluster.isMaster )

@@ -134,7 +134,7 @@ module.exports = class esBase {
 		// 	params.q = ( params.q ? ( params.q +" AND " ): "" ) + subQ ; // 有历史的 stock ;
 		// }
 
-		console.log('search params = ',  JSON.stringify(params) );
+		// console.log('search params = ',  JSON.stringify(params) );
 
 		var { hits = {} } = await client.search(params);
  

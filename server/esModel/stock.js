@@ -117,8 +117,7 @@ class Stock extends base {
     		}); 
     	} 
     	if( hit ){
-    		tag.push(tagName );
-    		console.log( 'updata Tag' , _id , tagName ,hit )
+    		tag.push(tagName ); 
     	} 
     	await  this.update( _id , { tag });
     }
