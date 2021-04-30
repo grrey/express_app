@@ -16,7 +16,7 @@ class NetFetch {
    
 
  
-    // 抓取 经营数据; 历史报表
+    // 抓取 产品 经营数据; 历史报表
     async fetchBusiness(esobj) {
         let result = await dfcfw.fetchBusiness(esobj);
         return result;

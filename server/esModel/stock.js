@@ -10,7 +10,7 @@ let ProgressBar = require('progress');
     "name": "百川股份",
     "JYFW": "危险化学品经营(按许可证所列方式和项目经营);--经营的东西, 干什么的.",
 	"SSBK": [ "化工行业", "江苏板块", "锂电池"],
- 
+    'hy':"锂电池" ,
 	zyhy: [{ zygc:"行业类别" zysr:"主营收入" , srbl:"收入比例"},..] // 最近时间 主营行业, 
 	zycp: [] // 最近时间 主营产品;,
 
@@ -50,7 +50,7 @@ class Stock extends base {
         this.pageSize = 200;
 
         // stock 基本字段;
-        this.baseField = ["_id", 'marketCode' ,"market", "code", 'name' ,'latesHisDay'  ];
+        this.baseField = ["_id", 'marketCode' ,"market", "code", 'name' ,'latesHisDay' , 'tag'  ];
         this.forHisField = ["_id", 'marketCode' ,"market", "code", 'name' ,'latesHisDay'  ];
 
         // luceneStr 查询 短语;

@@ -38,6 +38,10 @@
 	},
 	"scripts": {
 		"server": "supervisor ./server/index.js",
+		"taskMa": "node server/chain/schedule_ma.js",
+		"tHis": "node server/chain/schedule_updateHis.js",
+		"tAna": "node server/chain/schedule_analyse.js",
+		"tAnaC": "node server/chain/schedule_analyse_check.js",
 		"start": "pm2 start process.yml"
 	},
 	"author": "",

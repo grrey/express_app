@@ -64,7 +64,7 @@ async function fetchHis163(esStockObj, start) {
         `code=${yahooCode}&start=${start}&end=${end}` +
         `&fields=TCLOSE;HIGH;LOW;TOPEN;CHG;PCHG;TURNOVER;VOTURNOVER;VATURNOVER;TCAP;MCAP`;
 
-    console.log(`  net163 gethist params :  ${stock.market }  : ${yahooCode}&start=${start}&end=${end} `);
+    // console.log(`  net163 gethist params :  ${stock.market }  : ${yahooCode}&start=${start}&end=${end} `);
 
     var d = await rp({
         url,
@@ -123,7 +123,7 @@ async function fetchHis163(esStockObj, start) {
 
     }
 
-    console.log(` net163 gethis  ${ marketCode }:  his data.length:  ${ hisData.length} , org arr.leng= ${arr.length}`);
+    // console.log(` net163 gethis  ${ marketCode }:  his data.length:  ${ hisData.length} , org arr.leng= ${arr.length}`);
     return hisData;
 
 }

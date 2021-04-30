@@ -74,6 +74,7 @@ class StockCtrl {
     // 跟新经营数据 比例; 
     async updateBusiness(esObj) {
         let bus = await fetchBusiness(esObj);
+        console.log( 111 , JSON.stringify( bus ) )
         await esStock.update(esObj._id, bus);
     }
 }

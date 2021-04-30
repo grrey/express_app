@@ -1,7 +1,8 @@
+process.env.NODE_ENV = 'production'
+
 require('./node_global');
 require('./chain');
 
- 
 const express = require('express')
 const http = require('http')
 var setApi = require('./api')
@@ -27,8 +28,4 @@ server.listen(8080, function() {
     console.log('app listening at', host, port)
 })
  
-
-
-const cluster = require('cluster');
-
-console.log('1111111111111111' , cluster.isMaster )
+ 

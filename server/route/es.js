@@ -51,5 +51,4 @@ router.use('/', (req, res) => {
 module.exports = router;
 
 
-
-console.log( stringify({a:1 ,b:2})  )
+ 

@@ -118,7 +118,4 @@ class WatchCtrl {
 
 var watchCtrl = new  WatchCtrl();
 module.exports = watchCtrl;
-
-var s =  + 55.51231231.toFixed(2)
-
-console.log( 222,  s , typeof s )
+ 
