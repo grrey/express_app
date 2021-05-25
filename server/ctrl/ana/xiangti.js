@@ -9,73 +9,39 @@ const utils = require('./utils');
 const TagName = 'xiangTi'
 
 module.exports = async function xiangti(esst, hisArr) {
-    // 15(totalDay) 天内最大的chg    > -5(mixChag) ,  是每个chg的 3倍大(chgTimes), 每个val是最大chg val的  +- 0.03 (offset)之间 ,  最后 2() 天看 突破;
+    
+    let hitTag = false ;
+
+    // console.log( 111 , hisArr )
 
     // hisArr = [新,旧 ,.... ]
-
-    let totalDay = 15; // 15 天 
-    let mixChag = 5; // -5
-    let chgTimes = 3;
-    let offset = 0.03;
-
-    let judegData = hisArr[0]
-    let anaData = _.slice(hisArr, 1, totalDay);
 
     let pchgKey = '_source.k.pchg'
     let closeKey = '_source.k.close'
     let openKey = '_source.k.open'
+     
+    let d0 = hisArr[0];
+    let d1 = hisArr[1];
+    let d2 = hisArr[2];
+    let d3 = hisArr[3];
 
-    let hitIndex = undefined;
-    let hitData;
-    // 留下第一天去判断
+    let  pchg0 =  _.get( d0  , pchgKey );
+    let  pchg1 =  _.get( d1  , pchgKey );
+    let  pchg2 =  _.get( d2  , pchgKey );
+    let  pchg3 =  _.get( d3  , pchgKey );
+
+    let  c0 =  _.get( d0  , closeKey );
+    let  c1 =  _.get( d1  , closeKey );
+    let  c2 =  _.get( d2  , closeKey );
+    let  c3 =  _.get( d3  , closeKey );
 
 
-    let hitA = true;
-    let hitB = true;
-    let hitC = true;
-    let hitD = true;
-
-    for (let index = anaData.length - 1; index >= 0; index--) {
-        let cDay = anaData[index]
-
-        let pchg = _.get(cDay, pchgKey)
-        let close = _.get(cDay, closeKey)
-        let open = _.get(cDay, openKey)
-
-        hitA = pchg < -mixChag;
-
-        var avgPchg = _.meanBy(_.take(anaData, index), (v) => {
-            return Math.abs(_.get(v, pchgKey));
-        })
-
-        for (let i = index - 1; i >= 0; i--) {
-            let bd = anaData[i];
-            let bpchg = _.get(bd, pchgKey);
-            let bclose = _.get(bd, closeKey);
-            let bopen = _.get(bd, openKey);
-
-            let offset = bopen / close;
-            let cffset = bclose / close;
-
-            // hitChgTime = hitChgTime && ctime > chgTimes;
-            hitB = hitB && (offset < 1.03 && offset > 0.97)
-            hitC = hitC && (cffset < 1.03 && cffset > 0.97)
-        }
-
-        hitD = avgPchg < mixChag / 2;
-
-        // if( hitA && hitB && hitC && hitD ){
-        if (hitA && hitD) {
-            hitIndex = index;
-            hitData = cDay;
-            break;
-        }
+    // if( pchg1 < -4  && pchg0 >0.5 && pchg0 <2  &&   pchg2 < 1 & pchg3 < 1  ){
+    if( pchg1 < -5  && pchg0 >0.5 && pchg0 <2  && c0 > c1  ){
+        console.log(  d0 , d1 ,d2,d3)
+        hitTag = true ;
     }
 
-    var hitTag = false;
-    if (hitData && _.get(judegData, closeKey) > _.get(hitData, closeKey) && hitIndex > 5) {
-        hitTag = true;
-    }
 
     await esStock.upDataTag(esst._id, TagName, hitTag)
 

@@ -99,17 +99,18 @@ class HisCtrl {
 
         await esHis.createOrUpdate(calcHisArr);
 
-
         // var arr = hisDataArr.map((o) => {
         //     var k = o._source.k;
         //     return { close: k.close, date: o._source.date };
         // });
+
         // 标记折点;
         // var  zhedianData = markZheDianData( arr , [ 2,3,4,5,6,7,8,9,10 ,11 ,12 ] );
 
         // console.log( 'markZheDian ' , esObj._id   );
         // await esStock.update(esObj._id, { zheDian: zhedianData });
         // return { calcHisArr, zhedianData }
+        
     }
 
     // 抓取新闻; 

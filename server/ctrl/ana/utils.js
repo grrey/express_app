@@ -57,3 +57,10 @@ exports.zhedian = function({
 }
 
  
+// var  bol = exports.qushi( {
+//     dataArr: [  {a:41} , {a:11} , {a:31} , {a:41}  ],
+//     fieldPath:'a',
+//     upDirect: true ,
+//     size:2
+// })
+// console.log(  bol )

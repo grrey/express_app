@@ -1,5 +1,6 @@
 let  base = require('./base');
 let ProgressBar = require('progress');
+let _ = require('lodash')
 /**
 
  _id =  marketCode
@@ -54,14 +55,16 @@ class Stock extends base {
         this.forHisField = ["_id", 'marketCode' ,"market", "code", 'name' ,'latesHisDay'  ];
 
         // luceneStr 查询 短语;
-		this.lucene_gp = "code:/[0,3,6]{1}.{5}/ AND latesHisDay:>20201228  AND  macp:>10";
+		// this.lucene_gp = "code:/[0,3,6]{1}.{5}/ AND latesHisDay:>20201228 ";
+		this.lucene_gp = "marketCode:*";
 		
 		// this.lucene_gp = "code:/[0,3,6]{1}.{5}/"
 		this.allField = [
 			'marketCode' ,"market", "code", 'name' ,'pinyin',
 			'latesHisDay' ,
 			'JYFW' , 'SSBK' ,'ticai',
-			'business','zyhy','zycp', 'hy'
+			'business','zyhyT','zycpT', 'hy',
+
 		]
 	}
 	
@@ -103,24 +106,43 @@ class Stock extends base {
 
 
     /**
-     * 更新tag , 
+     * 更新tag ,  tagName , || tagName= { tag: hit , A:false | true }
      * @param {*} _id 
      * @param {*} tagName 
      * @param {*} hit 
      */
     async upDataTag( _id ,  tagName  , hit ){
+        
+        let tagConf = {}
+        if(  tagName instanceof Object ){
+            tagConf = tagName ;
+        }else {
+            tagConf =  { [tagName]: hit }
+        }
+ 
     	let {_source} = await this.getById( _id , ['tag']);
     	let { tag=[] } = _source ;
-    	if( tag.length ){
-    		tag = tag.filter((params) => {
-    			return params != tagName ;
-    		}); 
-    	} 
-    	if( hit ){
-    		tag.push(tagName ); 
-    	} 
+
+         
+        for( let key in tagConf ){
+            let  bool = tagConf[ key ];
+            if( bool === true ){
+                if( !tag.includes( key ) ){
+                    tag.push( key )
+                }
+            } else if( bool === false ){
+                let i =  tag.indexOf( key )
+                if(  i >=0 ){
+                    tag.splice( i , 1 )
+                }
+            }
+        } 
+        // console.log( _id  ,tag )
     	await  this.update( _id , { tag });
     }
+
+  
+
 
 }
  

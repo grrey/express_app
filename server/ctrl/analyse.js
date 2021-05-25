@@ -52,6 +52,8 @@ class AnalyseCtrl {
 
         await ana.xiangti(esst, hisArr );
 
+        await ana.caiwu( esst )
+
     }
 
     async judgeAna(stock) {
@@ -91,8 +93,7 @@ class AnalyseCtrl {
             for (let i = 0; i < tags.length; i++ ) {
                 let tag = tags[i];
                 if (hitTags.includes(tag)) {
-
-                    console.log( 'hitttt' , tag ) 
+ 
 
                     tongji[tag] = tongji[tag] || { total: 0, hit1: 0, hit2: 0, hit3: 0 };
                     tongji[tag].total++;

@@ -30,55 +30,91 @@ async function fetchBusiness({
         }
     })
 
-    let { zygcfx = [] } = d;
-    let zyhy = [],
-        zycp = [];
 
-    zygcfx.forEach(({
-        rq,
-        hy = [],
-        cp = []
-    }) => {
-        zyhy.push({
-            data: rq,
-            hy: hy.map((h) => {
-                return {
-                    zygc: h.zygc,
-                    zysr: common.parse2Num(h.zysr),
-                    // srbl: common.parse2Num( h.srbl),
-                }
-            }),
-        });
-        zycp.push({
-            data: rq,
-            cp: cp.map((c) => {
-                return {
-                    zygc: c.zygc,
-                    zysr: common.parse2Num(c.zysr),
-                    // srbl: common.parse2Num( c.srbl),
-                }
-            }),
-        });
+    let { zygcfx=[] } = d ;
 
-    })
+    let thy = [] , tcp=[]; 
+    let zyhyT  = [] , zycpT = [] ;
+
+    zygcfx.forEach(({hy=[],cp=[]}) => {
+        
+        thy.push(...hy);
+        tcp.push(...cp);
+         
+        _calcTdata( zyhyT , hy ) 
+        _calcTdata( zycpT , cp ) 
+
+    }); 
+ 
 
     return {
-        zyhy,
-        zycp,
+        zyhy: _group( thy),
+        zycp: _group( tcp),
+        zyhyT,
+        zycpT
     }
+
+  
 }
 
 exports.fetchBusiness = fetchBusiness;
 
+function _group( g ){
+    let gr = _.groupBy( g , (d) => {
+        return  d.zygc ;   
+    });
 
-// (async () => {
-//     var bus = await fetchBusiness({
-//         _source: {
-//             market: 'SH',
-//             code: 600332
-//         }
-//     });
+    return Object.values( gr).map( (g) => {
+        return  { name: g[0].zygc , values: g  }
+    })
+    // .filter((g) => {
+    //         return g.values.length >=2
+    // })
 
-//     console.log(111, bus)
+} 
 
-// })()
+function _calcTdata( arr ,  data ){
+    let res = {
+        date:'',
+        zysr:0,
+        zylr:0
+    }
+
+    data.forEach((d) => { 
+        res.date = d.rq ;
+        
+        res.zysr += _getNum( d.zysr )
+        res.zylr +=_getNum( d.zylr ) 
+    })
+    
+    if( res.date ){
+        arr.push( res )
+    }
+}
+
+function  _getNum( str = ""){
+    let num  = 0 ;
+    
+    if( str.indexOf('万亿') >=0 ){
+        num = ( + str.replace('万亿','') ) * 10000
+    }else if( str.indexOf('亿')>=0  ){
+        num =  + str.replace('亿','')
+    } else if( str.indexOf('万') >=0 ) {
+        num =   +(( +str.replace('万','') ) / 10000).toFixed(4)
+    }  
+    return num ;
+
+}
+
+
+// fetchBusiness({
+//     _id:'sh600766',
+//     _source: { 
+//         marketCode:'sh600766',
+//         market:'sh',
+//         code:'600766'
+//     }
+// })
+// .then( console.log );
+
+

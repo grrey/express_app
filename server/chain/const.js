@@ -21,6 +21,8 @@ const JobName = {
     analyseCheckTongji:'analyseCheckTongji' , // 分析结果.
 
     updateCaiwu:'updateCaiwu',
+
+    dealSt:"dealSt"
 }
 
 const JobMap = {
@@ -31,7 +33,8 @@ const JobMap = {
     [JobName.analyseCheck]: analyseCtrl.judgeAna,
     [JobName.analyseCheckTongji]: analyseCtrl.judgeAnaTongji,
 
-    [JobName.updateCaiwu]: stockCtrl.updateBusiness
+    [JobName.updateCaiwu]: stockCtrl.updateBusiness ,
+    [JobName.dealSt]: stockCtrl.dealSelf
 
 }
 
@@ -68,7 +71,7 @@ async function runSchedule({
 
         let { data } = await stockCtrl.getAllList(stockSearchParams);
 
-        data =  _.take(data , 20 )
+        // data =  _.take(data , 20 )
 
         barMap[JobName] = new ProgressBar(`${JobName} [:bar] :current/:total :percent :elapseds`, {
             complete: '=',

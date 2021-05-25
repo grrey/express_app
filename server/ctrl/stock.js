@@ -1,16 +1,10 @@
-const {
-    fetchF10
-} = require("../netFetch/f10");
-const {
-    fetchBusiness
-} = require("../netFetch/business");
+const { fetchF10 } = require("../netFetch/f10");
+const { fetchBusiness } = require("../netFetch/business");
 const esStock = require('../esModel/stock');
 const esHis = require('../esModel/his');
 const esCommon = require('../esModel/common');
 const stockListData = require('../../data/allStock');
-const {
-    getSM
-} = require('../utils/pinyin')
+const { getSM } = require('../utils/pinyin')
 require('../node_global')
 class StockCtrl {
     // 获取所有列表
@@ -38,21 +32,20 @@ class StockCtrl {
         console.log(' es result ', result)
     }
     async dealSelf(esObj) {
+
+        // console.log(111, esObj._id   )
+
         // ================更新 hisData 的hy字段============; 
-        // let {
-        //     marketCode,
-        //     hy
-        // } = esObj._source; 
-        // console.log( marketCode, hy ); 
-        // var s = await esHis.client.updateByQuery({
-        //   index: esHis.indexName,
-        //   type: esHis.defaultTypeName, 
-        //   q:`marketCode:${marketCode}`,
-        //   body:{  
-        //     script: `ctx._source.hy='${hy}'`   
-        //   }
-        // }); 
+ 
+        try {
+            await esStock.update( esObj._id ,  { tag:[ ]   })
+
+        }catch(e){
+            console.log(111 , e );
+        }
+
         // == 删除tag ;
+
     }
     /**
      * 4个进程 , process 内的st ;
@@ -74,8 +67,11 @@ class StockCtrl {
     // 跟新经营数据 比例; 
     async updateBusiness(esObj) {
         let bus = await fetchBusiness(esObj);
-        console.log( 111 , JSON.stringify( bus ) )
+        // console.log(111 , bus)
         await esStock.update(esObj._id, bus);
+        await new Promise((r, j) => {
+            setTimeout(r, 200);
+        })
     }
 }
 var stockCtrl = new StockCtrl();
@@ -83,6 +79,7 @@ module.exports = stockCtrl;
 
 
 // stockCtrl.watchCurrentVal( [{_source:{ marketCode:"sh600311"}}] )
+
 // stockCtrl.getProcessStList({}).then(  (params) => {
 // 	console.log('rrrr' , params )
 // } )
@@ -92,9 +89,20 @@ module.exports = stockCtrl;
 // 	})
 // 	console.log( JSON.stringify( d ))
 // })
+
 // stockCtrl.dealSelf({
-//     _source: {
-//         marketCode: "sh600311",
-//         hy: "hhhhhx1"
+//     _id:'sh600766',
+//     _source: { 
+//         marketCode:'sh600766'
+//     }
+// });
+
+
+// stockCtrl.updateBusiness({
+//     _id:'sh600766',
+//     _source: { 
+//         marketCode:'sh600766',
+//         market:'sh',
+//         code:'600766'
 //     }
 // });

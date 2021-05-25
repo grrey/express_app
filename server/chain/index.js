@@ -4,4 +4,5 @@
 require('./schedule_analyse');
 require('./schedule_ma');
 require('./schedule_updateHis');
+require('./schedule_updateCaiwu');
 
