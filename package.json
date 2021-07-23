@@ -2,6 +2,9 @@
 	"name": "express_app",
 	"version": "1.0.0",
 	"description": "",
+	"bin": {
+		"st": "./bin/st"
+	},
 	"dependencies": {
 		"axios": "^0.16.0",
 		"baidu-aip-sdk": "^2.4.6",
