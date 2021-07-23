@@ -1,0 +1,110 @@
+	<!DOCTYPE html>
+	<html>
+
+	<head>
+
+
+	    <style type="text/css">
+	        .ff {
+	            font-size: 34;
+	            height: 400px;
+	            background-color: aqua;
+	            margin: 10px;
+	        }
+
+	    </style>
+	</head>
+
+	<body class="page-home ac-nav-overlap">
+
+	    <a href="https://apps.apple.com/cn/app/id409563112">https://apps.apple.com/cn/app/id409563112</a>
+	    <a href=" iqiyi-pad://mobile/player?tvid=&aid=249077201&subtype=iPadwy_2386&from_type=27&from_subtype=24&link_id=iqiyihd_9"> 
+            iqiyi-pad://mobile/player?tvid=10005401300&aid=249077201&subtype=iPadwy_2386&from_type=27&from_subtype=24&link_id=iqiyihd_9</a>
+
+        
+	    <br />
+	    <br />
+	    <br />
+	    <br />
+	    <br />
+	    <button onclick="launch()">schema-x </button>
+
+	    <br />
+	    <br />
+	    <br />
+	    <br />
+	    <br />
+	    <div id='text'>
+
+	    </div>
+	</body>
+	<script>
+	    let text = document.getElementById('text')
+
+	    function launch() {
+
+            // window.location.href = 'https://apps.apple.com/cn/app/id409563112';
+
+            window.location.href = 'iqiyi-pad://mobile/player?tvid=10005401300&aid=249077201'
+
+            // window.open('//apps.apple.com/cn/app/id409563112' ,'_blank')
+
+            return ;
+
+	        // setTimeout(() => {
+	        location.href = 'iqiyi-pad://'
+
+	        // }, 200);
+
+	        // let  t1 = new Date();  
+	        // setTimeout(() => {
+	        //     let t2 = new Date(); 
+	        //     showText(  'haoshi  = ' + ( t2 -t1 ) )
+	        // }, 2000);
+
+
+
+	        let t = 20;
+	        let time = 100
+	        let t1 = new Date();
+
+	        function timeer() {
+	            if (t <= 0) {
+	                let t2 = new Date();
+	                let timeoffset = t2 - t1 - (t * time);
+	                // timeoffset  > 80 : 启动app成功,  : 无需跳转到 appsotore ;
+	                // timeoffset  <=80 :  取消 alert( 显示 ) : 跳转到 appstore ;
+
+	                showText('hs想 = ' + timeoffset + " -- " + t)
+
+	                return;
+	            }
+	            t--;
+	            setTimeout(() => {
+	                timeer();
+	            }, time);
+	        }
+	        timeer()
+
+
+
+	    }
+
+	    window.addEventListener('blur', function() {
+	        showText('blur')
+	    })
+	    window.addEventListener('focus', () => {
+	        showText('focus')
+	    })
+
+	    function showText(tx) {
+	        let d = new Date();
+	        let st = d.toLocaleString() + " " + d.getMilliseconds()
+	        text.innerHTML = text.innerHTML + "<div> " + st + ': ' + tx + " </div>"
+	    }
+
+        showText( navigator.userAgent )
+
+	</script>
+
+	</html>
