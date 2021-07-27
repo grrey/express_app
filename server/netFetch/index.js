@@ -3,8 +3,7 @@
  */
 let rp = require('request-promise');
 
-const dfcfw = require('./dfcfw');
-const tushare = require('./tushare');
+const dfcfw = require('./dfcfw'); 
 // const n163 = require('./n163')
 const moment = require("moment");
 

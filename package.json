@@ -42,7 +42,10 @@
 	},
 	"scripts": {
 		"server": "supervisor ./server/index.js",
-		"taskMa": "node server/chain/schedule_ma.js",
+		"s_f10": "node server/chain/s_f10.js",
+		"s_caiwu": "node server/chain/s_caiwu.js",
+		"s_his": "node server/chain/s_his.js",
+        
 		"tHis": "node server/chain/schedule_updateHis.js",
 		"tCaiw": "node server/chain/schedule_updateCaiwu.js",
 		"tMa": "node server/chain/schedule_ma.js",

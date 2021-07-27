@@ -16,8 +16,9 @@
 const { JobName  ,  runSchedule  } = require('./const') 
 
 const maTask = {
-    JobName: JobName.updateCaiwu,
+    JobName: JobName.F10,
     enable: true,
+    immediate: false,
     schedu: '0 0 1 */2 * 1-5',
     stockSearchParams: {},
 }

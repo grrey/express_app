@@ -13744,6 +13744,6 @@ var list = [
     }
 ];
 
-module.exports  = list ;
+module.exports  = {data:list} ;
 
  

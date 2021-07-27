@@ -10,13 +10,15 @@
 每周1的1点1分30秒触发 ：'30 1 1 * * 1'
 每分钟的1-10秒都会触发，其它通配符依次类推: '1-10,20-30 * * * * 1-5'
 
+ 
 */
 
 const { JobName  ,  runSchedule  } = require('./const') 
 
 const maTask = {
-    JobName: JobName.dealSt,
+    JobName: JobName.Caiwu,
     enable: true,
+    immediate: false,
     schedu: '0 0 1 */2 * 1-5',
     stockSearchParams: {},
 }

@@ -16,12 +16,10 @@ async function fetchHis({
     _source
 }) {
     let startDay;
-    if (appConfig.forceHis) {
-        startDay = moment().subtract(600, 'days').format('YYYYMMDD')
-    } else if (_source.latesHisDay) {
+    if (_source.latesHisDay) {
         startDay = moment(_source.latesHisDay).add(1, 'days').format('YYYYMMDD');
     } else {
-        startDay = moment().subtract(30, 'days').format('YYYYMMDD');
+        startDay = moment().subtract(500, 'days').format('YYYYMMDD');
     }
 
 

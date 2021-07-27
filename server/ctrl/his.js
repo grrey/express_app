@@ -1,5 +1,5 @@
 require('../node_global')
-const { fetchHis } = require("../netFetch/valhis");
+const { fetchHis } = require("../netFetch/his");
 const { fetchNews } = require("../netFetch/news");
 const esStock = require('../esModel/stock');
 const esHis = require('../esModel/his');
@@ -23,13 +23,13 @@ class HisCtrl {
             list.forEach((h) => {
                 h.hy = hy;
             })
-
+            
             await esHis.createOrUpdate(list);
 
             let latestHis = list.pop();
             let latesHisDay = latestHis.date.replace(/-/g, '');
 
-            // console.log('upDataStockHis:', esObj._id, list && list.length, latesHisDay);
+            console.log('upDataStockHis:', esObj._id, list && list.length, latesHisDay);
 
             await esStock.update(esObj._id, {
                 latesHisDay,

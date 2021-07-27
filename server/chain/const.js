@@ -13,28 +13,35 @@ const watchCtrl = require('../ctrl/watch');
 
 // 进程间发消息用;
 const JobName = {
-    updateHis: 'updateHis',
-    calcMa: 'calcma',
-    analyseSt: 'analyseSt',
+    F10:'F10',
+    Caiwu:'Caiwu',
+    His:'His',
 
-    analyseCheck:'analyseCheck',
-    analyseCheckTongji:'analyseCheckTongji' , // 分析结果.
+    // updateHis: 'updateHis',
+    // calcMa: 'calcma',
+    // analyseSt: 'analyseSt',
 
-    updateCaiwu:'updateCaiwu',
+    // analyseCheck:'analyseCheck',
+    // analyseCheckTongji:'analyseCheckTongji' , // 分析结果.
 
-    dealSt:"dealSt"
+
+    // dealSt:"dealSt"
 }
 
 const JobMap = {
-    [JobName.updateHis]:  hisCtrl.upDataStockHis,
-    [JobName.calcMa]: hisCtrl.caclMaVal ,
-    [JobName.analyseSt]: analyseCtrl.analyseHis, 
+    [JobName.F10]: stockCtrl.updeF10 ,
+    [JobName.Caiwu]: stockCtrl.updateCaiwu ,
+    [JobName.His]: hisCtrl.upDataStockHis ,
 
-    [JobName.analyseCheck]: analyseCtrl.judgeAna,
-    [JobName.analyseCheckTongji]: analyseCtrl.judgeAnaTongji,
+    // [JobName.updateHis]:  hisCtrl.upDataStockHis,
+    // [JobName.calcMa]: hisCtrl.caclMaVal ,
+    // [JobName.analyseSt]: analyseCtrl.analyseHis, 
 
-    [JobName.updateCaiwu]: stockCtrl.updateBusiness ,
-    [JobName.dealSt]: stockCtrl.dealSelf
+    // [JobName.analyseCheck]: analyseCtrl.judgeAna,
+    // [JobName.analyseCheckTongji]: analyseCtrl.judgeAnaTongji,
+
+    // [JobName.updateCaiwu]: stockCtrl.updateBusiness ,
+    // [JobName.dealSt]: stockCtrl.dealSelf
 
 }
 

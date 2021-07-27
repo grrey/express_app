@@ -85,6 +85,9 @@ module.exports = class esBase {
 				}
 			}
 		} 
+
+        // console.log(11 ,body )
+        
 		await client.bulk({
 			index: this.indexName,
 			type: this.defaultTypeName,

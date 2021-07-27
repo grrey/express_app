@@ -5,7 +5,10 @@ const esHis = require('../esModel/his');
 const esCommon = require('../esModel/common');
 const stockListData = require('../../data/allStock');
 const { getSM } = require('../utils/pinyin')
-require('../node_global')
+const utils = require('../utils')
+require('../node_global');
+
+ 
 class StockCtrl {
     // 获取所有列表
     async getAllList({
@@ -14,18 +17,21 @@ class StockCtrl {
     } = {}) {
         let page = await esStock.search({
             luceneStr,
-            size: 4000,
+            size: 6000,
             fields2return: fields,
         });
         return page;
     }
-    // 导入 数据;
+    // 导入 数据; 
     async fetchStockLlist() {
         // let list = await netFetch.fetchStock(); 
         let list = stockListData.data.map((d) => {
-            d._source.marketCode = d._source.market + d._source.code;
-            d._source.pinyin = getSM(d._source.name);
-            return d._source;
+            // d._source.code = d._source.market + d._source.code;
+            // d._source.pinyin = getSM(d._source.name);
+            // return d._source;
+            d.pinyin = getSM( d.name);
+            d.market =  utils.st.getMarket(d.code)
+            return d ;
         })
         console.log('stock length = ', list.length);
         let result = await esStock.createOrUpdate(list);
@@ -62,12 +68,13 @@ class StockCtrl {
     // fetch 10 ;
     async updeF10(esObj) {
         let f10 = await fetchF10(esObj);
+        // console.log('ssss' , f10 )
         await esStock.update(esObj._id, f10);
     }
     // 跟新经营数据 比例; 
-    async updateBusiness(esObj) {
+    async updateCaiwu(esObj) {
         let bus = await fetchBusiness(esObj);
-        // console.log(111 , bus)
+        console.log(111 , bus)
         await esStock.update(esObj._id, bus);
         await new Promise((r, j) => {
             setTimeout(r, 200);
@@ -78,31 +85,6 @@ var stockCtrl = new StockCtrl();
 module.exports = stockCtrl;
 
 
-// stockCtrl.watchCurrentVal( [{_source:{ marketCode:"sh600311"}}] )
 
-// stockCtrl.getProcessStList({}).then(  (params) => {
-// 	console.log('rrrr' , params )
-// } )
-// stockCtrl.getAllList({}).then((data) => { 
-// 	var d = data.data.map((d) => {
-// 		return d._source ;
-// 	})
-// 	console.log( JSON.stringify( d ))
-// })
-
-// stockCtrl.dealSelf({
-//     _id:'sh600766',
-//     _source: { 
-//         marketCode:'sh600766'
-//     }
-// });
-
-
-// stockCtrl.updateBusiness({
-//     _id:'sh600766',
-//     _source: { 
-//         marketCode:'sh600766',
-//         market:'sh',
-//         code:'600766'
-//     }
-// });
+// stockCtrl.fetchStockLlist();
+ 

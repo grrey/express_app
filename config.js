@@ -5,9 +5,7 @@ module.exports = {
 		"API_KEY": "RBDNTSP2SzSfDN2i8GTHMGju",
 		"SECRET_KEY": "rE5fiUl2RUX2qrnbFzeknuZIFPqMW59C"
 	},
-
-	// 强制更新 his;
-	forceHis : false 
+ 
 
   
 }

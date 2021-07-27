@@ -42,25 +42,25 @@ class Stock extends base {
     constructor() {
         super()
         // index ;
-        this.indexName = "stock";
+        this.indexName = "st";
         // type ;
         // this.stockType = "stock_";
-        this.defaultTypeName = "stock_";
+        this.defaultTypeName = "st_";
 
         // 查询是每页条数;
         this.pageSize = 200;
 
         // stock 基本字段;
-        this.baseField = ["_id", 'marketCode' ,"market", "code", 'name' ,'latesHisDay' , 'tag'  ];
-        this.forHisField = ["_id", 'marketCode' ,"market", "code", 'name' ,'latesHisDay'  ];
+        this.baseField = ["_id", "market", "code", 'name' ,'latesHisDay' , 'tag'  ];
+        this.forHisField = ["_id",  ,"market", "code", 'name' ,'latesHisDay'  ];
 
         // luceneStr 查询 短语;
 		// this.lucene_gp = "code:/[0,3,6]{1}.{5}/ AND latesHisDay:>20201228 ";
-		this.lucene_gp = "marketCode:*";
+		this.lucene_gp = "code:*";
 		
 		// this.lucene_gp = "code:/[0,3,6]{1}.{5}/"
 		this.allField = [
-			'marketCode' ,"market", "code", 'name' ,'pinyin',
+			"market", "code", 'name' ,'pinyin',
 			'latesHisDay' ,
 			'JYFW' , 'SSBK' ,'ticai',
 			'business','zyhyT','zycpT', 'hy',
@@ -71,7 +71,7 @@ class Stock extends base {
 
     // 生成id;
     _genId(entity) {
-        return entity.market + entity.code ;
+        return  entity.code ;
     }
 
     // 从es中获取所有 stock ;
