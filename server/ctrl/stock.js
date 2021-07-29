@@ -66,7 +66,7 @@ class StockCtrl {
         return data.slice(pm_id * w, (pm_id + 1) * w);
     }
     // fetch 10 ;
-    async updeF10(esObj) {
+    async updeF10(esObj) { 
         let f10 = await fetchF10(esObj);
         // console.log('ssss' , f10 )
         await esStock.update(esObj._id, f10);
@@ -74,7 +74,7 @@ class StockCtrl {
     // 跟新经营数据 比例; 
     async updateCaiwu(esObj) {
         let bus = await fetchBusiness(esObj);
-        console.log(111 , bus)
+        console.log(111 , JSON.stringify( bus ) )
         await esStock.update(esObj._id, bus);
         await new Promise((r, j) => {
             setTimeout(r, 200);
@@ -86,5 +86,9 @@ module.exports = stockCtrl;
 
 
 
+let stobj = { _id:'600827', _source: {market:"sh" , code:'600827'}}
 // stockCtrl.fetchStockLlist();
- 
+
+
+//test 
+// stockCtrl.updateCaiwu( stobj )

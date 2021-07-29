@@ -120,7 +120,10 @@ class Dfcfw {
  
 }
 
+let  dfcfw = new Dfcfw(); 
 
-module.exports = new Dfcfw();
+module.exports = dfcfw;
+
+
 
  

@@ -9,6 +9,7 @@
 let rp = require('request-promise');
 let iconv = require("iconv-lite");
 let moment = require('moment');
+const config = require('../../config');
 
 
 async function fetchHis({
@@ -16,7 +17,7 @@ async function fetchHis({
     _source
 }) {
     let startDay;
-    if (_source.latesHisDay) {
+    if (_source.latesHisDay ) {
         startDay = moment(_source.latesHisDay).add(1, 'days').format('YYYYMMDD');
     } else {
         startDay = moment().subtract(500, 'days').format('YYYYMMDD');
@@ -82,8 +83,7 @@ async function fetchHis163(esStockObj, start) {
 
     var hisData = [],
         length = arr.length;
-
-    var marketCode = stock.market + stock.code;
+ 
 
     for (var i = length - 1; i >= 0; i--) {
         var record = arr[i];
@@ -94,7 +94,7 @@ async function fetchHis163(esStockObj, start) {
         }
 
         var d = {
-            marketCode,
+            code: stock.code ,
             date: rd[0].replace(/\//g, "-"), // moment(rd[0]).format("YYYY-MM-DD"),
             k: {
                 close: +rd[3], // 收盘价 ;
@@ -108,11 +108,11 @@ async function fetchHis163(esStockObj, start) {
                 rate: +rd[9], // 换手率    :   百分比;
                 amount: parseFloat((+rd[10] / 1000000).toFixed(2)), //  成交量     单位:万手
                 value: parseFloat((+rd[11] / 100000000).toFixed(2)), //  成交金额;   单位: 亿 ;
-
-                tcap: parseInt(+rd[12] / 100000000), //   总市值 ;   单位: 亿 ;
-                macp: parseInt(+rd[13] / 100000000), //   流通市值,  单位: 亿 ;
+            },
+            st:{ 
+                zong_shi_zhi: parseInt(+rd[12] / 100000000), //   总市值 ;   单位: 亿 ;
+                liu_tong: parseInt(+rd[13] / 100000000), //   流通市值,  单位: 亿 ;
             }
-
         }
         // 真实的品均价;
         d.k.avg = parseFloat((+rd[11] / +rd[10]).toFixed(2));
