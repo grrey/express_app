@@ -17,7 +17,7 @@ async function fetchHis({
     _source
 }) {
     let startDay;
-    if (_source.latesHisDay ) {
+    if (_source.latesHisDay  ) {
         startDay = moment(_source.latesHisDay).add(1, 'days').format('YYYYMMDD');
     } else {
         startDay = moment().subtract(500, 'days').format('YYYYMMDD');
@@ -95,6 +95,7 @@ async function fetchHis163(esStockObj, start) {
 
         var d = {
             code: stock.code ,
+            hy: stock.hy ,
             date: rd[0].replace(/\//g, "-"), // moment(rd[0]).format("YYYY-MM-DD"),
             k: {
                 close: +rd[3], // 收盘价 ;

@@ -12,18 +12,11 @@ class HisCtrl {
 
     // 更新历史 open.close , 值; 
     async upDataStockHis(esObj) {
- 
-        var { hy } = esObj._source;
-
-
+   
         var list = await fetchHis(esObj);
 
         if (list && list.length) {
-
-            list.forEach((h) => {
-                h.hy = hy;
-            })
-            
+ 
             await esHis.createOrUpdate(list);
 
             let latestHis = list.pop();
@@ -39,7 +32,7 @@ class HisCtrl {
             });
 
         }
-        await sleep(100);
+        await sleep(500);
 
     }
 

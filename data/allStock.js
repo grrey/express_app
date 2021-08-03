@@ -13744,6 +13744,73 @@ var list = [
     }
 ];
 
+
+
+var hy = [
+    { code: '10000001', name: '电子元件', market: 'hy', desc: '行业分类标识' },
+    { code: '10000002', name: '机械行业', market: 'hy', desc: '行业分类标识' },
+    { code: '10000003', name: '医药制造', market: 'hy', desc: '行业分类标识' },
+    { code: '10000004', name: '化工行业', market: 'hy', desc: '行业分类标识' },
+    { code: '10000005', name: '软件服务', market: 'hy', desc: '行业分类标识' },
+    { code: '10000006', name: '汽车行业', market: 'hy', desc: '行业分类标识' },
+    { code: '10000007', name: '专用设备', market: 'hy', desc: '行业分类标识' },
+    { code: '10000008', name: '输配电气', market: 'hy', desc: '行业分类标识' },
+    { code: '10000009', name: '房地产', market: 'hy', desc: '行业分类标识' },
+    { code: '10000010', name: '文化传媒', market: 'hy', desc: '行业分类标识' },
+    { code: '10000011', name: '电子信息', market: 'hy', desc: '行业分类标识' },
+    { code: '10000012', name: '通讯行业', market: 'hy', desc: '行业分类标识' },
+    { code: '10000013', name: '食品饮料', market: 'hy', desc: '行业分类标识' },
+    { code: '10000014', name: '纺织服装', market: 'hy', desc: '行业分类标识' },
+    { code: '10000015', name: '工程建设', market: 'hy', desc: '行业分类标识' },
+    { code: '10000016', name: '材料行业', market: 'hy', desc: '行业分类标识' },
+    { code: '10000017', name: '医疗行业', market: 'hy', desc: '行业分类标识' },
+    { code: '10000018', name: '电力行业', market: 'hy', desc: '行业分类标识' },
+    { code: '10000019', name: '农牧饲渔', market: 'hy', desc: '行业分类标识' },
+    { code: '10000020', name: '有色金属', market: 'hy', desc: '行业分类标识' },
+    { code: '10000021', name: '金属制品', market: 'hy', desc: '行业分类标识' },
+    { code: '10000022', name: '商业百货', market: 'hy', desc: '行业分类标识' },
+    { code: '10000023', name: '塑胶制品', market: 'hy', desc: '行业分类标识' },
+    { code: '10000024', name: '环保工程', market: 'hy', desc: '行业分类标识' },
+    { code: '10000025', name: '仪器仪表', market: 'hy', desc: '行业分类标识' },
+    { code: '10000026', name: '交运物流', market: 'hy', desc: '行业分类标识' },
+    { code: '10000027', name: '家电行业', market: 'hy', desc: '行业分类标识' },
+    { code: '10000028', name: '综合行业', market: 'hy', desc: '行业分类标识' },
+    { code: '10000029', name: '券商信托', market: 'hy', desc: '行业分类标识' },
+    { code: '10000030', name: '水泥建材', market: 'hy', desc: '行业分类标识' },
+    { code: '10000031', name: '公用事业', market: 'hy', desc: '行业分类标识' },
+    { code: '10000032', name: '文教休闲', market: 'hy', desc: '行业分类标识' },
+    { code: '10000033', name: '石油行业', market: 'hy', desc: '行业分类标识' },
+    { code: '10000034', name: '银行', market: 'hy', desc: '行业分类标识' },
+    { code: '10000035', name: '酿酒行业', market: 'hy', desc: '行业分类标识' },
+    { code: '10000036', name: '钢铁行业', market: 'hy', desc: '行业分类标识' },
+    { code: '10000037', name: '造纸印刷', market: 'hy', desc: '行业分类标识' },
+    { code: '10000038', name: '旅游酒店', market: 'hy', desc: '行业分类标识' },
+    { code: '10000039', name: '煤炭采选', market: 'hy', desc: '行业分类标识' },
+    { code: '10000040', name: '农药兽药', market: 'hy', desc: '行业分类标识' },
+    { code: '10000041', name: '木业家具', market: 'hy', desc: '行业分类标识' },
+    { code: '10000042', name: '装修装饰', market: 'hy', desc: '行业分类标识' },
+    { code: '10000043', name: '玻璃陶瓷', market: 'hy', desc: '行业分类标识' },
+    { code: '10000044', name: '港口水运', market: 'hy', desc: '行业分类标识' },
+    { code: '10000045', name: '航天航空', market: 'hy', desc: '行业分类标识' },
+    { code: '10000046', name: '交运设备', market: 'hy', desc: '行业分类标识' },
+    { code: '10000047', name: '包装材料', market: 'hy', desc: '行业分类标识' },
+    { code: '10000048', name: '国际贸易', market: 'hy', desc: '行业分类标识' },
+    { code: '10000049', name: '化纤行业', market: 'hy', desc: '行业分类标识' },
+    { code: '10000050', name: '多元金融', market: 'hy', desc: '行业分类标识' },
+    { code: '10000051', name: '化肥行业', market: 'hy', desc: '行业分类标识' },
+    { code: '10000052', name: '园林工程', market: 'hy', desc: '行业分类标识' },
+    { code: '10000053', name: '高速公路', market: 'hy', desc: '行业分类标识' },
+    { code: '10000054', name: '贵金属', market: 'hy', desc: '行业分类标识' },
+    { code: '10000055', name: '安防设备', market: 'hy', desc: '行业分类标识' },
+    { code: '10000056', name: '珠宝首饰', market: 'hy', desc: '行业分类标识' },
+    { code: '10000057', name: '民航机场', market: 'hy', desc: '行业分类标识' },
+    { code: '10000058', name: '船舶制造', market: 'hy', desc: '行业分类标识' },
+    { code: '10000059', name: '保险', market: 'hy', desc: '行业分类标识' },
+    { code: '10000060', name: '电信运营', market: 'hy', desc: '行业分类标识' },
+    { code: '10000061', name: '工艺商品', market: 'hy', desc: '行业分类标识' }
+  ]
+
+
 module.exports  = {data:list} ;
 
  

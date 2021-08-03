@@ -34,7 +34,7 @@ news:{
 */
 
 
-let  base = require('./base');
+let base = require('./base');
 let ProgressBar = require('progress');
 
 class His extends base {
@@ -47,16 +47,88 @@ class His extends base {
         this.defaultTypeName = "his_";
 
         // 查询是每页条数;
-        this.pageSize = 200; 
+        this.pageSize = 200;
 
     }
 
     // 生成id;
     _genId(entity) {
-        return entity.code +"_" + entity.date ;
+        return entity.code + "_" + entity.date;
     }
 
-   
+
 }
- 
+
 module.exports = new His();
+
+ 
+const hisMapping = {
+    "properties": {
+        "code": {
+            "type": "text",
+            "fields": {
+                "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                }
+            }
+        },
+        "date": {
+            "type": "date"
+        },
+        "hy": {
+            "type": "text",
+            "fields": {
+                "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                }
+            },
+            "fielddata": true
+        },
+        "k": {
+            "properties": {
+                "amount": {
+                    "type": "float"
+                },
+                "avg": {
+                    "type": "float"
+                },
+                "chg": {
+                    "type": "float"
+                },
+                "close": {
+                    "type": "float"
+                },
+                "high": {
+                    "type": "float"
+                },
+                "low": {
+                    "type": "float"
+                },
+                "open": {
+                    "type": "float"
+                },
+                "pchg": {
+                    "type": "float"
+                },
+                "rate": {
+                    "type": "float"
+                },
+                "value": {
+                    "type": "float"
+                }
+            }
+        },
+        "st": {
+            "properties": {
+                "liu_tong": {
+                    "type": "long"
+                },
+                "zong_shi_zhi": {
+                    "type": "long"
+                }
+            }
+        }
+    }
+}

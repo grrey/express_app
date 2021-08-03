@@ -68,7 +68,7 @@ class StockCtrl {
     // fetch 10 ;
     async updeF10(esObj) { 
         let f10 = await fetchF10(esObj);
-        // console.log('ssss' , f10 )
+        console.log('ssss' , f10 )
         await esStock.update(esObj._id, f10);
     }
     // 跟新经营数据 比例; 
@@ -84,10 +84,10 @@ class StockCtrl {
 var stockCtrl = new StockCtrl();
 module.exports = stockCtrl;
 
-
-
-let stobj = { _id:'600827', _source: {market:"sh" , code:'600827'}}
+// 导入数据
 // stockCtrl.fetchStockLlist();
+
+// let stobj = { _id:'600827', _source: {market:"sh" , code:'600827'}}
 
 
 //test 
